@@ -117,7 +117,7 @@ class fsapi{
            'netRemote.play.info.text' => array('GET'),
            'netRemote.play.status' => array('GET'),
            'netRemote.play.caps' => array('GET'),
-           'netRemote.play.shuffle' => array('GET',SET),
+           'netRemote.play.shuffle' => array('GET','SET'),
            'netRemote.play.control' => array('GET','SET'),
            'netRemote.play.info.album' => array('GET'),
            'netRemote.play.info.artist' => array('GET'),
@@ -149,7 +149,6 @@ class fsapi{
             'netRemote.nav.state' => array('bool'),
             
             'netRemote.sys.audio.eqPreset' => array('between',array(0,5)),
-            'netRemote.sys.mode' => array('between',array(0,4)),
             'netRemote.play.control' => array('between',array(0,4)),
        );
 
@@ -196,7 +195,9 @@ class fsapi{
      * Converting a list to an array
      */
     public function encode_list($response){
+	$result =  array();
         foreach($response as $item){
+	 if(is_array($item['field'])){
             foreach($item['field'] as $data){
                 $a_data = (array) $data;
                 foreach($a_data as $entry_key => $entry){
@@ -206,7 +207,17 @@ class fsapi{
                     }
                 }
             }
+	}else{
+        $a_data = (array) $item['field'];
+        foreach($a_data as $entry_key => $entry){
+            if($entry_key != '@attributes'){
+                $a_entry = (array)$entry;
+                $result[$item['@attributes']['key']][$a_data['@attributes']['name']] =     $a_entry[0];
+            }
         }
+	}
+    }
+	return $result;
     }
 
 
@@ -262,7 +273,7 @@ class fsapi{
         // Check if operation is allowed for this node (some nodes are read only)
         $rw = $this->rw;
         if($rw != null){
-            if(($operation != 'CREATE_SESSION' && $operation != 'DELETE_SESSION') && (!isset($rw[$node]) || !in_array($operation,$rw[$node]))){
+            if(($operation != 'CREATE_SESSION' && $operation != 'DELETE_SESSION' && $operation != 'GET_NOTIFIES') && (!isset($rw[$node]) || !in_array($operation,$rw[$node]))){
                 return array(false,'Client: Operation '.$operation.' not in whiteliste for '.$node.'');
             }
         }
