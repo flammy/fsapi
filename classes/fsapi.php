@@ -133,7 +133,7 @@ class fsapi{
             'netRemote.sys.mode' => array('between',array(0,4)),
        );
 
-       $this->operation = array('SET','GET','LIST_GET','LIST_GET_NEXT','CREATE_SESSION','DELETE_SESSION');
+       $this->operation = array('SET','GET','LIST_GET','LIST_GET_NEXT','CREATE_SESSION','DELETE_SESSION','GET_NOTIFIES');
 
 
    }
