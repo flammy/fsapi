@@ -112,12 +112,12 @@ class fsapi{
            'netRemote.play.serviceIds.fmRdsPi' => array('GET'),
            'netRemote.play.scrobble' => array('GET'),
            'netRemote.play.serviceIds.ecc' => array('GET'),
-           'netRemote.play.repeat' => array('GET'),
+           'netRemote.play.repeat' => array('GET','SET'),
            'netRemote.play.info.name' => array('GET'),
            'netRemote.play.info.text' => array('GET'),
            'netRemote.play.status' => array('GET'),
            'netRemote.play.caps' => array('GET'),
-           'netRemote.play.shuffle' => array('GET'),
+           'netRemote.play.shuffle' => array('GET',SET),
            'netRemote.play.control' => array('GET','SET'),
            'netRemote.play.info.album' => array('GET'),
            'netRemote.play.info.artist' => array('GET'),
@@ -129,15 +129,25 @@ class fsapi{
 
            /* Nav */
            'netRemote.nav.action.dabScan' => array('GET'),
-           'netRemote.nav.status' => array('GET'),
-           'netRemote.nav.state' => array('GET'),
+           'netRemote.nav.status' => array('GET','SET'),
            'netRemote.nav.presets' => array('LIST_GET_NEXT'),
+           'netRemote.nav.list' => array('LIST_GET_NEXT'),
+           
+           'netRemote.nav.action.selectItem' => array('GET','SET'),
+           'netRemote.nav.action.navigate' => array('GET','SET'),
+           'netRemote.nav.caps' => array('GET'),
+           'netRemote.nav.state' => array('GET','SET'),
+           
        );
 
        $this->validation = array(
             'netRemote.sys.audio.volume' => array('between',array(0,20)),
             'netRemote.sys.audio.mute' => array('bool'),
             'netRemote.sys.power' => array('bool'),
+            'netRemote.play.shuffle' => array('bool'),
+            'netRemote.play.repeat' => array('bool'),
+            'netRemote.nav.state' => array('bool'),
+            
             'netRemote.sys.audio.eqPreset' => array('between',array(0,5)),
             'netRemote.sys.mode' => array('between',array(0,4)),
             'netRemote.play.control' => array('between',array(0,4)),
