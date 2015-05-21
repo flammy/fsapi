@@ -33,9 +33,11 @@ class radio{
 
     protected $states = array(
             0 => 'stopped',
-            1 => 'unknown',
+            1 => 'loading',
             2 => 'playing',
-            3 => 'paused'
+            3 => 'paused',
+            4 => 'buffering',
+            5 => 'unknown'
         );
 
     protected $convert  = array(
