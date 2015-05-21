@@ -13,45 +13,29 @@ class radio{
    protected $host = null;
    protected $sid = null;
 
-   protected $eqs = array(
-            0 => 'user',
-            1 => 'normal',
-            2 => 'rock',
-            3 => 'classic',
-            4 => 'jazz',
-            5 => 'pop',
-            );
-
-
-    protected $modes = array(
-            0 => 'internet',
-            1 => 'music', 
-            2 => 'dab', 
-            3 => 'fm', 
-            4 => 'aux'
-        );
-
-    protected $states = array(
+   protected $eqs = array();
+   protected $modes = array();
+   protected $states = array(
             0 => 'stopped',
             1 => 'loading',
             2 => 'playing',
             3 => 'paused',
             4 => 'buffering',
             5 => 'unknown'
-        );
+   );
         
-    protected $controls = array(
+   protected $controls = array(
             0 => 'stop',
             1 => 'play',
             2 => 'pause',
             3 => 'next',
             4 => 'previous'
-        ); 
+   ); 
         
         
         
 
-    protected $convert  = array(
+   protected $convert  = array(
             'netRemote.sys.audio.eqPreset' => 'eqs',
             'netRemote.play.status' => 'states',
             'netRemote.sys.mode' => 'modes',
@@ -64,13 +48,16 @@ class radio{
             'netRemote.sys.net.wlan.interfaceEnable' => 'onoff',
             'netRemote.sys.net.ipConfig.dhcp' => 'onoff',
             'netRemote.sys.power' => 'onoff',
+	    'netRemote.sys.audio.mute' => 'onoff',
             'netRemote.play.scrobble' => 'onoff',
             'netRemote.play.repeat' => 'onoff',
             'netRemote.play.shuffle' => 'onoff',
             'netRemote.play.control' => 'controls'
-        );
+   );
         
-        
+   protected $fmFreqRangeLower = 0;
+   protected $fmFreqRangeUpper = 0;
+       
         
    function __construct() {
       $this->fsapi = new fsapi();
@@ -85,6 +72,11 @@ class radio{
         $this->host = $host;
         $this->fsapi->sethost($host);
     }
+
+   /*
+    * Diese Funktion kümmert sich darum das alle Basisinformationen gesetzt sind und eine Session bereitgestellt wird
+    */
+
     public function check_credentials(){
       if($this->fsapi->getpin() == null){
         if($this->pin != null){
@@ -104,6 +96,11 @@ class radio{
 
       return array(true);
     }
+
+
+   /*
+    * Holt alle aus dem Radio auslesbaren Einzelwerte 
+    */
 
     public function system_status(){
         $cre = $this->check_credentials();
@@ -125,6 +122,11 @@ class radio{
     
     }
 
+
+   /*
+    * Setzt den Wer eines Nodes und / oder holt ihn
+    */
+
     public function getSet($node, $value = null){
         $cre = $this->check_credentials();
         if($cre[0] == false){
@@ -144,6 +146,7 @@ class radio{
         if(isset($convert[$node])){
             switch($convert[$node]){
                 case "eqs":
+		    $this->updateEqs();
                     $eqs = $this->eqs;
                     if(isset($eqs[$response[1]])){
                         return array(true,$eqs[$response[1]]);
@@ -156,8 +159,8 @@ class radio{
                     }
                     break;
                 case "modes":
-                    echo "\n\nmode\n\n";
-                    $modes = $this->modes;
+		    $this->updateModes();
+		    $modes = $this->modes;
                     if(isset($modes[$response[1]])){
                         return array(true,$modes[$response[1]]);
                     }
@@ -182,12 +185,66 @@ class radio{
     }
     
 
+   /*
+    * Updaten der lokalen Mode Liste
+    */
+	public function updateModes(){
+	    if(count($this->modes) < 1){
+		    $modes = $this->validModes();
+		    foreach($modes[1] as $id => $mode){
+			if($mode['selectable'] == 1){
+			$valid_modes[$id] = $mode['label'];
+			}
+
+		    }
+		    $this->modes = $valid_modes;
+		    $validation = $this->fsapi->getvalidation();
+		    $validation['netRemote.sys.mode'] = array('between',array(min(array_keys($valid_modes)),max(array_keys($valid_modes))));
+		    $this->fsapi->setvalidation($validation);
+	     }
+	}
+
+
+   /*
+    * Updaten der lokalen EQS Liste
+    */
+
+	public function updateEqs(){
+	    if(count($this->eqs) < 1){
+		    $eqs = $this->eqPresets();
+		    foreach($eqs[1] as $id => $eq){
+			$valid_eqs[$id] = $eq['label'];
+		    }
+		    $this->eqs = $valid_eqs;
+		    $validation = $this->fsapi->getvalidation();
+		    $validation['netRemote.sys.audio.eqPreset'] = array('between',array(min(array_keys($valid_eqs)),max(array_keys($valid_eqs))));
+		    $this->fsapi->setvalidation($validation);
+	     }
+	}
+
+
+
+ 
+   /*
+    * Interne Funktion zum setzen einer Preset-Liste, die durch das Radio bestimmt wird
+    */
+
     public function getSetList($list, $node, $value = null){
         $cre = $this->check_credentials();
         if($cre[0] == false){
             return $cre;
         }
-        if($value !== null){
+      
+ 	if($value !== null){
+		    
+
+	   if($list == "modes"){
+		$this->updateModes();
+	   }
+	   if($list == "eqs"){
+
+		$this->updateEqs();
+	    }
             $mode = $this->$list;
             if(!is_numeric($value)){
                 $eqs_num = array_search($value,$mode);
@@ -202,6 +259,9 @@ class radio{
         return $this->getSet($node,$value);
     }
 
+   /*
+    * wechselt den Zustand eines Nodes, der über einen Bool wert definiert ist
+    */
 
     public function toggle($node){
         $cre = $this->check_credentials();
@@ -214,6 +274,10 @@ class radio{
         }
         return $this->getSet($node, !$response[1]);
     }
+
+   /*
+    * Ändert die Lautsärke (setzen oder up / down)
+    */
 
     public function volume($value = null){
         if(is_numeric($value)){
@@ -236,22 +300,32 @@ class radio{
         }
     }
 
-
-
+   /*
+    * Ändert den Namen des Geräts
+    */
     public function friendly_name($value = null){
         return $this->getSet('netRemote.sys.info.friendlyName',$value);
     }
 
+
+   /*
+    * schaltet den Ton des Geräts ein oder aus (auch als toggle)
+    */
+
     public function mute($value = null){
-        if($value === null){
+        if($value === 'toggle'){
             return $this->toggle('netRemote.sys.audio.mute');
         }else{
             return $this->getSet('netRemote.sys.audio.mute',$value);
         }
     }
 
+   /*
+    * schaltet das Gerät ein oder aus (auch als toggle)
+    */
+
     public function power($value = null){
-        if($value === null){
+        if($value === 'toggle'){
             return $this->toggle('netRemote.sys.power');
         }else{
             return $this->getSet('netRemote.sys.power',$value);
@@ -259,35 +333,124 @@ class radio{
     }
 
 
+   /*
+    * Setzt ein spezielles eq preset
+    */
+
     public function eq_preset($value = null){
         return $this->getSetList('eqs', 'netRemote.sys.audio.eqPreset',$value);
     }
 
+   /*
+    * setzt den Modus des Geräts
+    */
 
     public function mode($value = null){
         return $this->getSetList('modes', 'netRemote.sys.mode',$value);
     }
 
 
+   /*
+    * Zeigt die Einstellungen für Bass und höhen
+    */
 
-    public function dab_scan(){
+    public function dabFreqLis(){
         $cre = $this->check_credentials();
         if($cre[0] == false){
             return $cre;
         }
-        $response = $this->mode('dab');
-        if(!$response[0]){
-            return $response[1];
-        }
-        $response  = $this->fsapi->call('GET','netRemote.nav.action.dabScan');
-       
-        if(!$response[0]){
-            return $response[1];
-        }
-        $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.sys.caps.dabFreqList',array('maxItems' => 100), -1);
+
+        $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.sys.caps.dabFreqList',array('maxItems' => 1000), -1);
         return $response;
     }
     
+
+   /*
+    * Zeigt die Einstellungen für Bass und höhen
+    */
+
+    public function eqBands(){
+        $cre = $this->check_credentials();
+        if($cre[0] == false){
+            return $cre;
+        }
+        $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.sys.caps.eqBands',array('maxItems' => 100), -1);
+        return $response;
+    }
+    
+   /*
+    * Holt eine Liste aller zulässigen Modi
+    */
+
+    public function validModes(){
+        $cre = $this->check_credentials();
+        if($cre[0] == false){
+            return $cre;
+        }
+
+        $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.sys.caps.validModes',array('maxItems' => 100), -1);
+        return $response;
+    }
+
+
+   /*
+    * Holt eine Liste aller EQ Presets
+    */
+
+    public function eqPresets(){
+        $cre = $this->check_credentials();
+        if($cre[0] == false){
+            return $cre;
+        }
+
+        $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.sys.caps.eqPresets',array('maxItems' => 100), -1);
+        return $response;
+    }
+
+
+
+
+  /*
+   * keine Ahnung (FS_NODE_BLOCKED)
+   */
+
+    public function NavLists(){
+        $cre = $this->check_credentials();
+        if($cre[0] == false){
+            return $cre;
+        }
+
+        $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.nav.list',array('maxItems' => 20), -1);
+        return $response;
+    }
+
+
+
+
+public function radioFrequency($value){
+	if($this->fmFreqRangeLower == 0){
+		$response = $this->getSet('netRemote.sys.caps.fmFreqRange.lower');
+		$this->fmFreqRangeLower = $response[1];
+	}
+	if($this->fmFreqRangeUpper == 0){
+		$response = $this->getSet('netRemote.sys.caps.fmFreqRange.upper');
+		$this->fmFreqRangeUpper = $response[1];
+	}
+        $cre = $this->check_credentials();
+        if($cre[0] == false){
+            return $cre;
+        }
+	if(($value <= $this->fmFreqRangeLower) && (($value * 1000) <= $this->fmFreqRangeUpper)){
+		// Correction to fill in normal mhz
+		$value = $value * 1000;
+	}
+
+	if(($value < $this->fmFreqRangeLower) || ($value > $this->fmFreqRangeUpper)){
+		return array(false,'frequency out of band');
+	}
+
+	return $this->getSet('netRemote.play.frequency',$value);
+}
 
 }
 
