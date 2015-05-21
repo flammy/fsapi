@@ -118,9 +118,18 @@ class fsapi{
            'netRemote.play.status' => array('GET'),
            'netRemote.play.caps' => array('GET'),
            'netRemote.play.shuffle' => array('GET'),
+           'netRemote.play.control' => array('GET','SET'),
+           'netRemote.play.info.album' => array('GET'),
+           'netRemote.play.info.artist' => array('GET'),
+           'netRemote.play.info.graphicUri' => array('GET'),
+           'netRemote.play.position' => array('GET'),
+           'netRemote.play.info.duration' => array('GET'),
+           'netRemote.play.rate' => array('GET'),
+           'netRemote.play.signalStrength' => array('GET'),
 
            /* Nav */
            'netRemote.nav.action.dabScan' => array('GET'),
+           'netRemote.nav.status' => array('GET'),
            'netRemote.nav.state' => array('GET'),
            'netRemote.nav.presets' => array('LIST_GET_NEXT'),
        );
@@ -131,6 +140,7 @@ class fsapi{
             'netRemote.sys.power' => array('bool'),
             'netRemote.sys.audio.eqPreset' => array('between',array(0,5)),
             'netRemote.sys.mode' => array('between',array(0,4)),
+            'netRemote.play.control' => array('between',array(0,4)),
        );
 
        $this->operation = array('SET','GET','LIST_GET','LIST_GET_NEXT','CREATE_SESSION','DELETE_SESSION','GET_NOTIFIES');
