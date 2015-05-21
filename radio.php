@@ -39,6 +39,17 @@ class radio{
             4 => 'buffering',
             5 => 'unknown'
         );
+        
+    protected $controls = array(
+            0 => 'stop',
+            1 => 'play',
+            2 => 'pause',
+            3 => 'next',
+            4 => 'previous'
+        ); 
+        
+        
+        
 
     protected $convert  = array(
             'netRemote.sys.audio.eqPreset' => 'eqs',
