@@ -67,6 +67,7 @@ class radio{
             'netRemote.play.scrobble' => 'onoff',
             'netRemote.play.repeat' => 'onoff',
             'netRemote.play.shuffle' => 'onoff',
+            'netRemote.play.control' => 'controls'
         );
         
         
@@ -169,6 +170,12 @@ class radio{
                 case "onoff":
                     return array(true,($response[1] == 1 ? 'on' : 'off'));
                 break;
+                case "controls":
+                    $controls = $this->controls;
+                    if(isset($controls[$response[1]])){
+                        return array(true,$controls[$response[1]]);
+                    }
+                    break;
             }
         }
         return $response; 
