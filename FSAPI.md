@@ -1,126 +1,127 @@
-netRemote.sys.info.version
+# FSAPI Documentation
 
-netRemote.sys.info.radioId
+## System
 
-netRemote.sys.info.friendlyName
+### netRemote.sys.info.version
 
-netRemote.sys.net.wired.interfaceEnable
+### netRemote.sys.info.radioId
 
-netRemote.sys.net.wired.macAddress
+### netRemote.sys.info.friendlyName
 
-netRemote.sys.net.wlan.interfaceEnable
+### netRemote.sys.net.wired.interfaceEnable
 
-netRemote.sys.net.wlan.macAddress
+### netRemote.sys.net.wired.macAddress
 
-netRemote.sys.net.wlan.connectedSSID
+### netRemote.sys.net.wlan.interfaceEnable
 
-netRemote.sys.net.wlan.setEncType
+### netRemote.sys.net.wlan.macAddress
 
-netRemote.sys.net.wlan.setAuthType
+### netRemote.sys.net.wlan.connectedSSID
 
-netRemote.sys.net.wlan.rssi
+### netRemote.sys.net.wlan.setEncType
 
-netRemote.sys.net.ipConfig.dhcp
+### netRemote.sys.net.wlan.setAuthType
 
-netRemote.sys.net.ipConfig.address
+### netRemote.sys.net.wlan.rssi
 
-netRemote.sys.net.ipConfig.subnetMask
+### netRemote.sys.net.ipConfig.dhcp
 
-netRemote.sys.net.ipConfig.gateway
+### netRemote.sys.net.ipConfig.address
 
-netRemote.sys.net.ipConfig.dnsPrimary
+### netRemote.sys.net.ipConfig.subnetMask
 
-netRemote.sys.net.ipConfig.dnsSecondary
+### netRemote.sys.net.ipConfig.gateway
 
-netRemote.sys.audio.volume
+### netRemote.sys.net.ipConfig.dnsPrimary
 
-netRemote.sys.audio.mute
+### netRemote.sys.net.ipConfig.dnsSecondary
 
-netRemote.sys.audio.eqPreset
+### netRemote.sys.audio.volume
 
-netRemote.sys.audio.eqLoudness
+### netRemote.sys.audio.mute
 
-netRemote.sys.audio.eqCustom.param0
+### netRemote.sys.audio.eqPreset
 
-netRemote.sys.audio.eqCustom.param1
+### netRemote.sys.audio.eqLoudness
 
-netRemote.sys.caps.dabFreqList
+### netRemote.sys.audio.eqCustom.param0
 
-netRemote.sys.caps.volumeSteps
+### netRemote.sys.audio.eqCustom.param1
 
-netRemote.sys.caps.fmFreqRange.lower
+### netRemote.sys.caps.dabFreqList
 
-netRemote.sys.caps.fmFreqRange.upper
+### netRemote.sys.caps.volumeSteps
 
-netRemote.sys.caps.fmFreqRange.stepSize
+### netRemote.sys.caps.fmFreqRange.lower
 
-netRemote.sys.caps.eqPresets
+### netRemote.sys.caps.fmFreqRange.upper
 
-netRemote.sys.caps.eqBands
+### netRemote.sys.caps.fmFreqRange.stepSize
 
-netRemote.sys.caps.validModes
+### netRemote.sys.caps.eqPresets
 
-netRemote.sys.mode
+### netRemote.sys.caps.eqBands
 
-netRemote.sys.power
+### netRemote.sys.caps.validModes
 
-netRemote.sys.lang
+### netRemote.sys.mode
 
+### netRemote.sys.power
 
+### netRemote.sys.lang
 
+## Play
 
-netRemote.play.frequency
+### netRemote.play.frequency
 
-netRemote.play.serviceIds.fmRdsPi
+### netRemote.play.serviceIds.fmRdsPi
 
-netRemote.play.scrobble
+### netRemote.play.scrobble
 
-netRemote.play.serviceIds.ecc
+### netRemote.play.serviceIds.ecc
 
-netRemote.play.repeat
+### netRemote.play.repeat
 
-netRemote.play.info.name
+### netRemote.play.info.name
 
-netRemote.play.info.text
+### netRemote.play.info.text
 
-netRemote.play.status
+### netRemote.play.status
 
-netRemote.play.caps
+### netRemote.play.caps
 
-netRemote.play.shuffle
+### netRemote.play.shuffle
 
-netRemote.play.control
+### netRemote.play.control
 
-netRemote.play.info.album
+### netRemote.play.info.album
 
-netRemote.play.info.artist
+### netRemote.play.info.artist
 
-netRemote.play.info.graphicUri
+### netRemote.play.info.graphicUri
 
-netRemote.play.position
+### netRemote.play.position
 
-netRemote.play.info.duration
+### netRemote.play.info.duration
 
-netRemote.play.rate
+### netRemote.play.rate
 
-netRemote.play.signalStrength
+### netRemote.play.signalStrength
 
+## Nav
 
+### netRemote.nav.action.dabScan
 
+### netRemote.nav.status
 
+### netRemote.nav.presets
 
-netRemote.nav.action.dabScan
-
-netRemote.nav.status
-
-netRemote.nav.presets
-
-netRemote.nav.list
+### netRemote.nav.list
            
-netRemote.nav.action.selectItem
+### netRemote.nav.action.selectItem
 
-netRemote.nav.action.navigate
+### netRemote.nav.action.navigate
 
-netRemote.nav.caps
+### netRemote.nav.caps
 
-netRemote.nav.state
+### netRemote.nav.state
