@@ -8,8 +8,10 @@ Method: GET
 Returns Image-Version String
 
 
-> Example
-> ...
+```
+Example
+...
+```
 
 ### netRemote.sys.info.radioId
 Method: GET
