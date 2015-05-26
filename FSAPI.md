@@ -7,7 +7,6 @@ The device returns allways an XML set like this:
 <status>STATUS</status>
 VALUE
 </fsapiResponse>
-...
 ```
 
 Where STATUS should be FS_OK if everything is fine with the request.
@@ -50,7 +49,6 @@ Sets/ Returns the Network-Name of the Device
 /fsapi/GET/netRemote.sys.info.friendlyName?pin=1337&sid=1947840669
 
 <value><c8_array>Radio</c8_array></value>
-...
 ```
 
 ### netRemote.sys.net.wired.interfaceEnable
@@ -61,7 +59,6 @@ Returns the NIC Status of the Ethernet Device
 ```
 /fsapi/GET/netRemote.sys.net.wired.interfaceEnable?pin=1337&sid=441427276
 <value><u8>1</u8></value>
-...
 ```
 
 ### netRemote.sys.net.wired.macAddress
@@ -73,7 +70,6 @@ Returns the MAC Address of the Ethernet Device
 /fsapi/GET/netRemote.sys.net.wired.macAddress?pin=1337&sid=636641042
 
 <value><c8_array>00:11:22:33:44:FF</c8_array></value>
-...
 ```
 
 ### netRemote.sys.net.wlan.interfaceEnable
@@ -85,7 +81,6 @@ Returns the NIC Status of the WIFI Device
 /fsapi/GET/netRemote.sys.net.wlan.interfaceEnable?pin=1337&sid=1390762771
 
 <value><u8>0</u8></value>
-...
 ```
 
 ### netRemote.sys.net.wlan.macAddress
@@ -97,7 +92,6 @@ Returns the MAC Address of the WIFI Device
 /fsapi/GET/netRemote.sys.net.wlan.macAddress?pin=1337&sid=32327402
 
 <value><c8_array>00:11:22:33:44:FF</c8_array></value>
-...
 ```
 
 ### netRemote.sys.net.wlan.connectedSSID
@@ -108,8 +102,7 @@ Returns the SSID of the connected WIFI network
 ```
 /fsapi/GET/netRemote.sys.net.wlan.connectedSSID?pin=1337&sid=829201793
 
-Example...
-...
+Example
 ```
 
 ### netRemote.sys.net.wlan.setEncType
@@ -121,7 +114,6 @@ Returns the Encryption Type of the connected WIFI network
 /fsapi/GET/netRemote.sys.net.wlan.setEncType?pin=1337&sid=1860534785
 
 Example...
-...
 ```
 
 ### netRemote.sys.net.wlan.setAuthType
@@ -133,7 +125,6 @@ Returns the ??? of the connected WIFI network
 /fsapi/GET/netRemote.sys.net.wlan.setAuthType?pin=1337&sid=924278502
 
 Example...
-...
 ```
 
 ### netRemote.sys.net.wlan.rssi
@@ -144,7 +135,6 @@ Returns the Signal Strenght of the connected WIFI network
 ```
 /fsapi/GET/netRemote.sys.net.wlan.rssi?pin=1337&sid=1681224474
 <value><u8>100</u8></value>
-...
 ```
 
 ### netRemote.sys.net.ipConfig.dhcp
@@ -156,7 +146,6 @@ Returns if DHCP is enabled for the connected network
 /fsapi/GET/netRemote.sys.net.ipConfig.dhcp?pin=1337&sid=208317414
 
 <value><u8>1</u8></value>
-...
 ```
 
 ### netRemote.sys.net.ipConfig.address
@@ -169,7 +158,6 @@ Returns the IP address for the connected network
 
 
 <value><u32>3232235576</u32></value>
-...
 ```
 
 ### netRemote.sys.net.ipConfig.subnetMask
@@ -181,7 +169,6 @@ Returns the subnet mask for the connected network
 /fsapi/GET/netRemote.sys.net.ipConfig.subnetMask?pin=1337&sid=1852331719
 
 <value><u32>4294967040</u32></value>
-...
 ```
 
 ### netRemote.sys.net.ipConfig.gateway
@@ -194,7 +181,6 @@ Returns the default gateway for the connected network
 
 
 <value><u32>3232235521</u32></value>
-...
 ```
 
 ### netRemote.sys.net.ipConfig.dnsPrimary
@@ -206,7 +192,6 @@ Returns the primary dns for the connected network
 /fsapi/GET/netRemote.sys.net.ipConfig.dnsPrimary?pin=1337&sid=1796481137
 
 <value><u32>3232235521</u32></value>
-...
 ```
 
 ### netRemote.sys.net.ipConfig.dnsSecondary
@@ -218,7 +203,6 @@ Returns the secondary dns for the connected network
 /fsapi/GET/netRemote.sys.net.ipConfig.dnsSecondary?pin=1337&sid=1171925458
 
 <value><u32>0</u32></value>
-...
 ```
 
 ### netRemote.sys.audio.volume
@@ -230,7 +214,6 @@ Sets / Returns the volume of the device
 /fsapi/GET/netRemote.sys.audio.volume?pin=1337&sid=218069529
 
 <value><u8>4</u8></value>
-...
 ```
 
 ### netRemote.sys.audio.mute
@@ -242,7 +225,6 @@ Sets / Returns whether or not device is muted
 /fsapi/GET/netRemote.sys.audio.mute?pin=1337&sid=1932538906
 
 <value><u8>0</u8></value>
-...
 ```
 
 ### netRemote.sys.audio.eqPreset
@@ -254,8 +236,10 @@ Sets / Returns the number of the selected eq-presets
 /fsapi/GET/netRemote.sys.audio.eqPreset?pin=1337&sid=643480027
 
 <value><u8>5</u8></value>
-...
 ```
+
+see: netRemote.sys.caps.eqPresets for valid presets.
+
 
 ### netRemote.sys.audio.eqLoudness
 Method: GET, SET
@@ -266,7 +250,6 @@ Sets / Returns whether or not loudness is activated
 /fsapi/GET/netRemote.sys.audio.eqLoudness?pin=1337&sid=1033306501
 
 <value><u8>0</u8></value>
-...
 ```
 
 ### netRemote.sys.audio.eqCustom.param0
@@ -278,7 +261,6 @@ Sets / Returns the first value for costum eq-settings
 /fsapi/GET/netRemote.sys.audio.eqCustom.param0?pin=1337&sid=1789657498
 
 <value><s16>1</s16></value>
-...
 ```
 
 ### netRemote.sys.audio.eqCustom.param1
@@ -290,7 +272,6 @@ Sets / Returns the second value for costum eq-settings
 /fsapi/GET/netRemote.sys.audio.eqCustom.param1?pin=1337&sid=1636927329
 
 <value><s16>1</s16></value>
-...
 ```
 
 ### netRemote.sys.caps.dabFreqList
@@ -300,7 +281,6 @@ Lists available dab-frequencies
 
 ```
 Example ???
-...
 ```
 
 ### netRemote.sys.caps.volumeSteps
@@ -312,7 +292,6 @@ Returns the max volume level
 /fsapi/GET/netRemote.sys.caps.volumeSteps?pin=1337&sid=896363579
 
 <value><u8>21</u8></value>
-...
 ```
 
 ### netRemote.sys.caps.fmFreqRange.lower
@@ -324,7 +303,6 @@ Returns the lowest available fm-frequency
 /fsapi/GET/netRemote.sys.caps.fmFreqRange.lower?pin=1337&sid=1005285685
 
 <value><u32>87500</u32></value>
-...
 ```
 
 ### netRemote.sys.caps.fmFreqRange.upper
@@ -336,7 +314,6 @@ Returns the highest available fm-frequency
 /fsapi/GET/netRemote.sys.caps.fmFreqRange.upper?pin=1337&sid=1771149341
 
 <value><u32>108000</u32></value>
-...
 ```
 
 ### netRemote.sys.caps.fmFreqRange.stepSize
@@ -348,7 +325,6 @@ Returns the size of the steps for increasing / decreasing the frequency
 /fsapi/GET/netRemote.sys.caps.fmFreqRange.stepSize?pin=1337&sid=1369641108
 
 <value><u32>50</u32></value>
-...
 ```
 
 ### netRemote.sys.caps.eqPresets
@@ -422,13 +398,15 @@ Lists valid operation modes
 ### netRemote.sys.mode
 Method: GET, SET
 
-Sets / Returns the current mode 
+Sets / Returns the current operation mode 
 
 ```
 /fsapi/GET/netRemote.sys.mode?pin=1337&sid=300029608
 
 <value><u32>4294967295</u32></value>
 ```
+
+see netRemote.sys.caps.validModes for valid operation modes
 
 ### netRemote.sys.power
 Method: GET, SET
@@ -439,7 +417,6 @@ Sets / Returns the current power state
 /fsapi/GET/netRemote.sys.power?pin=1337&sid=150145723
 
 <value><u8>0</u8></value>
-...
 ```
 
 ### netRemote.sys.lang
@@ -465,7 +442,9 @@ Sets / Returns the current frequency for fm (in herz)
 ```
 /fsapi/GET/netRemote.play.frequency?pin=1337&sid=615989613
 
-<value><u32>4294967295</u32></value>
+<value><u32>96700</u32></value>
+
+96700 = 96,70 MHz
 ```
 
 ### netRemote.play.serviceIds.fmRdsPi
@@ -477,7 +456,6 @@ Returns ???
 /fsapi/GET/netRemote.play.serviceIds.fmRdsPi?pin=1337&sid=561010477
 
 <value><u16>0</u16></value>
-...
 ```
 
 ### netRemote.play.scrobble
@@ -500,7 +478,9 @@ Returns ???
 /fsapi/GET/netRemote.play.serviceIds.ecc?pin=1337&sid=1194891835
 
 
-<value><u8>0</u8></value>
+<value><u8>224</u8></value>
+
+224 for 1LIVE diGGi
 ```
 
 ### netRemote.play.repeat
@@ -524,8 +504,9 @@ Returns  the first line of the display
 ```
 /fsapi/GET/netRemote.play.info.name?pin=1337&sid=548290233
 
+empty: <value><c8_array></c8_array></value>
 
-<value><c8_array></c8_array></value>
+1LIVE diGGi: <value><c8_array>1LIVE diGGi     </c8_array></value>
 ```
 
 ### netRemote.play.info.text
@@ -536,7 +517,9 @@ Returns  the second line of the display
 ```
 /fsapi/GET/netRemote.play.info.text?pin=1337&sid=429343323
 
-<value><c8_array></c8_array></value>
+empty: <value><c8_array></c8_array></value>
+
+1LIVE diGGi: <value><c8_array>Infos und Playlist auch im Netz: 1livediggi.de</c8_array></value>
 
 ```
 
@@ -550,7 +533,6 @@ Returns status of the player
 
 
 <value><u8>0</u8></value>
-...
 ```
 
 ### netRemote.play.caps
@@ -562,7 +544,10 @@ Returns ???
 /fsapi/GET/netRemote.play.caps?pin=1337&sid=1672745554
 
 
-<value><u32>0</u32></value>
+empty: <value><u32>0</u32></value>
+
+1LIVE diGGi: <value><u32>2060</u32></value>
+
 ```
 
 ### netRemote.play.shuffle
@@ -574,7 +559,7 @@ Sets / Returns  whether or not shuffle is enabled or not
 /fsapi/GET/netRemote.play.shuffle?pin=1337&sid=1843354907
 
 <value><u8>0</u8></value>
-...
+
 ```
 
 ### netRemote.play.control
@@ -619,7 +604,8 @@ Returns  the uri of an image representing the current song / station
 ```
 /fsapi/GET/netRemote.play.info.graphicUri?pin=1337&sid=1566925260
 
-<value><c8_array></c8_array></value>
+empty: <value><c8_array></c8_array></value>
+1LIVE Online: <value><c8_array>http://aldi.wifiradiofrontier.com/setupapp/setup1/logo/logo-531.png</c8_array></value>
 ```
 
 ### netRemote.play.position
@@ -699,7 +685,6 @@ Lists ???
 
 ```
 Example
-...
 ```
 
 ### netRemote.nav.list
@@ -709,7 +694,6 @@ Lists ???
 
 ```
 Example
-...
 ```
            
 ### netRemote.nav.action.selectItem
