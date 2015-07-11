@@ -353,20 +353,13 @@ class radio{
     public function mode($value = null){
         return $this->getSetList('modes', 'netRemote.sys.mode',$value);
     }
-   /*
-    * setzt den Modus des Geräts
-    */
-
-    public function control($value = null){
-        return $this->getSetList('controls', 'netRemote.play.control',$value);
-    }
 
 
    /*
     * Zeigt die Einstellungen für Bass und höhen
     */
 
-    public function dabFreqList(){
+    public function dabFreqLis(){
         $cre = $this->check_credentials();
         if($cre[0] == false){
             return $cre;
@@ -438,54 +431,22 @@ class radio{
     }
 
 
-    public function NavPresets(){
-        $cre = $this->check_credentials();
-        if($cre[0] == false){
-            return $cre;
-        }
-
-        $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.nav.presets',array('maxItems' => 20), -1);
-        return $response;
-    }
-
-
-
-
-
-
-public function numItems(){
-        $cre = $this->check_credentials();
-        if($cre[0] == false){
-            return $cre;
-        }
-
-	$response = $this->getSet('netRemote.nav.numItems');
-	return $response;
-}
-
-public function notifies(){
-        $cre = $this->check_credentials();
-        if($cre[0] == false){
-            return $cre;
-        }
-
-	$result = $this->fsapi->call('GET_NOTIFIES');
-	return $result;
-
-}
-
-
 
 
 public function radioFrequency($value){
 	if($this->fmFreqRangeLower == 0){
 		$response = $this->getSet('netRemote.sys.caps.fmFreqRange.lower');
 		$this->fmFreqRangeLower = $response[1];
+
+
 	}
 	if($this->fmFreqRangeUpper == 0){
 		$response = $this->getSet('netRemote.sys.caps.fmFreqRange.upper');
 		$this->fmFreqRangeUpper = $response[1];
 	}
+
+
+
         $cre = $this->check_credentials();
         if($cre[0] == false){
             return $cre;
