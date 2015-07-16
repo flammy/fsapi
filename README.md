@@ -26,6 +26,13 @@ You can find an example implementation in the following repository:
 
 https://github.com/flammy/fsapi-remote
 
+## documentation:
+
+Here you can find a documentation of the raw FSAPI reqests and responses:
+
+https://github.com/flammy/fsapi/blob/master/FSAPI.md
+
+
 ## Todo:
 
 ### 1 Tuning preset radio stations
