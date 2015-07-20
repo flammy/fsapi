@@ -8,17 +8,26 @@ function __autoload($class_name) {
 
 
 class radio{
-   protected $fsapi;
-   protected $pin = null;
-   protected $host = null;
-   protected $sid = null;
+	/** @var obj $fsapi       		FSAPI-Object */
+	protected $fsapi;
+	/** @var int $pin	      		pin of the radio  */
+	protected $pin = null;
+	/** @var string $pin	      	hostname or ip of the radio  */
+	protected $host = null;
+	/** @var string $sid	      	session-id we got after login  */
+	protected $sid = null;
+	/** @var int $fmFreqRangeLower	      	highest possible fm-frecency  */
+	protected $fmFreqRangeLower = 0;
+	/** @var int $fmFreqRangeUpper	      	lowest possible fm-frecency  */
+	protected $fmFreqRangeUpper = 0;
+	
+	/** @var array $eqs	      		list of possible eqs-presets (got from radio) */
+	protected $eqs = array();
+	/** @var array $modes	      	list of possible radio-modes (got from radio)   */
+	protected $modes = array();
 
-   protected $eqs = array();
-
-
-   protected $modes = array();
-
-
+	
+	/** @var array $states	      	list of possible play-states predefined number translation)  */
    protected $states = array(
             0 => 'stopped',
             1 => 'loading',
@@ -27,8 +36,8 @@ class radio{
             4 => 'buffering',
             5 => 'unknown'
    );
-        
-   protected $controls = array(
+	/** @var array $controls	     list of possible play-controls (predefined number translation)  */
+	protected $controls = array(
             0 => 'stop',
             1 => 'play',
             2 => 'pause',
@@ -36,10 +45,9 @@ class radio{
             4 => 'previous'
    ); 
         
-        
-        
-
-   protected $convert  = array(
+         
+	/** @var array $convert 	     x-list of nodes which should be converted in a normalized format */
+	protected $convert  = array(
             'netRemote.sys.audio.eqPreset' => 'eqs',
             'netRemote.play.status' => 'states',
             'netRemote.sys.mode' => 'modes',
@@ -52,35 +60,53 @@ class radio{
             'netRemote.sys.net.wlan.interfaceEnable' => 'onoff',
             'netRemote.sys.net.ipConfig.dhcp' => 'onoff',
             'netRemote.sys.power' => 'onoff',
-	    'netRemote.sys.audio.mute' => 'onoff',
+			'netRemote.sys.audio.mute' => 'onoff',
             'netRemote.play.scrobble' => 'onoff',
             'netRemote.play.repeat' => 'onoff',
             'netRemote.play.shuffle' => 'onoff',
             'netRemote.play.control' => 'controls'
    );
         
-   protected $fmFreqRangeLower = 0;
-   protected $fmFreqRangeUpper = 0;
+
        
-        
+	/**
+	 *	constructor class, sets protected fsapi
+	 *
+	 */
+
    function __construct() {
       $this->fsapi = new fsapi();
    }
 
+	/**
+	 *	sets the local and the protected pin variable
+	 *
+	 *	@var int $pin 				the pin of the device
+	 *
+	 */
     public function setpin($pin){
         $this->pin = $pin;
         $this->fsapi->setpin($pin);
     }
-
+	
+	/**
+	 *	sets the local and the protected host variable
+	 *
+	 *	@var string $host 				the hostname of the device
+	 *
+	 */
     public function sethost($host){
         $this->host = $host;
         $this->fsapi->sethost($host);
     }
-
-   /*
-    * Diese Funktion kümmert sich darum das alle Basisinformationen gesetzt sind und eine Session bereitgestellt wird
-    */
-
+   
+   
+	/**
+	 *	checks for login credentials and provides the session to the device
+	 *
+	 *	@return array first parameter: bool success, second parameter: string error message
+	 *
+	 */
     public function check_credentials(){
       if($this->fsapi->getpin() == null){
         if($this->pin != null){
@@ -100,12 +126,14 @@ class radio{
 
       return array(true);
     }
-
-
-   /*
-    * Holt alle aus dem Radio auslesbaren Einzelwerte 
-    */
-
+   
+   
+	/**
+	 *	collect all GETtable node-values from the device
+	 *
+	 *	@return array first parameter: bool success, second parameter: string (error message || result)
+	 *
+	 */
     public function system_status(){
         $cre = $this->check_credentials();
         if($cre[0] == false){
@@ -127,10 +155,17 @@ class radio{
     }
 
 
-   /*
-    * Setzt den Wer eines Nodes und / oder holt ihn
-    */
 
+	/**
+	 *	gets / sets a value of a node 
+	 *
+	 *	@var string $node 				the name of the node
+	 *
+	 *	@var string $value 				new value for the node (if not set it returns the current status)
+	 *
+	 *	@return array first parameter: bool success, second parameter: string (error message || current value of the node)
+	 *
+	 */
     public function getSet($node, $value = null){
         $cre = $this->check_credentials();
         if($cre[0] == false){
@@ -188,18 +223,18 @@ class radio{
         return $response; 
     }
     
-
-   /*
-    * Updaten der lokalen Mode Liste
-    */
+   
+	/**
+	 *	gets a list of available modes from the device 
+	 *
+	 */
 	public function updateModes(){
 	    if(count($this->modes) < 1){
 		    $modes = $this->validModes();
 		    foreach($modes[1] as $id => $mode){
-			if($mode['selectable'] == 1){
-			$valid_modes[$id] = $mode['label'];
-			}
-
+				if($mode['selectable'] == 1){
+					$valid_modes[$id] = $mode['label'];
+				}
 		    }
 		    $this->modes = $valid_modes;
 		    $validation = $this->fsapi->getvalidation();
@@ -209,10 +244,10 @@ class radio{
 	}
 
 
-   /*
-    * Updaten der lokalen EQS Liste
-    */
-
+	/**
+	 *	gets a list of available eqs-presets from the device 
+	 *
+	 */
 	public function updateEqs(){
 	    if(count($this->eqs) < 1){
 		    $eqs = $this->eqPresets();
@@ -229,10 +264,21 @@ class radio{
 
 
  
-   /*
-    * Interne Funktion zum setzen einer Preset-Liste, die durch das Radio bestimmt wird
-    */
 
+   
+   
+	/**
+	 *	get / set an list entry from preset-lists (modes, eqs ...)
+	 *
+	 *	@var string $list 				name of the list
+	 *
+	 *	@var string $node 				name of the node
+	 *
+	 *	@var string $value 				id of the mode (if not set it returns only the name)
+	 *
+	 *	@return array first parameter: bool success, second parameter: string (error message || result)
+	 *
+	 */
     public function getSetList($list, $node, $value = null){
 
         $cre = $this->check_credentials();
