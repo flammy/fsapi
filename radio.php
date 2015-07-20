@@ -423,59 +423,15 @@ class radio{
 
 
 
-  /*
-   * keine Ahnung (FS_NODE_BLOCKED)
-   */
-
-    public function NavLists(){
-        $cre = $this->check_credentials();
-        if($cre[0] == false){
-            return $cre;
-        }
-
-        $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.nav.list',array('maxItems' => 20), -1);
-        return $response;
-    }
-
-
-    public function NavPresets(){
-        $cre = $this->check_credentials();
-        if($cre[0] == false){
-            return $cre;
-        }
-
-        $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.nav.presets',array('maxItems' => 20), -1);
-        return $response;
-    }
 
 
 
 
 
 
-public function numItems(){
-        $cre = $this->check_credentials();
-        if($cre[0] == false){
-            return $cre;
-        }
-
-	$response = $this->getSet('netRemote.nav.numItems');
-	return $response;
-}
-
-public function notifies(){
-        $cre = $this->check_credentials();
-        if($cre[0] == false){
-            return $cre;
-        }
-
-	$result = $this->fsapi->call('GET_NOTIFIES');
-	return $result;
-
-}
-
-
-
+   /*
+    *  Tunes to a FM-Frequency
+    */
 
 public function radioFrequency($value){
 	if($this->fmFreqRangeLower == 0){
@@ -501,6 +457,118 @@ public function radioFrequency($value){
 
 	return $this->getSet('netRemote.play.frequency',$value);
 }
+
+
+
+
+   /*
+    * Toggles Nav-State
+    */
+
+public function navState($value = null){
+        $cre = $this->check_credentials();
+        if($cre[0] == false){
+            return $cre;
+        }
+
+    $response = $this->getSet('netRemote.nav.state',$value);
+    return $response;
+}
+
+
+
+
+/* Incomplete Functions */
+
+
+
+
+
+   /*
+    * Dont know what it does, it returns FS_TIMEOUT in all cases
+    */
+
+public function notifies(){
+        $cre = $this->check_credentials();
+        if($cre[0] == false){
+            return $cre;
+        }
+
+    $result = $this->fsapi->call('GET_NOTIFIES');
+
+
+    return $result;
+
+}
+
+
+
+
+
+
+   /*
+    * Dont know what it does, it returns FS_NODE_BLOCKED in all cases
+    */
+
+public function numItems(){
+        $cre = $this->check_credentials();
+        if($cre[0] == false){
+            return $cre;
+        }
+    print_r($this->navState(1));
+    $response = $this->getSet('netRemote.nav.numItems');
+    print_r($this->navState(0));
+    return $response;
+}
+
+
+
+   /*
+    * Dont know what it does, it returns FS_NODE_BLOCKED in all cases
+    */
+
+    public function NavLists(){
+        $cre = $this->check_credentials();
+        if($cre[0] == false){
+            return $cre;
+        }
+        $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.nav.list',array('maxItems' => 20), -1);
+        return $response;
+    }
+
+
+
+
+
+   /*
+    * Gets a List with all favorite Radio Stations
+    */
+
+    public function NavPresets(){
+        $cre = $this->check_credentials();
+        if($cre[0] == false){
+            return $cre;
+        }
+        $this->navState(1);
+        $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.nav.presets',array('maxItems' => 20), -1);
+        $this->navState(0);
+        return $response;
+    }
+
+
+
+    public function SelectPreset($value = null){
+        $cre = $this->check_credentials();
+        if($cre[0] == false){
+            return $cre;
+        }
+        $this->navState(1);
+        $response = $this->getSet('netRemote.nav.action.selectPreset',$value);
+        $this->navState(0);
+        return $response;
+    }
+
+
 
 }
 

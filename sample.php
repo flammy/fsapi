@@ -5,7 +5,7 @@ $radio = new radio();
 
 $radio->setpin('1337');
 
-$radio->sethost('192.168.0.56');
+$radio->sethost('192.168.0.46');
 /*
 
 
@@ -47,14 +47,16 @@ $response = $radio->system_status();
 
 $response = $radio->radioFrequency(10);
 */
-$response = $radio->getSet('netRemote.nav.status');
+$response = $radio->NavPresets();
 
 
 print_r($response);
 
+/*
+$response = $radio->SelectPreset(2);
 
 
-
-
+print_r($response);
+*/
 
 ?>

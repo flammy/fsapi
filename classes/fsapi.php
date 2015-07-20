@@ -137,9 +137,8 @@ class fsapi{
            'netRemote.nav.action.navigate' => array('GET','SET'),
            'netRemote.nav.caps' => array('GET'),
            'netRemote.nav.state' => array('GET','SET'),
-	   'netRemote.nav.numItems' => array('GET'),
-
-           
+           'netRemote.nav.action.selectPreset' => array('GET','SET'),
+	         'netRemote.nav.numItems' => array('GET'),
        );
 
        $this->validation = array(
@@ -272,7 +271,7 @@ class fsapi{
     /*
      * Function for making a request
      */
-    public function call($operation, $node, $attr = array(),$folder = ""){
+    public function call($operation, $node = null, $attr = array(),$folder = ""){
         if($this->pin == null){
             return array(false,'no pin given');
         }
