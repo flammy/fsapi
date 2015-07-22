@@ -4,8 +4,8 @@ include('radio.php');
 $radio = new radio();
 
 // logging
-$radio->setDebugLevel(3);
-$radio->setDebugTarget(dirname(__file__). DIRECTORY_SEPARATOR ."debug.log");
+$radio->setDebugLevel(1);
+$radio->setDebugTarget('STDOUT');
 
 
 
@@ -14,10 +14,11 @@ $radio->setDebugTarget(dirname(__file__). DIRECTORY_SEPARATOR ."debug.log");
 $radio->setpin('1337');
 $radio->sethost('192.168.0.46');
 
-$response = $radio->friendly_name();
+$response = $radio->NavLists();
 
-//$radio->debug($response,2);
 
+//$radio->debug($response,1);
+print_r($response);
 
 
 /*

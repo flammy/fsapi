@@ -9,4 +9,5 @@ $fsapi->setloglevel(2);
 $fsapi->ioLogger('AA',2);
 $fsapi->ioLogger(array('aa'=>'bb','cc' => 'dd'),3);
 
+
 ?>

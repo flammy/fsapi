@@ -452,6 +452,29 @@ class radio{
     }
 
 	
+	
+
+	/*
+	 * sets an favorite radio station for the current mode
+	 *
+	 * @var int $value 				id of the favorite
+	 *
+	 * @return array first parameter: bool success, second parameter: string (error message || result)
+	 * 
+	 */
+    public function SelectFavorite($value = null){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
+        $cre = $this->check_credentials();
+        if($cre[0] == false){
+            return $cre;
+        }
+        $this->navState(1);
+        $response = $this->getSet('netRemote.nav.action.selectPreset',$value);
+        $this->navState(0);
+        return $response;
+    }
+	
+	
 	/**
 	 *	sets device system-mode
 	 *
@@ -639,6 +662,26 @@ class radio{
 
 
 
+   /*
+    * Get a list of navigation Items for music archive and dab 
+    *
+    * @return array first parameter: bool success, second parameter: string (error message || result)
+    * 
+    */
+    public function NavLists(){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
+        $cre = $this->check_credentials();
+        if($cre[0] == false){
+            return $cre;
+        }
+		$this->navState(1);
+        $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.nav.list',array('maxItems' => 20), -1);
+		$this->navState(0);
+		$this->debug($response,4);
+        return $response;
+    }
+
+
 	/* Incomplete Functions
 	 *
 	 * There are problems with the following functions or they are not tested yet.
@@ -649,30 +692,17 @@ class radio{
 
 
 
-	/*
-	 * This function is not tested.
-	 *
-	 * I think this function tunes to a favorite radio station (by id from NavPresets())
-	 */
-    public function SelectPreset($value = null){
-		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
-        $cre = $this->check_credentials();
-        if($cre[0] == false){
-            return $cre;
-        }
-        $this->navState(1);
-        $response = $this->getSet('netRemote.nav.action.selectPreset',$value);
-        $this->navState(0);
-        return $response;
-    }
+
 
 
 
    /*
-    * I dont know what this function does, it returns FS_NODE_BLOCKED in all cases
+    * I dont know what this function does:  
     *
-    * This Function is a candidate to test with navState(1)
-    * 
+    * There is a 6 in my wireshark logs
+    *
+    * If i test manualy it returns -1 on dab, 0 on fm, 0 on aux, 0 on internetradio but 1 on music archive 
+    *
     */
 
 	public function numItems(){
@@ -681,31 +711,16 @@ class radio{
 		if($cre[0] == false){
 			return $cre;
 		}
-		print_r($this->navState(1));
+		$this->navState(1);
 		$response = $this->getSet('netRemote.nav.numItems');
-		print_r($this->navState(0));
+		$this->navState(0);
 		return $response;
 	}
 
 
 
 
-   /*
-    * I dont know what this function does, it returns FS_NODE_BLOCKED in all cases
-    *
-    * This Function is a candidate to test with navState(1)
-    * 
-    */
-    public function NavLists(){
-		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
-        $cre = $this->check_credentials();
-        if($cre[0] == false){
-            return $cre;
-        }
-        $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.nav.list',array('maxItems' => 20), -1);
-		$this->debug($response,4);
-        return $response;
-    }
+
 
 
    /*
@@ -720,9 +735,11 @@ class radio{
 		if($cre[0] == false){
 			return $cre;
 		}
-		$result = $this->fsapi->call('GET_NOTIFIES');
+		$this->navState(1);
+		$response = $this->fsapi->call('GET_NOTIFIES');
+		$this->navState(0);
 		$this->debug($response,4);
-		return $result;
+		return $response;
 	}
 	
 	
