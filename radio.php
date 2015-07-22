@@ -75,7 +75,8 @@ class radio{
 	 */
 
    function __construct() {
-      $this->fsapi = new fsapi();
+		$this->fsapi = new fsapi();
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
    }
 
 	/**
@@ -85,8 +86,10 @@ class radio{
 	 *
 	 */
     public function setpin($pin){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         $this->pin = $pin;
-        $this->fsapi->setpin($pin);
+        $response = $this->fsapi->setpin($pin);
+		$this->debug($response,4);
     }
 	
 	/**
@@ -96,8 +99,10 @@ class radio{
 	 *
 	 */
     public function sethost($host){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         $this->host = $host;
-        $this->fsapi->sethost($host);
+        $response = $this->fsapi->sethost($host);
+		$this->debug($response,4);
     }
    
    
@@ -108,7 +113,10 @@ class radio{
 	 *
 	 */
     public function check_credentials(){
-      if($this->fsapi->getpin() == null){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
+		$getpin = $this->fsapi->getpin();
+		$this->debug($getpin,4);
+      if($getpin == null){
         if($this->pin != null){
             $this->setpin($this->pin);
         }else{
@@ -116,7 +124,9 @@ class radio{
         }
       }
 
-      if($this->fsapi->gethost() == null){
+	  $gethost = $this->fsapi->gethost();
+	  $this->debug($gethost,4);
+      if($gethost == null){
         if($this->host != null){
             $this->sethost($this->host);
         }else{
@@ -135,11 +145,13 @@ class radio{
 	 *
 	 */
     public function system_status(){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         $cre = $this->check_credentials();
         if($cre[0] == false){
             return $cre;
         }
         $rw = $this->fsapi->getrw();
+		$this->debug($rw,4);
         $system = array();
         foreach($rw as $node => $options){
             if(in_array("GET",$options)){
@@ -167,17 +179,20 @@ class radio{
 	 *
 	 */
     public function getSet($node, $value = null){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         $cre = $this->check_credentials();
         if($cre[0] == false){
             return $cre;
         }
         if($value !== null){
             $response  = $this->fsapi->call('SET',$node,array('value' => $value));
-            if(!$response[0]){
+            $this->debug($response,4);
+			if(!$response[0]){
                 return $response;
             }
         }
         $response  = $this->fsapi->call('GET',$node);
+		$this->debug($response,4);
         if(!$response[0]){
             return $response;
         }
@@ -229,6 +244,7 @@ class radio{
 	 *
 	 */
 	public function updateModes(){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
 	    if(count($this->modes) < 1){
 		    $modes = $this->validModes();
 		    foreach($modes[1] as $id => $mode){
@@ -238,8 +254,10 @@ class radio{
 		    }
 		    $this->modes = $valid_modes;
 		    $validation = $this->fsapi->getvalidation();
+			$this->debug($validation,4);
 		    $validation['netRemote.sys.mode'] = array('between',array(min(array_keys($valid_modes)),max(array_keys($valid_modes))));
-		    $this->fsapi->setvalidation($validation);
+		    $setvalidation = $this->fsapi->setvalidation($validation);
+			$this->debug($setvalidation,4);
 	     }
 	}
 
@@ -249,6 +267,7 @@ class radio{
 	 *
 	 */
 	public function updateEqs(){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
 	    if(count($this->eqs) < 1){
 		    $eqs = $this->eqPresets();
 		    foreach($eqs[1] as $id => $eq){
@@ -256,16 +275,14 @@ class radio{
 		    }
 		    $this->eqs = $valid_eqs;
 		    $validation = $this->fsapi->getvalidation();
+			$this->debug($validation,4);
 		    $validation['netRemote.sys.audio.eqPreset'] = array('between',array(min(array_keys($valid_eqs)),max(array_keys($valid_eqs))));
-		    $this->fsapi->setvalidation($validation);
+		    $setvalidation = $this->fsapi->setvalidation($validation);
+			$this->debug($setvalidation,4);
 	     }
 	}
 
 
-
- 
-
-   
    
 	/**
 	 *	get / set an list entry from preset-lists (modes, eqs ...)
@@ -280,7 +297,7 @@ class radio{
 	 *
 	 */
     public function getSetList($list, $node, $value = null){
-
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         $cre = $this->check_credentials();
         if($cre[0] == false){
             return $cre;
@@ -310,16 +327,24 @@ class radio{
         return $this->getSet($node,$value);
     }
 
-   /*
-    * wechselt den Zustand eines Nodes, der über einen Bool wert definiert ist
-    */
-
+	/**
+	 *	Toggles the value of a boolean node
+	 *
+	 *	This Function reads the value from the device and sets the inverted value back to the device
+	 *
+	 *	@var string $node 				name of the node
+	 *
+	 *	@return array first parameter: bool success, second parameter: string (error message || result)
+	 *
+	 */
     public function toggle($node){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         $cre = $this->check_credentials();
         if($cre[0] == false){
             return $cre;
         }
         $response  = $this->fsapi->call('GET',$node);
+		$this->debug($response,4);
         if(!$response[0]){
             return $response;
         }
@@ -329,8 +354,20 @@ class radio{
    /*
     * Ändert die Lautsärke (setzen oder up / down)
     */
-
+   
+   
+   
+   
+	/**
+	 *	Sets the volume of the device
+	 *
+	 *	@var string $value 				new volume level (e.g.: 0-20) or comand as string (up / down)
+	 *
+	 *	@return array first parameter: bool success, second parameter: string (error message || result)
+	 *
+	 */
     public function volume($value = null){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         if(is_numeric($value)){
             return $this->getSet('netRemote.sys.audio.volume',$value);
         }else{
@@ -351,19 +388,31 @@ class radio{
         }
     }
 
-   /*
-    * Ändert den Namen des Geräts
-    */
+	
+	/**
+	 *	Sets the friendly_name of the device
+	 *
+	 *	@var string $value 				new friendly_name for the device
+	 *
+	 *	@return array first parameter: bool success, second parameter: string (error message || result)
+	 *
+	 */
     public function friendly_name($value = null){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         return $this->getSet('netRemote.sys.info.friendlyName',$value);
     }
-
-
-   /*
-    * schaltet den Ton des Geräts ein oder aus (auch als toggle)
-    */
-
+   
+   
+	/**
+	 *	Toggles the mute state
+	 *
+	 *	@var string $value 				string "toggle" to invert current state or bool 0/1
+	 *
+	 *	@return array first parameter: bool success, second parameter: string (error message || result)
+	 *
+	 */
     public function mute($value = null){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         if($value === 'toggle'){
             return $this->toggle('netRemote.sys.audio.mute');
         }else{
@@ -371,11 +420,16 @@ class radio{
         }
     }
 
-   /*
-    * schaltet das Gerät ein oder aus (auch als toggle)
-    */
-
+	/**
+	 *	Toggles the power state
+	 *
+	 *	@var string $value 				string "toggle" to invert current state or bool 0/1
+	 *
+	 *	@return array first parameter: bool success, second parameter: string (error message || result)
+	 *
+	 */
     public function power($value = null){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         if($value === 'toggle'){
             return $this->toggle('netRemote.sys.power');
         }else{
@@ -384,226 +438,224 @@ class radio{
     }
 
 
-   /*
-    * Setzt ein spezielles eq preset
-    */
-
+	/**
+	 *	sets eq-preset
+	 *
+	 *	@var int $value 				id of the eq-preset
+	 *
+	 *	@return array first parameter: bool success, second parameter: string (error message || result)
+	 *
+	 */
     public function eq_preset($value = null){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         return $this->getSetList('eqs', 'netRemote.sys.audio.eqPreset',$value);
     }
 
-   /*
-    * setzt den Modus des Geräts
-    */
-
+	
+	/**
+	 *	sets device system-mode
+	 *
+	 *	@var int $value 				id of the mode
+	 *
+	 *	@return array first parameter: bool success, second parameter: string (error message || result)
+	 *
+	 */
     public function mode($value = null){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         return $this->getSetList('modes', 'netRemote.sys.mode',$value);
     }
-   /*
-    * setzt den Modus des Geräts
-    */
-
+	
+	
+	/**
+	 *	sets device play-state
+	 *
+	 *	@var int $value 				id of the play-state
+	 *
+	 *	@return array first parameter: bool success, second parameter: string (error message || result)
+	 *
+	 */
     public function control($value = null){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         return $this->getSetList('controls', 'netRemote.play.control',$value);
     }
 
 
-   /*
-    * Zeigt die Einstellungen für Bass und höhen
-    */
-
+	/**
+	 *	gets a list of available dab frequencies
+	 *
+	 *	@return array first parameter: bool success, second parameter: string (error message || result)
+	 *
+	 */
     public function dabFreqList(){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         $cre = $this->check_credentials();
         if($cre[0] == false){
             return $cre;
         }
 
         $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.sys.caps.dabFreqList',array('maxItems' => 1000), -1);
+		$this->debug($response,4);
         return $response;
     }
     
 
-   /*
-    * Zeigt die Einstellungen für Bass und höhen
-    */
-
+	/**
+	 *	gets a list of configured eq-values
+	 *
+	 *	@return array first parameter: bool success, second parameter: string (error message || result)
+	 *
+	 */
     public function eqBands(){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         $cre = $this->check_credentials();
         if($cre[0] == false){
             return $cre;
         }
 
         $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.sys.caps.eqBands',array('maxItems' => 100), -1);
+		$this->debug($response,4);
         return $response;
     }
     
-   /*
-    * Holt eine Liste aller zulässigen Modi
-    */
-
+	/**
+	 *	gets a list of available system-modes
+	 *
+	 *	@return array first parameter: bool success, second parameter: string (error message || result)
+	 *
+	 */
     public function validModes(){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         $cre = $this->check_credentials();
         if($cre[0] == false){
             return $cre;
         }
 
         $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.sys.caps.validModes',array('maxItems' => 100), -1);
+		$this->debug($response,4);
         return $response;
     }
 
 
-   /*
-    * Holt eine Liste aller EQ Presets
-    */
-
+	/**
+	 *	gets a list of available eq-presets
+	 *
+	 *	@return array first parameter: bool success, second parameter: string (error message || result)
+	 *
+	 */
     public function eqPresets(){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         $cre = $this->check_credentials();
         if($cre[0] == false){
             return $cre;
         }
 
         $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.sys.caps.eqPresets',array('maxItems' => 100), -1);
+		$this->debug($response,4);
         return $response;
     }
 
 
 
-
-
-
-
-
-
-
-   /*
-    *  Tunes to a FM-Frequency
-    */
-
-public function radioFrequency($value){
-	if($this->fmFreqRangeLower == 0){
-		$response = $this->getSet('netRemote.sys.caps.fmFreqRange.lower');
-		$this->fmFreqRangeLower = $response[1];
+   
+	/**
+	 *	Tunes to a FM-Frequency
+	 *
+	 *	@var int $value 				fm-frequency as mhz: 96.7 or hz: 96700
+	 *
+	 *	@return array first parameter: bool success, second parameter: string (error message || result)
+	 *
+	 */
+	public function radioFrequency($value){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
+		if($this->fmFreqRangeLower == 0){
+			$response = $this->getSet('netRemote.sys.caps.fmFreqRange.lower');
+			$this->fmFreqRangeLower = $response[1];
+		}
+		if($this->fmFreqRangeUpper == 0){
+			$response = $this->getSet('netRemote.sys.caps.fmFreqRange.upper');
+			$this->fmFreqRangeUpper = $response[1];
+		}
+			$cre = $this->check_credentials();
+			if($cre[0] == false){
+				return $cre;
+			}
+		if(($value <= $this->fmFreqRangeLower) && (($value * 1000) <= $this->fmFreqRangeUpper)){
+			// Correction to fill in normal mhz
+			$value = $value * 1000;
+		}
+	
+		if(($value < $this->fmFreqRangeLower) || ($value > $this->fmFreqRangeUpper)){
+			return array(false,'frequency out of band');
+		}
+	
+		return $this->getSet('netRemote.play.frequency',$value);
 	}
-	if($this->fmFreqRangeUpper == 0){
-		$response = $this->getSet('netRemote.sys.caps.fmFreqRange.upper');
-		$this->fmFreqRangeUpper = $response[1];
+
+
+
+
+
+	/**
+	 *	Toggles Nav-State
+	 *
+	 *	@var bool $value 				enable or disable nav.state (0/1)
+	 *
+	 *	@return array first parameter: bool success, second parameter: string (error message || result)
+	 *
+	 */
+	public function navState($value = null){
+			$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
+			$cre = $this->check_credentials();
+			if($cre[0] == false){
+				return $cre;
+			}
+	
+		$response = $this->getSet('netRemote.nav.state',$value);
+		return $response;
 	}
-        $cre = $this->check_credentials();
-        if($cre[0] == false){
-            return $cre;
-        }
-	if(($value <= $this->fmFreqRangeLower) && (($value * 1000) <= $this->fmFreqRangeUpper)){
-		// Correction to fill in normal mhz
-		$value = $value * 1000;
-	}
-
-	if(($value < $this->fmFreqRangeLower) || ($value > $this->fmFreqRangeUpper)){
-		return array(false,'frequency out of band');
-	}
-
-	return $this->getSet('netRemote.play.frequency',$value);
-}
 
 
 
-
-   /*
-    * Toggles Nav-State
-    */
-
-public function navState($value = null){
-        $cre = $this->check_credentials();
-        if($cre[0] == false){
-            return $cre;
-        }
-
-    $response = $this->getSet('netRemote.nav.state',$value);
-    return $response;
-}
-
-
-
-
-/* Incomplete Functions */
-
-
-
-
-
-   /*
-    * Dont know what it does, it returns FS_TIMEOUT in all cases
-    */
-
-public function notifies(){
-        $cre = $this->check_credentials();
-        if($cre[0] == false){
-            return $cre;
-        }
-
-    $result = $this->fsapi->call('GET_NOTIFIES');
-
-
-    return $result;
-
-}
-
-
-
-
-
-
-   /*
-    * Dont know what it does, it returns FS_NODE_BLOCKED in all cases
-    */
-
-public function numItems(){
-        $cre = $this->check_credentials();
-        if($cre[0] == false){
-            return $cre;
-        }
-    print_r($this->navState(1));
-    $response = $this->getSet('netRemote.nav.numItems');
-    print_r($this->navState(0));
-    return $response;
-}
-
-
-
-   /*
-    * Dont know what it does, it returns FS_NODE_BLOCKED in all cases
-    */
-
-    public function NavLists(){
-        $cre = $this->check_credentials();
-        if($cre[0] == false){
-            return $cre;
-        }
-        $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.nav.list',array('maxItems' => 20), -1);
-        return $response;
-    }
-
-
-
-
-
-   /*
-    * Gets a List with all favorite Radio Stations
-    */
+	/**
+	 *	Get a list of favorite Radio Stations for the current mode
+	 *
+	 *	@return array first parameter: bool success, second parameter: string (error message || result)
+	 *
+	 */
 
     public function NavPresets(){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         $cre = $this->check_credentials();
         if($cre[0] == false){
             return $cre;
         }
         $this->navState(1);
         $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.nav.presets',array('maxItems' => 20), -1);
+		$this->debug($response,4);
         $this->navState(0);
         return $response;
     }
 
 
 
+
+	/* Incomplete Functions
+	 *
+	 * There are problems with the following functions or they are not tested yet.
+	 *
+	 * Please feeld free to contribute to the testing.
+	 *
+	 */
+
+
+
+	/*
+	 * This function is not tested.
+	 *
+	 * I think this function tunes to a favorite radio station (by id from NavPresets())
+	 */
     public function SelectPreset($value = null){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         $cre = $this->check_credentials();
         if($cre[0] == false){
             return $cre;
@@ -616,6 +668,73 @@ public function numItems(){
 
 
 
+   /*
+    * I dont know what this function does, it returns FS_NODE_BLOCKED in all cases
+    *
+    * This Function is a candidate to test with navState(1)
+    * 
+    */
+
+	public function numItems(){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
+		$cre = $this->check_credentials();
+		if($cre[0] == false){
+			return $cre;
+		}
+		print_r($this->navState(1));
+		$response = $this->getSet('netRemote.nav.numItems');
+		print_r($this->navState(0));
+		return $response;
+	}
+
+
+
+
+   /*
+    * I dont know what this function does, it returns FS_NODE_BLOCKED in all cases
+    *
+    * This Function is a candidate to test with navState(1)
+    * 
+    */
+    public function NavLists(){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
+        $cre = $this->check_credentials();
+        if($cre[0] == false){
+            return $cre;
+        }
+        $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.nav.list',array('maxItems' => 20), -1);
+		$this->debug($response,4);
+        return $response;
+    }
+
+
+   /*
+    * I dont know what this function does, it returns FS_TIMEOUT in all cases
+    *
+    * This function is called verry often in normal operation
+    * 
+    */
+	public function notifies(){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
+		$cre = $this->check_credentials();
+		if($cre[0] == false){
+			return $cre;
+		}
+		$result = $this->fsapi->call('GET_NOTIFIES');
+		$this->debug($response,4);
+		return $result;
+	}
+	
+	
+	public function debug($message,$loglevel){
+		$this->fsapi->ioLogger($message,$loglevel);
+	}
+	public function setDebugLevel($loglevel){
+		$this->fsapi->setloglevel($loglevel);
+	}
+	public function setDebugTarget($logtarget){
+		$this->fsapi->setlogtarget($logtarget);
+	}
 }
 
 ?>

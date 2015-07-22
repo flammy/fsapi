@@ -6,7 +6,10 @@ class fsapi{
     protected  $rw = null;
     protected  $validation = null;
     protected  $operation = null;
-    protected  $verbose = false;
+    protected  $loglevel = false;
+    
+    
+    
 
 
     /*
@@ -33,8 +36,12 @@ class fsapi{
         return $this->operation;
     }
 
-    public function getverbose(){
-        return $this->verbose;
+    public function getloglevel(){
+        return $this->loglevel;
+    }
+    
+    public function getlogtarget(){
+        return $this->logtarget;
     }
 
     /*
@@ -62,8 +69,12 @@ class fsapi{
     }
 
 
-    public function setverbose($verbose){
-        $this->verbose = $verbose;
+    public function setloglevel($loglevel){
+        $this->loglevel = $loglevel;
+    }
+    
+    public function setlogtarget($logtarget){
+        $this->logtarget = $logtarget;
     }
 
     /*
@@ -156,15 +167,18 @@ class fsapi{
 
        $this->operation = array('SET','GET','LIST_GET','LIST_GET_NEXT','CREATE_SESSION','DELETE_SESSION','GET_NOTIFIES');
 
-
+       $this->loglevel = 0;
+       $this->logtarget = FALSE;
    }
 
     /*
      * Destructor
      */
     function __destruct(){
+        $this->ioLogger("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         if($this->sid != null ){
-            $this->call('DELETE_SESSION', '');
+            $result = $this->call('DELETE_SESSION', '');
+            $this->ioLogger($result,4);
         }
     }
 
@@ -172,10 +186,9 @@ class fsapi{
      * Converting a field to the right datatype
      */
     public function encode($response,$node){
-
-    
+        $this->ioLogger("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         foreach($response as $type => $message){
-            //echo $type." : ".$message."\n";
+            $this->ioLogger($type." : ".$message,4);
             switch($type){
                 case "u8":
                 case "u16":
@@ -197,47 +210,36 @@ class fsapi{
      * Converting a list to an array
      */
 
-
-
-
-
-
-
-
-
-
     public function encode_list($response){
-	$result =  array();
-
-	//print_r($response);
+        $this->ioLogger("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
+        $result =  array();
+        $this->ioLogger($response,4);
         foreach($response as $item){
-
-	 if(is_array($item['field'])){
-            foreach($item['field'] as $data){
-                $a_data = (array) $data;
+            if(is_array($item['field'])){
+                foreach($item['field'] as $data){
+                    $a_data = (array) $data;
+                    foreach($a_data as $entry_key => $entry){
+                        $this->ioLogger( $entry_key,4);
+                        if($entry_key != '@attributes'){
+                            $a_entry = (array)$entry;
+                            $result[$item['@attributes']['key']][$a_data['@attributes']['name']] =     $a_entry[0];
+                        }
+                    }
+                }
+            }else{
+                $a_data = (array) $item['field'];
                 foreach($a_data as $entry_key => $entry){
-		//echo $entry_key."\n\n";
+                    $this->ioLogger( $entry_key,4);
                     if($entry_key != '@attributes'){
                         $a_entry = (array)$entry;
                         $result[$item['@attributes']['key']][$a_data['@attributes']['name']] =     $a_entry[0];
                     }
                 }
             }
-	//return $result;
-	}else{
-        $a_data = (array) $item['field'];
-        foreach($a_data as $entry_key => $entry){
-	//echo $entry_key."\n\n";
-            if($entry_key != '@attributes'){
-                $a_entry = (array)$entry;
-                $result[$item['@attributes']['key']][$a_data['@attributes']['name']] =     $a_entry[0];
-            }
-        }
-	}
 
 
         }
-	return $result;
+        return $result;
     }
 
 
@@ -246,6 +248,7 @@ class fsapi{
 
 
     public function validate($attr,$method){
+        $this->ioLogger("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         switch($method[0]){
             case 'bool':
                 if($attr == 0 || $attr == 1){
@@ -272,6 +275,7 @@ class fsapi{
      * Function for making a request
      */
     public function call($operation, $node = null, $attr = array(),$folder = ""){
+        $this->ioLogger("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         if($this->pin == null){
             return array(false,'no pin given');
         }
@@ -279,6 +283,7 @@ class fsapi{
         if($operation != 'CREATE_SESSION'){
             if($this->sid == null ){
                 $session = $this->call('CREATE_SESSION', '');
+                $this->ioLogger($session,4);
                 if($session[0] == true){
                     $this->sid = $session[1];
                 }else{
@@ -303,6 +308,7 @@ class fsapi{
         $validation = $this->validation;
         if($operation == 'SET' && isset($validation[$node])){
             $valid = $this->validate($attr['value'], $validation[$node]);
+            $this->ioLogger($valid,4);
             if(!$valid[0]){
                 return array(false, "Validation for ".$node." failed: ".$valid[1]);
 
@@ -324,9 +330,7 @@ class fsapi{
                 $url .= "&".$key."=".$value;
             }
         }
-
-           //echo $url."\n";
-
+        $this->ioLogger($url,3);
 
         // Requesting...
         $ch = curl_init();
@@ -334,17 +338,15 @@ class fsapi{
         curl_setopt($ch,CURLOPT_RETURNTRANSFER,TRUE);
         $response = curl_exec($ch);
         $info = curl_getinfo($ch);
-
         if($info['http_code'] == 403 ){
             return array(false,'Connection: Incorrect Pin '.$this->pin);
         }else if(!($response === false)){
-	//	print_r($response);
+            $this->ioLogger($response,4);
             $xml = new SimpleXMLElement($response);
-            
             switch($xml->status){
                 // everything is ok
                case 'FS_OK':
-                    //print_r($xml);
+                    $this->ioLogger($xml,4);
                     if(isset($xml->value)){
                         return array(true,$this->encode((array)$xml->value,$node));
                     }elseif($xml->sessionId){
@@ -381,6 +383,53 @@ class fsapi{
         $return =  array(false, curl_error($ch));
         curl_close($ch);
         return $return;
+    }
+    
+    
+    function ioDater($message){
+        return date("Y-m-d H:i:s")." ".$message."\n";
+    }
+    
+    function ioLogger($message,$level,$target = null){
+        /*
+         *  0 = off
+         *  1 = Error
+         *  2 = warning
+         *  3 = debug
+         *  4 = insane
+         */
+        $loglevel = $this->loglevel;
+        if($loglevel >= $level){
+            // where to log
+            $logtarget = $this->logtarget;
+            if($target != null){
+                $logtarget = $target;
+            }
+            if($logtarget !== FALSE){
+                // trace lines in debug and insane
+                $trace_lines = "";
+                if($loglevel > 3){
+                    $traces = debug_backtrace();
+                    foreach($traces as $trace){
+                            $trace_lines .= "Trace: ".$trace['file']." Line ".$trace['line']."\n";
+                    }
+                }
+                switch($logtarget){
+                    case 'ECHO':
+                            echo var_export($message,true);
+                        break;
+                    case 'STDERR':
+                            file_put_contents('php://stderr', $this->ioDater($trace_lines.var_export($message,true)));
+                        break;
+                    case 'STDOUT':
+                            file_put_contents('php://stdout', $this->ioDater($trace_lines.var_export($message,true)));
+                        break;
+                    default:
+                            file_put_contents($logtarget, $this->ioDater($trace_lines.var_export($message,true)),FILE_APPEND);
+                        break;  
+                }
+            }
+        }
     }
 }
 ?>
