@@ -1,4 +1,8 @@
 <?php
+/*
+    This Class provides the basic communication and validation methods.
+
+*/
 class fsapi{
     protected  $pin = null;
     protected  $host = null;
@@ -12,73 +16,166 @@ class fsapi{
     
 
 
-    /*
-     * Getter
+    /**
+     *  returns the local and the protected pin variable
+     *
+     *  @return int the device pin
+     *
      */
-
     public function getpin(){
         return $this->pin;
     }
 
+
+    /**
+     *  returns the local and the protected host variable
+     *
+     *  @return string the hostname of the device
+     *
+     */
     public function gethost(){
         return $this->host ;
     }
 
+
+    /**
+     *  returns the local and the protected rw variable
+     *
+     *  @return array with all available nodes and their operations
+     *
+     */
     public function getrw(){
         return $this->rw;
     }
 
+
+    /**
+     *  returns the local and the protected validation variable
+     *
+     *  @return array with all available validation rules 
+     *
+     */
     public function getvalidation(){
         return $this->validation;
     }
 
+
+    /**
+     *  returns the local and the protected operation variable
+     *
+     *  @return array with all available operation modes
+     *
+     */
     public function getoperation(){
         return $this->operation;
     }
 
+
+    /**
+     *  returns the local and the protected loglevel variable
+     *
+     *  @return int the current loglevel (0=off, 0 < verbose)
+     *
+     */
     public function getloglevel(){
         return $this->loglevel;
     }
     
+
+    /**
+     *  returns the local and the protected logtarget variable
+     *
+     *  @return string the current logtarget (where to ouput the debug data)
+     *
+     */
     public function getlogtarget(){
         return $this->logtarget;
     }
 
-    /*
-     * Setter
+
+
+
+
+
+    /**
+     *  sets the local and the protected pin variable
+     *
+     *  @var string $pin          the pin of the device
+     *
      */
     public function setpin($pin){
         $this->pin = $pin;
     }
 
+
+    /**
+     *  sets the local and the protected host variable
+     *
+     *  @var string $host          the hostname of the device
+     *
+     */
     public function sethost($host){
         $this->host = $host;
     }
 
 
+    /**
+     *  sets the local and the protected rw variable
+     *
+     *  @var array with all available nodes and their operations
+     *
+     */
     public function setrw($rw){
         $this->rw = $rw;
     }
 
+
+    /**
+     *  sets the local and the protected validation variable
+     *
+     *  @var array with all available validation rules
+     *
+     */
     public function setvalidation($validation){
         $this->validation = $validation;
     }
 
+
+    /**
+     *  sets the local and the protected operation variable
+     *
+     *  @var array with all available operations
+     *
+     */
     public function setoperation($operation){
         $this->operation = $operation;
     }
 
-
+    /**
+     *  sets the local and the protected loglevel variable
+     *
+     *  @var int $loglevel current loglevel (0=off, 0 < verbose)
+     *
+     */
     public function setloglevel($loglevel){
         $this->loglevel = $loglevel;
     }
     
+
+    /**
+     *  sets the local and the protected logtarget variable
+     *
+     *  @var string $logtarget the current logtarget (where to ouput the debug data)
+     *
+     */
     public function setlogtarget($logtarget){
         $this->logtarget = $logtarget;
     }
 
+
     /*
-     *  Constructor
+     *  Constructor - prepares initial settings fot the connection
+     *
      */
    function __construct() {
        $this->rw = array(
@@ -172,7 +269,8 @@ class fsapi{
    }
 
     /*
-     * Destructor
+     *  Descructor - prepares shutdown and cleanup
+     *
      */
     function __destruct(){
         $this->ioLogger("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
@@ -182,10 +280,16 @@ class fsapi{
         }
     }
 
+
     /*
      * Converting a field to the right datatype
+     *
+     *  @var array $response - the raw-array with the requested data from the device
+     *
+     *  @return mixed the encoded data
+     *
      */
-    public function encode($response,$node){
+    public function encode($response){
         $this->ioLogger("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         foreach($response as $type => $message){
             $this->ioLogger($type." : ".$message,4);
@@ -206,10 +310,15 @@ class fsapi{
         }
     }
 
+
     /*
      * Converting a list to an array
+     *
+     *  @var array $response - the raw-array with the requested data from the device
+     *
+     *  @return array with encoded data
+     *
      */
-
     public function encode_list($response){
         $this->ioLogger("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         $result =  array();
@@ -245,8 +354,16 @@ class fsapi{
 
 
 
-
-
+    /*
+     * checks if a given value passes the given validation rules for an node
+     *
+     *  @var mixed $attr - the value to check
+     *
+     *  @var mixed $method - the method to check with (e.g. bool, between)
+     *
+     *  @return array - first parameter is bool (the validation status) the second is string (error-message, if there is any)  
+     *
+     */
     public function validate($attr,$method){
         $this->ioLogger("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         switch($method[0]){
@@ -273,6 +390,17 @@ class fsapi{
 
     /*
      * Function for making a request
+     *
+     *  @var string $operation - the Operation (eg SET)
+     *
+     *  @var string $node - the node 
+     *
+     *  @var string $attr - (optional) the new Value for the node
+     * 
+     *  @var string $folder - (optional)  append an additional folder to the url
+     *
+     *  @return array - first parameter is bool (the validation status) the second is string (data or error message)  
+     *
      */
     public function call($operation, $node = null, $attr = array(),$folder = ""){
         $this->ioLogger("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
@@ -349,10 +477,10 @@ class fsapi{
                case 'FS_OK':
                     $this->ioLogger($xml,4);
                     if(isset($xml->value)){
-                        return array(true,$this->encode((array)$xml->value,$node));
+                        return array(true,$this->encode((array)$xml->value));
                     }elseif($xml->sessionId){
                         // Session-Id is not stored in the value field
-                        return array(true,$this->encode((array)$xml->sessionId,$node));
+                        return array(true,$this->encode((array)$xml->sessionId));
                         
                     }else{
                         // it seems to be an array
@@ -386,11 +514,32 @@ class fsapi{
         return $return;
     }
     
-    
+
+
+
+    /*
+     *  Adds the current Date as Prefix to the message
+     *
+     *  @var string $message - the message
+     *
+     *  @return string - the message with a date-prefix
+     *
+     */
     function ioDater($message){
         return date("Y-m-d H:i:s")." ".$message."\n";
     }
     
+
+    /*
+     *  Writes logs to whatever
+     *
+     *  @var string $message - the message
+     *
+     *  @var string $message - the loglevel of the message
+     *
+     *  @var string $message - the target (where to log to)
+     *
+     */
     function ioLogger($message,$level,$target = null){
         /*
          *  0 = off
