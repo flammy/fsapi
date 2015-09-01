@@ -49,24 +49,25 @@ class ssdp{
 			$buffer = '';
 			$tmp = '';
 			$headers = "M-SEARCH * HTTP/1.1\r\nHost:239.255.255.250:1900\r\nST:".$this->type."\r\nMan:\"ssdp:discover\"\r\nMX:3\r\n\r\n";
-	        $socket = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
-	        socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array('sec'=>15, 'usec'=>10000));
-	        
-	        socket_sendto($socket, $headers, 1024, 0, '239.255.255.250', 1900);
-	        while(socket_recvfrom($socket, $buffer, 1024, MSG_WAITALL, $tmp, $mp)) {
-	        	$res = $this->decode($buffer);
-	        	if(isset($res['Location'])){
-	        		$res_details = $this->getDetails($res['Location']);
-	        		if($res_details[0] == true){
-	        			$res['details'] = $res_details[1];
-	        		}else{
-	        			$res['details'] = false;
+		        $socket = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
+		        socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array('sec'=>15, 'usec'=>10000));
+	        	$i = 0;
+	        	socket_sendto($socket, $headers, 1024, 0, '239.255.255.250', 1900);
+		        while(@socket_recvfrom($socket, $buffer, 1024, MSG_WAITALL, $tmp, $mp)) {
+			$i++;
+		        	$res = $this->decode($buffer);
+	       	 		if(isset($res['location'])){
+	        			$res_details = $this->getDetails($res['location']);
+	        			if($res_details[0] == true){
+	        				$res['details'] = $res_details[1];
+	        			}else{
+	        				$res['details'] = false;
+	        			}
 	        		}
+	        		$result[] = $res;
 	        	}
-	        	$result[] = $res;
-	        }
-	        socket_close($socket);
-	        return $result;
+	        	socket_close($socket);
+	        	return $result;
 	}
 
 
@@ -83,9 +84,10 @@ class ssdp{
 		$return = array();
 		foreach($array as $value){
 			if($value != ""){
-				$kv = explode(':',$value);
+				$kv = explode(': ',$value);
+
 				if($kv[0] != ""){
-					$return[$kv[0]] = (isset($kv[1]) ? $kv[1] : '');
+					$return[strtolower($kv[0])] = (isset($kv[1]) ? strtolower($kv[1]) : '');
 				}
 			}
 		}
@@ -101,9 +103,6 @@ class ssdp{
      * @return array, first value is the status true or false the second value is an array with the answer of the device
      */
 	function getDetails($url){
-		if((trim($url) != "http://" && trim($url) != "https://" )){
-			return array(false,'No valid Location in SSDP Package found.');
-		}
 		$ch = curl_init();
 		$curlConfig = array(
 		    CURLOPT_URL            => $url,
@@ -112,14 +111,15 @@ class ssdp{
 		curl_setopt_array($ch, $curlConfig);
 		$result = curl_exec($ch);
 		$info = curl_getinfo($ch);
+		curl_close($ch);
         if($info['http_code'] != 200 ){
             return array(false,'SSDP Request: '.$url.' returned '.$info['http_code'].'.');
-        }else if(!($response === false)){
+        }else if(!($result === false)){
         	return array(true,json_decode(json_encode(simplexml_load_string($result))));
         }else{
-        	$return =  array(false, curl_error($ch));
+        	return array(false, curl_error($ch));
         }
-		curl_close($ch);
+
 	}
 }
 ?>
