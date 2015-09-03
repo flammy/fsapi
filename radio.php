@@ -752,6 +752,18 @@ class radio{
 	public function setDebugTarget($logtarget){
 		$this->fsapi->setlogtarget($logtarget);
 	}
+
+	public function devicescan(){
+		$ssdp = new ssdp;
+		$ssdp->setDeviceType('upnp:rootdevice');
+//		$ssdp->setDeviceType('urn:schemas-frontier-silicon-com:fs_reference:fsapi:1');
+		$res = $ssdp->scan();
+		return $res;
+	}
+
+
+
+
 }
 
 ?>

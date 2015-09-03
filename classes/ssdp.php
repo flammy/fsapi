@@ -54,7 +54,7 @@ class ssdp{
 	        	$i = 0;
 	        	socket_sendto($socket, $headers, 1024, 0, '239.255.255.250', 1900);
 		        while(@socket_recvfrom($socket, $buffer, 1024, MSG_WAITALL, $tmp, $mp)) {
-			$i++;
+					$i++;
 		        	$res = $this->decode($buffer);
 	       	 		if(isset($res['location'])){
 	        			$res_details = $this->getDetails($res['location']);
@@ -115,7 +115,7 @@ class ssdp{
         if($info['http_code'] != 200 ){
             return array(false,'SSDP Request: '.$url.' returned '.$info['http_code'].'.');
         }else if(!($result === false)){
-        	return array(true,json_decode(json_encode(simplexml_load_string($result))));
+        	return array(true,get_object_vars(simplexml_load_string($result)));
         }else{
         	return array(false, curl_error($ch));
         }
