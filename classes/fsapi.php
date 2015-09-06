@@ -39,6 +39,17 @@ class fsapi{
 
 
     /**
+     *  returns the local and the protected sid variable
+     *
+     *  @return string the current sid
+     *
+     */
+    public function getsid(){
+        return $this->sid ;
+    }
+
+
+    /**
      *  returns the local and the protected rw variable
      *
      *  @return array with all available nodes and their operations
@@ -117,6 +128,18 @@ class fsapi{
     public function sethost($host){
         $this->host = $host;
     }
+
+
+    /**
+     *  sets the local and the protected sid variable
+     *
+     *  @var string $sid          the session id
+     *
+     */
+    public function setsid($sid){
+        $this->sid = $sid;
+    }
+
 
 
     /**
@@ -465,11 +488,16 @@ class fsapi{
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch,CURLOPT_RETURNTRANSFER,TRUE);
+        curl_setopt($ch,CURLOPT_TIMEOUT,5);
         $response = curl_exec($ch);
         $info = curl_getinfo($ch);
-        if($info['http_code'] == 403 ){
+        if($response === false){
+            $return =  array(false, curl_error($ch));
+        }elseif($info['http_code'] == 403 ){
             return array(false,'Connection: Incorrect Pin '.$this->pin);
-        }else if(!($response === false)){
+        }elseif($info['http_code'] != 200 ){
+            return array(false,'Connection: Failed ('.$info['http_code'].')');
+        }else{
             $this->ioLogger($response,4);
             $xml = new SimpleXMLElement($response);
             switch($xml->status){
@@ -509,7 +537,6 @@ class fsapi{
                     return array(false,"Server: ".$xml->status);
             }
         }
-        $return =  array(false, curl_error($ch));
         curl_close($ch);
         return $return;
     }
