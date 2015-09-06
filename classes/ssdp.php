@@ -67,7 +67,10 @@ class ssdp{
 	        		$result[] = $res;
 	        	}
 	        	socket_close($socket);
-	        	return $result;
+	        	if(count($result) < 1){
+	        		return array(false, 'no devices found.');
+	        	}
+	        	return array(true,$result);
 	}
 
 
