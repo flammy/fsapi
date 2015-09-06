@@ -133,7 +133,14 @@ class radio{
             return array(false,'no host set');
         }
       }
-
+      $sid = $this->fsapi->getsid();
+      if($sid == null){
+	      $response = $this->fsapi->call('CREATE_SESSION');
+	      if($response[0] == false){
+	       return $response;
+	      }
+	      $this->fsapi->setsid($response[1]);
+      }
       return array(true);
     }
    
@@ -156,14 +163,13 @@ class radio{
         foreach($rw as $node => $options){
             if(in_array("GET",$options)){
                 $response  = $this->getSet($node);
+                //print_r($response);
                 if($response[0]){
                     $system[$node] = $response[1];
                 }
             }
         }
         return array(true,$system);
-        
-    
     }
 
 
@@ -755,8 +761,7 @@ class radio{
 
 	public function devicescan(){
 		$ssdp = new ssdp;
-		$ssdp->setDeviceType('upnp:rootdevice');
-//		$ssdp->setDeviceType('urn:schemas-frontier-silicon-com:fs_reference:fsapi:1');
+		$ssdp->setDeviceType('urn:schemas-frontier-silicon-com:fs_reference:fsapi:1');
 		$res = $ssdp->scan();
 		return $res;
 	}
