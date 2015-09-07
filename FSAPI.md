@@ -13,6 +13,19 @@ Where STATUS should be FS_OK if everything is fine with the request.
 
 To keep it simple I will only mention the VALUE field.
 
+## Todo
+
+Needs some research:
+
+### netRemote.sys.clock.localDate
+
+### netRemote.sys.clock.localTime
+
+### netRemote.nav.numItems
+
+### netRemote.nav.searchTerm
+
+### netRemote.nav.action.selectPreset
 
 ## System
 
@@ -738,3 +751,5 @@ Sets / Returns ???
 
 <value><u8>0</u8></value>
 ```
+
+
