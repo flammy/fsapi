@@ -551,7 +551,7 @@ Returns status of the player
 ### netRemote.play.caps
 Method: GET
 
-Returns ???
+Returns ?
 
 ```
 /fsapi/GET/netRemote.play.caps?pin=1337&sid=1672745554
@@ -624,7 +624,7 @@ empty: <value><c8_array></c8_array></value>
 ### netRemote.play.position
 Method: GET
 
-Returns the current position in the track
+Returns the current position in the track in milliseconds
 
 
 ```
@@ -636,7 +636,7 @@ Returns the current position in the track
 ### netRemote.play.info.duration
 Method: 
 
-Returns the duration for the track
+Returns the duration for the track in milliseconds
 
 
 ```
