@@ -44,17 +44,6 @@ Solution: The guys from openhab found a problem while switching the presets. It 
 Some comands fails with  FS_NODE_BLOCKED, I think it is the same problem as above:
 * netRemote.nav.list
 
-
-### 3 german comments
-
-There are some german comments in the code.
-
 ### commands in standby
 
 Not all Commands are available if the device is in standby (maybe also in different modes). There should be a blacklist or whitelist to avoid unnecessary requests.
-
-### autodiscover
-There should be an implementation for ssdp:discover.
-
-### Save settings
-There sould be a function to save / update settings. At the moment there is only a hardcoded config file or a variable.
