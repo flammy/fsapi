@@ -10,17 +10,38 @@ Please let me know if it does not work on your device.
 
 ## Usage:
 
-**Simple PHP example:**
+
+**Class Radio**
+The radio class provides an easy to use set of human readable methods and parameters.
 
 ```
-$radio = new radio(); 
-$radio->setpin('1337');
-$radio->sethost('192.168.0.56');
-$response = $radio->friendly_name();
-print_r($response);
+$radio->mute(true);
+$radio->mute(false);
+$radio->mute('toggle');
 ```
 
-**Example Code:**
+**Class FSAPI**
+The fsapi class provides the abstracted basic communication with the device.
+
+```
+$fsapi->call('SET','netRemote.sys.audio.mute',array('value' => true));
+$fsapi->call('SET','netRemote.sys.audio.mute',array('value' => false));
+```
+**Class SSDP (Simple Service Discovery Protocol)**
+The ssdp class provices the device discovery via UPNP. This is a verry rudimentary class which does only this one thing. 
+
+```
+$ssdp->setDeviceType('urn:schemas-frontier-silicon-com:fs_reference:fsapi:1');
+$ssdp->scan();
+```
+
+
+**More examples**
+
+You can find more detailed examples in the respective php file (sample_XXX.php).
+
+
+**Example implementation:**
 
 You can find an example implementation in the following repository:
 
