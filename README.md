@@ -12,6 +12,7 @@ Please let me know if it does not work on your device.
 
 
 **Class Radio**
+
 The radio class provides an easy to use set of human readable methods and parameters.
 
 ```
@@ -21,6 +22,7 @@ $radio->mute('toggle');
 ```
 
 **Class FSAPI**
+
 The fsapi class provides the abstracted basic communication with the device.
 
 ```
@@ -28,6 +30,7 @@ $fsapi->call('SET','netRemote.sys.audio.mute',array('value' => true));
 $fsapi->call('SET','netRemote.sys.audio.mute',array('value' => false));
 ```
 **Class SSDP (Simple Service Discovery Protocol)**
+
 The ssdp class provices the device discovery via UPNP. This is a verry rudimentary class which does only this one thing. 
 
 ```
