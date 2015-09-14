@@ -234,6 +234,10 @@ class fsapi{
            'netRemote.sys.caps.eqPresets' => array('LIST_GET_NEXT'),
            'netRemote.sys.caps.eqBands' => array('LIST_GET_NEXT'),
            'netRemote.sys.caps.validModes' => array('LIST_GET_NEXT'),
+           
+           'netRemote.sys.clock.localDate' => array('GET'),
+           'netRemote.sys.clock.localTime' => array('GET'),
+           
            'netRemote.sys.mode' => array('GET','SET'),
            'netRemote.sys.power' => array('GET','SET'),
            'netRemote.sys.lang' => array('GET'),

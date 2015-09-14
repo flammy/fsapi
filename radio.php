@@ -64,7 +64,9 @@ class radio{
             'netRemote.play.scrobble' => 'onoff',
             'netRemote.play.repeat' => 'onoff',
             'netRemote.play.shuffle' => 'onoff',
-            'netRemote.play.control' => 'controls'
+            'netRemote.play.control' => 'controls',
+			'netRemote.sys.clock.localDate' => 'time',
+			'netRemote.sys.clock.localTime' => 'time'
    );
         
 
@@ -233,6 +235,16 @@ class radio{
                 case "onoff":
                     return array(true,($response[1] == 1 ? 'on' : 'off'));
                 break;
+				case 'time':
+					// php does support XML-RPC Style
+					$ts = strtotime($response[1]);
+					// Format as time or date
+					if(strlen($response[1]) == 6){
+						return array(true,date("H:i:s",$ts));
+					}else{
+						return array(true,date("Y-m-d",$ts));
+					}
+				break;
                 case "controls":
                     $controls = $this->controls;
                     if(isset($controls[$response[1]])){
@@ -735,13 +747,7 @@ function selectNavItem($item){
 		$response = $this->getSet('netRemote.nav.action.selectItem',$item);
 		$this->navState(0);
 		return $response;
-	
-	
-	
-	 
-	
 }
-
 
 
 
