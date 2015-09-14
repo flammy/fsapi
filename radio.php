@@ -725,6 +725,23 @@ class radio{
 
 
 
+function selectNavItem($item){
+	$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
+		$cre = $this->check_credentials();
+		if($cre[0] == false){
+			return $cre;
+		}
+		$this->navState(1);
+		$response = $this->getSet('netRemote.nav.action.selectItem',$item);
+		$this->navState(0);
+		return $response;
+	
+	
+	
+	 
+	
+}
+
 
 
 
