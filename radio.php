@@ -65,8 +65,8 @@ class radio{
             'netRemote.play.repeat' => 'onoff',
             'netRemote.play.shuffle' => 'onoff',
             'netRemote.play.control' => 'controls',
-			'netRemote.sys.clock.localDate' => 'time',
-			'netRemote.sys.clock.localTime' => 'time'
+			'netRemote.sys.clock.localDate' => 'datetime',
+			'netRemote.sys.clock.localTime' => 'datetime'
    );
         
 
@@ -235,7 +235,7 @@ class radio{
                 case "onoff":
                     return array(true,($response[1] == 1 ? 'on' : 'off'));
                 break;
-				case 'time':
+				case 'datetime':
 					// php does support XML-RPC Style
 					$ts = strtotime($response[1]);
 					// Format as time or date
