@@ -71,7 +71,7 @@ Returns the local Date in XML-RPC date format ( 20150914 = 2015-09-14)
 /fsapi/GET/netRemote.sys.clock.localDate?pin=1337&sid=1947840669
 
 <value><c8_array>20150914</c8_array></value>
-
+```
 
 ### netRemote.sys.clock.localTime
 Method: GET
@@ -82,7 +82,7 @@ Returns the local time in XML-RPC date format ( 093327 = 09:33:27)
 /fsapi/GET/netRemote.sys.clock.localTime?pin=1337&sid=1947840669
 
 <value><c8_array>093327</c8_array></value>
-
+```
 
 ### netRemote.sys.net.wired.interfaceEnable
 Method: GET
