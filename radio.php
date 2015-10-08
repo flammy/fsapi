@@ -165,12 +165,18 @@ class radio{
         foreach($rw as $node => $options){
             if(in_array("GET",$options)){
                 $response  = $this->getSet($node);
+				//echo $node;
+				//print_r($this->notifies());
                 //print_r($response);
                 if($response[0]){
                     $system[$node] = $response[1];
                 }
             }
         }
+		//echo "volume(up)";
+		//$this->volume('up');
+		//$notify = $this->notifies();
+		//print_r($notify);
         return array(true,$system);
     }
 
@@ -198,7 +204,10 @@ class radio{
 			if(!$response[0]){
                 return $response;
             }
+			//$notify = $this->notifies();
+			//print_r($notify);
         }
+
         $response  = $this->fsapi->call('GET',$node);
 		$this->debug($response,4);
         if(!$response[0]){
@@ -457,6 +466,42 @@ class radio{
 
 
 	/**
+	 *	Toggles the shuffle state
+	 *
+	 *	@var string $value 				string "toggle" to invert current state or bool 0/1
+	 *
+	 *	@return array first parameter: bool success, second parameter: string (error message || result)
+	 *
+	 */
+    public function shuffle($value = null){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
+        if($value === 'toggle'){
+            return $this->toggle('netRemote.play.shuffle');
+        }else{
+            return $this->getSet('netRemote.play.shuffle',$value);
+        }
+    }
+
+
+	/**
+	 *	Toggles the shuffle state
+	 *
+	 *	@var string $value 				string "toggle" to invert current state or bool 0/1
+	 *
+	 *	@return array first parameter: bool success, second parameter: string (error message || result)
+	 *
+	 */
+    public function repeat($value = null){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
+        if($value === 'toggle'){
+            return $this->toggle('netRemote.play.repeat');
+        }else{
+            return $this->getSet('netRemote.play.repeat',$value);
+        }
+    }
+
+	
+	/**
 	 *	sets eq-preset
 	 *
 	 *	@var int $value 				id of the eq-preset
@@ -468,8 +513,6 @@ class radio{
 		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         return $this->getSetList('eqs', 'netRemote.sys.audio.eqPreset',$value);
     }
-
-	
 	
 
 	/*
@@ -700,27 +743,15 @@ class radio{
     }
 
 
-	/* Incomplete Functions
-	 *
-	 * There are problems with the following functions or they are not tested yet.
-	 *
-	 * Please feeld free to contribute to the testing.
-	 *
-	 */
-
-
-
 
 
 
 
    /*
-    * I dont know what this function does:  
+    * Get the amount of navigation Items for  selectNavItem
     *
-    * There is a 6 in my wireshark logs
-    *
-    * If i test manualy it returns -1 on dab, 0 on fm, 0 on aux, 0 on internetradio but 1 on music archive 
-    *
+    * @return array first parameter: bool success, second parameter: string (error message || result)
+    * 
     */
 
 	public function numItems(){
@@ -737,7 +768,7 @@ class radio{
 
 
 
-function selectNavItem($item){
+function selectNavItem($item = null){
 	$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
 		$cre = $this->check_credentials();
 		if($cre[0] == false){
@@ -767,6 +798,7 @@ function selectNavItem($item){
 		$this->navState(1);
 		$response = $this->fsapi->call('GET_NOTIFIES');
 		$this->navState(0);
+		
 		$this->debug($response,4);
 		return $response;
 	}
