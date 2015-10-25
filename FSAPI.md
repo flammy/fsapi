@@ -13,6 +13,72 @@ Where STATUS should be FS_OK if everything is fine with the request.
 
 To keep it simple I will only mention the VALUE field.
 
+
+
+### netRemote.multiroom.device.listAll
+Method: LIST_GET_NEXT
+
+Is part of the new api version
+
+```
+/fsapi/LIST_GET_NEXT/netRemote.multiroom.device.listAll/-1?pin=1337&maxItems=10
+
+FS_NODE_DOES_NOT_EXIST
+
+```
+
+### netRemote.multiroom.group.name
+Method: GET
+
+Is part of the new api version
+
+```
+/fsapi/GET/netRemote.multiroom.group.name?pin=1337
+
+FS_NODE_DOES_NOT_EXIST
+
+```
+
+### netRemote.multiroom.group.id
+Method: GET
+
+Is part of the new api version
+
+```
+/fsapi/GET/netRemote.multiroom.group.id?pin=1337
+
+FS_NODE_DOES_NOT_EXIST
+
+```
+
+### netRemote.multiroom.group.state
+Method: GET
+
+Is part of the new api version
+
+```
+/fsapi/GET/netRemote.multiroom.group.state?pin=1337
+
+FS_NODE_DOES_NOT_EXIST
+
+```
+
+### netRemote.multiroom.device.serverStatus
+Method: GET
+
+Is part of the new api version
+
+```
+/fsapi/GET/netRemote.multiroom.device.serverStatus?pin=1337
+
+FS_NODE_DOES_NOT_EXIST
+
+```
+
+
+
+
+
 ### netRemote.nav.action.dabPrune
 
 TODO
@@ -20,6 +86,8 @@ TODO
 ### netRemote.nav.action.dabScan
 
 TODO
+
+Starts Scan for DAB Channels
 
 Method: GET
 
@@ -33,14 +101,14 @@ Returns ???
 
 ### netRemote.nav.action.navigate
 
-TODO
+Selects the current menu entry (see netRemote.nav.list)
 
-Method: GET, SET
+Method: SET
 
-Sets / Returns ???
 
 ```
-FS_NODE_BLOCKED
+/fsapi/SET/netRemote.nav.action.navigate?pin=1337&value=0
+
 ```
 
 ### netRemote.nav.action.selectItem
@@ -56,7 +124,15 @@ FS_NODE_BLOCKED
 ```
 ### netRemote.nav.action.selectPreset
 
-TODO
+Selects a  favorite Radio Stations (see netRemote.nav.presets)
+
+Method: GET/SET
+
+```
+/fsapi/SET/netRemote.nav.action.selectPreset?pin=1337&value=0
+
+```
+
 
 ### netRemote.nav.caps
 
@@ -69,7 +145,7 @@ Sets / Returns ???
 ```
 /fsapi/GET/netRemote.nav.caps?pin=1337&sid=779967663
 
-<value><u32>0</u32></value>
+<value><u32>3</u32></value>
 
 ```
 
@@ -83,14 +159,36 @@ TODO
 
 ### netRemote.nav.list
 
-TODO
+get the menu for the current mode
 
 Method: LIST_GET_NEXT
 
-Lists ??? 
 
 ```
-Example
+fsapi/LIST_GET_NEXT/netRemote.nav.list/-1?pin=1337&maxItems=10
+
+        <itemkey="0">
+            <fieldname="name">
+                <c8_array>Meine Favoriten</c8_array>
+                </field>
+            <fieldname="type">
+                <u8>0</u8>
+                </field>
+            <field name="subtype">
+                <u8>0</u8>
+                </field>
+        </item>
+       <item key="1">
+            <field name="name">
+                <c8_array>Lokal Deutschland</c8_array>
+                </field>
+            <field name="type">
+                <u8>0</u8>
+            </field>
+            <fieldname="subtype">
+                <u8>0</u8>
+            </field>
+        </item>
 ```
            
 ### netRemote.nav.numItems
@@ -99,14 +197,22 @@ TODO
 
 ### netRemote.nav.presets
 
-TODO
-
 Method: LIST_GET_NEXT
 
-Lists ??? 
+Lists all favorite Radio Stations for the current mode
 
 ```
-Example
+/fsapi/LIST_GET_NEXT/netRemote.nav.presets/-1?pin=1337&maxItems=10
+
+        <item key="0">
+            <field name="name">
+            <c8_array>1LIVE</c8_array>
+        </field>
+        <item key="1">
+            <field name="name">
+            <c8_array>Deutschlandfunk 91.3</c8_array>
+        </field>
+
 ```
 
 ### netRemote.nav.searchTerm
@@ -126,19 +232,22 @@ Sets / Returns ???
 /fsapi/GET/netRemote.nav.state?pin=1337&sid=1974440588
 
 
-<value><u8>0</u8></value>
+<value><u8>1</u8></value>
+
 ```
 
 ### netRemote.nav.status
 
-TODO
+gets called until it returns 1 (after nav.action.navigate and before nav.list  )
 
 Method: GET, SET
 
 Sets / Returns ???
 
 ```
-<status>FS_NODE_BLOCKED</status>
+/fsapi/GET/netRemote.nav.status?pin=1337
+
+<value><u8>0</u8></value>
 ```
 
 
@@ -182,7 +291,12 @@ Sets / Return ???
 
 ### netRemote.play.errorStr
 
-TODO
+Method: GET
+```
+/fsapi/GET/netRemote.play.errorStr?pin=1337
+
+<value><c8_array></c8_array></value>
+```
 
 ### netRemote.play.feedback
 
@@ -327,13 +441,42 @@ Returns  whether or not scrobble is enabled or not
 
 TODO
 
+Method: GET
+
+Returns ???
+
+```
+/fsapi/GET/netRemote.play.serviceIds.dabEnsembleId?pin=1337
+
+<value><u16>0</u16></value>
+
+```
+
 ### netRemote.play.serviceIds.dabScids
 
 TODO
 
+Method: GET
+
+```
+/fsapi/GET/netRemote.play.serviceIds.dabScids?pin=1337
+
+<value><u8>0</u8></value>
+
+```
+
 ### netRemote.play.serviceIds.dabServiceId
 
 TODO
+
+Method: GET
+
+```
+/fsapi/GET/netRemote.play.serviceIds.dabServiceId?pin=1337
+
+<value><u32>0</u32></value>
+
+```
 
 ### netRemote.play.serviceIds.ecc
 
@@ -365,6 +508,7 @@ Returns ???
 <value><u16>0</u16></value>
 ```
 
+
 ### netRemote.play.shuffle
 Method: GET, SET
 
@@ -376,6 +520,24 @@ Sets / Returns  whether or not shuffle is enabled or not
 <value><u8>0</u8></value>
 
 ```
+
+### netRemote.play.shuffleStatus
+
+TODO
+
+Method: GET, SET
+
+Is part of the new api version
+
+```
+/fsapi/GET/netRemote.play.shuffleStatus?pin=1337&sid=1843354907
+
+FS_NODE_DOES_NOT_EXIST
+
+```
+
+
+
 
 ### netRemote.play.signalStrength
 Method: GET
@@ -499,7 +661,24 @@ Method: LIST_GET_NEXT
 Lists available dab-frequencies  
 
 ```
-Example ???
+    /fsapi/LIST_GET_NEXT/netRemote.sys.caps.dabFreqList/-1?pin=1337&maxItems=65536
+
+      <item key="0">
+            <fieldname="freq">
+                <u32>174928</u32>
+                </field>
+            <fieldname="label">
+                <c8_array>5A</c8_array>
+            </field>
+        </item>
+      <item key="1">
+            <fieldname="freq">
+                <u32>176640</u32>
+                </field>
+            <fieldname="label">
+                <c8_array>5B</c8_array>
+            </field>
+        </item>
 ```
 
 ### netRemote.sys.caps.eqBands
@@ -658,6 +837,22 @@ TODO
 
 TODO
 
+
+### netRemote.sys.cfg.irAutoPlayFlag
+
+TODO
+
+Method GET,SET
+
+Is part of the new API Version.
+
+```
+/fsapi/SET/netRemote.sys.cfg.irAutoPlayFlag?pin=1337&value=0
+
+FS_NODE_DOES_NOT_EXIST
+
+```
+
 ### netRemote.sys.info.friendlyName
 Method: GET, SET
 
@@ -681,8 +876,13 @@ Returns uniquie? ID Radio-ID
 
 ```
 ### netRemote.sys.info.radioPin
+Method: GET, SET
 
-TODO
+```
+fsapi/SET/netRemote.sys.info.radioPin?pin=1337&value=1337
+```
+
+
 
 ### netRemote.sys.info.version
 Method: GET
@@ -698,11 +898,32 @@ Returns Image-Version String
 
 ### netRemote.sys.isu.control
 
-TODO
+2 = search for updates
+
+
+Method GET,SET
+
+```
+/fsapi/SET/netRemote.sys.isu.control?pin=1337&value=2
+```
 
 ### netRemote.sys.isu.state
 
-TODO
+Shows the update process, default 0
+
+while searching 1
+
+after searching: 0
+
+
+
+Method GET
+
+```
+/fsapi/GET/netRemote.sys.isu.state?pin=1337
+
+<value><u8>1</u8></value>
+```
 
 ### netRemote.sys.isu.version
 
@@ -808,7 +1029,15 @@ Returns the subnet mask for the connected network
 ```
 ### netRemote.sys.net.keepConnected
 
-TODO
+Method GET, SET
+
+If set to 1 network connection is not disconnected in standby
+
+```
+/fsapi/SET/netRemote.sys.net.keepConnected?pin=1337&value=1
+
+```
+
 
 ### netRemote.sys.net.wired.interfaceEnable
 Method: GET
@@ -972,4 +1201,14 @@ TODO
 
 ### netRemote.sys.rsa.status
 
-TODO
+is part of the new api version
+
+### netRemote.sys.rsa.sleep
+
+```
+/fsapi/GET/netRemote.sys.sleep?pin=1337
+
+FS_NODE_DOES_NOT_EXIST
+```
+
+
