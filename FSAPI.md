@@ -113,14 +113,12 @@ Method: SET
 
 ### netRemote.nav.action.selectItem
 
-TODO
+Selects an Menu Item (see netRemove.nav.list)
 
 Method: GET, SET
 
-Sets / Returns ???
-
 ```
-FS_NODE_BLOCKED
+fsapi/SET/netRemote.nav.action.selectItem?pin=1337&value=7
 ```
 ### netRemote.nav.action.selectPreset
 
@@ -217,11 +215,19 @@ Lists all favorite Radio Stations for the current mode
 
 ### netRemote.nav.searchTerm
 
-TODO
+Search in the current navigation (see netRemote.nav.list)
+
+
+```
+/fsapi/SET/netRemote.nav.searchTerm?pin=1337&value=testsuche
+
+```
+
+
 
 ### netRemote.nav.state
 
-TODO
+enables the navigation in the menu (see nav.list)
 
 Method: GET, SET
 
@@ -255,7 +261,14 @@ Sets / Returns ???
 
 ### netRemote.play.addPreset
 
-TODO
+Method: SET
+
+
+Add the current radio stations to the favorites menu
+
+```
+/fsapi/SET/netRemote.play.addPreset?pin=1337&value=5
+```
 
 ### netRemote.play.caps
 
@@ -1195,6 +1208,14 @@ Sets / Returns the current power state
 <value><u8>0</u8></value>
 ```
 
+### netRemote.sys.sleep
+```
+/fsapi/GET/netRemote.sys.sleep?pin=1337
+
+FS_NODE_DOES_NOT_EXIST
+```
+
+
 ### netRemote.sys.rsa.publicKey
 
 TODO
@@ -1203,12 +1224,6 @@ TODO
 
 is part of the new api version
 
-### netRemote.sys.rsa.sleep
 
-```
-/fsapi/GET/netRemote.sys.sleep?pin=1337
-
-FS_NODE_DOES_NOT_EXIST
-```
 
 
