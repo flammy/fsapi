@@ -2,7 +2,7 @@
 date_default_timezone_set('Europe/Paris');
 
 function __autoload($class_name) {
-    include 'classes/'.$class_name . '.php';
+    include dirname(__file__).'/classes/'.$class_name . '.php';
 }
 
 
@@ -529,9 +529,11 @@ class radio{
         if($cre[0] == false){
             return $cre;
         }
-        $this->navState(1);
+        $response = $this->navState();
+        if($response[0] == false || $response[1] == false){
+              $this->navState(1);
+        }
         $response = $this->getSet('netRemote.nav.action.selectPreset',$value);
-        $this->navState(0);
         return $response;
     }
 	
@@ -680,7 +682,9 @@ class radio{
 
 
 	/**
-	 *	Toggles Nav-State
+	 *	Toggles Nav-State 
+	 *      Navigation is only possible if state=1 
+         *      A Reset to state=0 will also reset the level of the nested menu (you will start from the beginning)
 	 *
 	 *	@var bool $value 				enable or disable nav.state (0/1)
 	 *
@@ -713,10 +717,13 @@ class radio{
         if($cre[0] == false){
             return $cre;
         }
-        $this->navState(1);
+
+	$response = $this->navState();
+	if($response[0] == false || $response[1] == false){
+		$this->navState(1);
+	}
         $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.nav.presets',array('maxItems' => 20), -1);
 		$this->debug($response,4);
-        $this->navState(0);
         return $response;
     }
 
@@ -735,11 +742,42 @@ class radio{
         if($cre[0] == false){
             return $cre;
         }
-		$this->navState(1);
+        $response = $this->navState();
+        if($response[0] == false || $response[1] == false){
+                $this->navState(1);
+        }
         $response  = $this->fsapi->call('LIST_GET_NEXT','netRemote.nav.list',array('maxItems' => 20), -1);
-		$this->navState(0);
-		$this->debug($response,4);
+	$this->debug($response,4);
+	if($response[0] == true){
+		$response[1][-1] = array('name' => '..','type' => 0, 'subtype' => 0);
+		ksort($response[1]);
+	}
         return $response;
+    }
+
+
+
+
+   /*
+    * Get a list of navigation Items for music archive and dab 
+    *
+    * @return array first parameter: bool success, second parameter: string (error message || result)
+    * 
+    */
+    public function Navigate($item = null){
+                $this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
+        $cre = $this->check_credentials();
+        if($cre[0] == false){
+            return $cre;
+        }
+
+        $response = $this->navState();
+        if($response[0] == false || $response[1] == false){
+                $this->navState(1);
+        }
+
+	$response = $this->getSet('netRemote.nav.action.navigate',$item);
+	return $response;
     }
 
 
@@ -760,9 +798,11 @@ class radio{
 		if($cre[0] == false){
 			return $cre;
 		}
-		$this->navState(1);
+	        $response = $this->navState();
+	        if($response[0] == false || $response[1] == false){
+	                $this->navState(1);
+	        }
 		$response = $this->getSet('netRemote.nav.numItems');
-		$this->navState(0);
 		return $response;
 	}
 
@@ -774,11 +814,43 @@ function selectNavItem($item = null){
 		if($cre[0] == false){
 			return $cre;
 		}
-		$this->navState(1);
+                $response = $this->navState();
+                if($response[0] == false || $response[1] == false){
+                        $this->navState(1);
+                }
+
 		$response = $this->getSet('netRemote.nav.action.selectItem',$item);
-		$this->navState(0);
 		return $response;
 }
+
+
+
+function openNavItem($item = null){
+        $this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
+                $cre = $this->check_credentials();
+                if($cre[0] == false){
+                        return $cre;
+                }
+                $response = $this->navState();
+                if($response[0] == false || $response[1] == false){
+                        $this->navState(1);
+                }
+		$response = $this->NavLists();
+		if(!isset($response[1][$item])){
+			return array(0,'Selected item is not in list');
+		}else{
+			if($response[1][$item]['type'] == 0){
+				// Open folder
+				return $this->Navigate($item);
+			}else{
+				// Open file
+				return $this->selectNavItem($item);
+			}
+			//print_r($response[1][$item]);
+		}
+
+}
+
 
 
 
@@ -795,9 +867,9 @@ function selectNavItem($item = null){
 		if($cre[0] == false){
 			return $cre;
 		}
-		$this->navState(1);
+//		$this->navState(1);
 		$response = $this->fsapi->call('GET_NOTIFIES');
-		$this->navState(0);
+//		$this->navState(0);
 		
 		$this->debug($response,4);
 		return $response;
