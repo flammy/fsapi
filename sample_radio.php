@@ -1,69 +1,62 @@
 <?php
 include('radio.php');
 
+
+/**
+ * Credentials
+ */
+
 $radio = new radio();
-
-// logging
-$radio->setDebugLevel(1);
-$radio->setDebugTarget('STDOUT');
-
-
-
-
-
 $radio->setpin('1337');
 $radio->sethost('192.168.0.46');
-
-$response = $radio->NavLists();
-
-
-//$radio->debug($response,1);
-print_r($response);
+// There is no need to obtain a session, this is done automaticaly by the first command connecting to the radio.
 
 
-/*
+/**
+ * Logging
+ */
 
 
-$response = $radio->mode(2);
+// set the logger to log to stdout
+$radio->setDebugTarget('STDOUT');
+// set the level at which the log is written to the log target (STDOUT)
+$radio->setDebugLevel(2);
+// Log Start to STDOUT
+$radio->debug('START',1);
+// Do not Log Start to STDOUT,because loglevel is to high
+$radio->debug('hidden',3);
 
-print_r($response);
+/**
+ * Basic
+ */
 
-$response = $radio->eq_preset(0);
 
-print_r($response);
-
+// Get the current power state of the device (on or off)
 $response = $radio->power();
+$radio->debug($response,1);
 
-print_r($response);
+// power on
+$response = $radio->power(1);
+$radio->debug($response,1);
 
-$response = $radio->mute(false);
+// power off
+$response = $radio->power(0);
+$radio->debug($response,1);
 
-print_r($response);
+// power switch it back on (inverts the current state)
+$response = $radio->power('toggle');
+$radio->debug($response,1);
 
-$response = $radio->system_info();
+// Get a list with valid operation modes for the device
+$response = $radio->validModes();
+$radio->debug($response,1);
 
-print_r($response);
+// Switch the Device to Mode 2
+$response = $radio->mode(2);
+$radio->debug($response,1);
 
-$response = $radio->system_status();
-
-print_r($response);
-
-
-$response = $radio->system_status();
-
-
-$response = $radio->radioFrequency(10);
-
-$response = $radio->NavPresets();
-
-
-print_r($response);
-
-
-$response = $radio->SelectPreset(2);
-
-
-print_r($response);
-*/
+// Get the current navigation
+$response = $radio->NavLists();
+$radio->debug($response,1);
 
 ?>

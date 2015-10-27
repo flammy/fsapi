@@ -12,9 +12,6 @@ class fsapi{
     protected  $operation = null;
     protected  $loglevel = false;
     
-    
-    
-
 
     /**
      *  returns the local and the protected pin variable
@@ -52,7 +49,7 @@ class fsapi{
     /**
      *  returns the local and the protected rw variable
      *
-     *  @return array with all available nodes and their operations
+     *  @return array with all available nodes and their operations (if value is null, there is no node validation)
      *
      */
     public function getrw(){
@@ -104,10 +101,6 @@ class fsapi{
     }
 
 
-
-
-
-
     /**
      *  sets the local and the protected pin variable
      *
@@ -145,7 +138,7 @@ class fsapi{
     /**
      *  sets the local and the protected rw variable
      *
-     *  @var array with all available nodes and their operations
+     *  @var array with all available nodes and their operations (if set to null, there is no node validation)
      *
      */
     public function setrw($rw){
@@ -196,7 +189,7 @@ class fsapi{
     }
 
 
-    /*
+    /**
      *  Constructor - prepares initial settings fot the connection
      *
      */
@@ -234,10 +227,8 @@ class fsapi{
            'netRemote.sys.caps.eqPresets' => array('LIST_GET_NEXT'),
            'netRemote.sys.caps.eqBands' => array('LIST_GET_NEXT'),
            'netRemote.sys.caps.validModes' => array('LIST_GET_NEXT'),
-           
            'netRemote.sys.clock.localDate' => array('GET'),
            'netRemote.sys.clock.localTime' => array('GET'),
-           
            'netRemote.sys.mode' => array('GET','SET'),
            'netRemote.sys.power' => array('GET','SET'),
            'netRemote.sys.lang' => array('GET'),
@@ -267,15 +258,15 @@ class fsapi{
            'netRemote.nav.status' => array('GET','SET'),
            'netRemote.nav.presets' => array('LIST_GET_NEXT'),
            'netRemote.nav.list' => array('LIST_GET_NEXT'),
-           
            'netRemote.nav.action.selectItem' => array('GET','SET'),
            'netRemote.nav.action.navigate' => array('GET','SET'),
            'netRemote.nav.caps' => array('GET'),
            'netRemote.nav.state' => array('GET','SET'),
            'netRemote.nav.action.selectPreset' => array('GET','SET'),
-	         'netRemote.nav.numItems' => array('GET'),
+	       'netRemote.nav.numItems' => array('GET'),
        );
 
+       // Initial Input validation for nodes to prevent communication overhead 
        $this->validation = array(
             'netRemote.sys.audio.volume' => array('between',array(0,20)),
             'netRemote.sys.audio.mute' => array('bool'),
@@ -283,19 +274,18 @@ class fsapi{
             'netRemote.play.shuffle' => array('bool'),
             'netRemote.play.repeat' => array('bool'),
             'netRemote.nav.state' => array('bool'),
-            
             'netRemote.sys.audio.eqPreset' => array('between',array(0,5)),
             'netRemote.play.control' => array('between',array(0,4)),
        );
 
-
+       // Initial valid methods 
        $this->operation = array('SET','GET','LIST_GET','LIST_GET_NEXT','CREATE_SESSION','DELETE_SESSION','GET_NOTIFIES');
 
        $this->loglevel = 0;
        $this->logtarget = FALSE;
    }
 
-    /*
+    /**
      *  Descructor - prepares shutdown and cleanup
      *
      */
@@ -308,7 +298,7 @@ class fsapi{
     }
 
 
-    /*
+    /**
      * Converting a field to the right datatype
      *
      *  @var array $response - the raw-array with the requested data from the device
@@ -338,7 +328,7 @@ class fsapi{
     }
 
 
-    /*
+    /**
      * Converting a list to an array
      *
      *  @var array $response - the raw-array with the requested data from the device
@@ -381,7 +371,7 @@ class fsapi{
 
 
 
-    /*
+    /**
      * checks if a given value passes the given validation rules for an node
      *
      *  @var mixed $attr - the value to check
@@ -415,7 +405,7 @@ class fsapi{
     }
 
 
-    /*
+    /**
      * Function for making a request
      *
      *  @var string $operation - the Operation (eg SET)
@@ -548,7 +538,7 @@ class fsapi{
 
 
 
-    /*
+    /**
      *  Adds the current Date as Prefix to the message
      *
      *  @var string $message - the message
@@ -561,7 +551,7 @@ class fsapi{
     }
     
 
-    /*
+    /**
      *  Writes logs to whatever
      *
      *  @var string $message - the message

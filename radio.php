@@ -1,6 +1,10 @@
 <?php
 date_default_timezone_set('Europe/Paris');
 
+/**
+ *	Autoload function, to load all classes in the classes folder
+ *
+ */
 function __autoload($class_name) {
     include dirname(__file__).'/classes/'.$class_name . '.php';
 }
@@ -165,18 +169,11 @@ class radio{
         foreach($rw as $node => $options){
             if(in_array("GET",$options)){
                 $response  = $this->getSet($node);
-				//echo $node;
-				//print_r($this->notifies());
-                //print_r($response);
                 if($response[0]){
                     $system[$node] = $response[1];
                 }
             }
         }
-		//echo "volume(up)";
-		//$this->volume('up');
-		//$notify = $this->notifies();
-		//print_r($notify);
         return array(true,$system);
     }
 
@@ -267,7 +264,7 @@ class radio{
     
    
 	/**
-	 *	gets a list of available modes from the device 
+	 *	gets a list of available modes from the device and stores it in $this->modes
 	 *
 	 */
 	public function updateModes(){
@@ -290,8 +287,8 @@ class radio{
 
 
 	/**
-	 *	gets a list of available eqs-presets from the device 
-	 *
+	 *	Gets a list of available eqs-presets from the device and stores it in $this->eqs
+	 *	
 	 */
 	public function updateEqs(){
 		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
@@ -515,7 +512,7 @@ class radio{
     }
 	
 
-	/*
+	/**
 	 * sets an favorite radio station for the current mode
 	 *
 	 * @var int $value 				id of the favorite
@@ -639,9 +636,6 @@ class radio{
 		$this->debug($response,4);
         return $response;
     }
-
-
-
    
 	/**
 	 *	Tunes to a FM-Frequency
@@ -678,13 +672,10 @@ class radio{
 	}
 
 
-
-
-
 	/**
 	 *	Toggles Nav-State 
-	 *      Navigation is only possible if state=1 
-         *      A Reset to state=0 will also reset the level of the nested menu (you will start from the beginning)
+	 *  Navigation is only possible if state=1 
+     *  A Reset to state=0 will also reset the level of the nested menu (you will start from the beginning)
 	 *
 	 *	@var bool $value 				enable or disable nav.state (0/1)
 	 *
@@ -730,7 +721,7 @@ class radio{
 
 
 
-   /*
+   /**
     * Get a list of navigation Items for music archive and dab 
     *
     * @return array first parameter: bool success, second parameter: string (error message || result)
@@ -757,9 +748,56 @@ class radio{
 
 
 
+   /**
+    * Get the amount of navigation Items for the current level (see NavList)
+    *
+    * @return array first parameter: bool success, second parameter: string (error message || result)
+    * 
+    */
 
-   /*
-    * Get a list of navigation Items for music archive and dab 
+	public function numItems(){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
+		$cre = $this->check_credentials();
+		if($cre[0] == false){
+			return $cre;
+		}
+	        $response = $this->navState();
+	        if($response[0] == false || $response[1] == false){
+	                $this->navState(1);
+	        }
+		$response = $this->getSet('netRemote.nav.numItems');
+		return $response;
+	}
+
+
+   /**
+    * Opens a Media-File from the current navigation level (see NavList)
+    *
+    * This only works for Elements with type 1 (files)
+    *
+    * @return array first parameter: bool success, second parameter: string (error message || result)
+    * 
+    */
+	public function selectNavItem($item = null){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
+			$cre = $this->check_credentials();
+			if($cre[0] == false){
+				return $cre;
+			}
+	                $response = $this->navState();
+	                if($response[0] == false || $response[1] == false){
+	                        $this->navState(1);
+	                }
+
+			$response = $this->getSet('netRemote.nav.action.selectItem',$item);
+			return $response;
+	}
+
+
+   /**
+    * Navigate into a Folder in the current navigation level (see NavList)
+    *
+    * This only works for Elements with type 0 (folders)
     *
     * @return array first parameter: bool success, second parameter: string (error message || result)
     * 
@@ -782,84 +820,48 @@ class radio{
 
 
 
-
-
-
-   /*
-    * Get the amount of navigation Items for  selectNavItem
+   /**
+    * Opens an navigation item in the current navigation level (see NavList)
+    *
+    * Executes Navigate or selectNavItem based on the type of the item
     *
     * @return array first parameter: bool success, second parameter: string (error message || result)
     * 
     */
+	function openNavItem($item = null){
+	        $this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
+	                $cre = $this->check_credentials();
+	                if($cre[0] == false){
+	                        return $cre;
+	                }
+	                $response = $this->navState();
+	                if($response[0] == false || $response[1] == false){
+	                        $this->navState(1);
+	                }
+			$response = $this->NavLists();
+			if(!isset($response[1][$item])){
+				return array(0,'Selected item is not in list');
+			}else{
+				if($response[1][$item]['type'] == 0){
+					// Open folder
+					return $this->Navigate($item);
+				}else{
+					// Open file
+					return $this->selectNavItem($item);
+				}
+				//print_r($response[1][$item]);
+			}
 
-	public function numItems(){
-		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
-		$cre = $this->check_credentials();
-		if($cre[0] == false){
-			return $cre;
-		}
-	        $response = $this->navState();
-	        if($response[0] == false || $response[1] == false){
-	                $this->navState(1);
-	        }
-		$response = $this->getSet('netRemote.nav.numItems');
-		return $response;
 	}
 
 
-
-function selectNavItem($item = null){
-	$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
-		$cre = $this->check_credentials();
-		if($cre[0] == false){
-			return $cre;
-		}
-                $response = $this->navState();
-                if($response[0] == false || $response[1] == false){
-                        $this->navState(1);
-                }
-
-		$response = $this->getSet('netRemote.nav.action.selectItem',$item);
-		return $response;
-}
-
-
-
-function openNavItem($item = null){
-        $this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
-                $cre = $this->check_credentials();
-                if($cre[0] == false){
-                        return $cre;
-                }
-                $response = $this->navState();
-                if($response[0] == false || $response[1] == false){
-                        $this->navState(1);
-                }
-		$response = $this->NavLists();
-		if(!isset($response[1][$item])){
-			return array(0,'Selected item is not in list');
-		}else{
-			if($response[1][$item]['type'] == 0){
-				// Open folder
-				return $this->Navigate($item);
-			}else{
-				// Open file
-				return $this->selectNavItem($item);
-			}
-			//print_r($response[1][$item]);
-		}
-
-}
-
-
-
-
-
-   /*
-    * I dont know what this function does, it returns FS_TIMEOUT in all cases
+   /**
+    * Aks the radio if something has changed and we need to update our displayed data
     *
-    * This function is called verry often in normal operation
+    * In most cases it returns FS_TIMEOUT
     * 
+    *  @return array first parameter: bool success, second parameter: string (error message || result)
+    *
     */
 	public function notifies(){
 		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
@@ -867,35 +869,60 @@ function openNavItem($item = null){
 		if($cre[0] == false){
 			return $cre;
 		}
-//		$this->navState(1);
 		$response = $this->fsapi->call('GET_NOTIFIES');
-//		$this->navState(0);
-		
 		$this->debug($response,4);
 		return $response;
 	}
 	
 	
+    /**
+     *  Writes logs to whatever
+     *
+     *  @var string $message - the message
+     *
+     *  @var string $message - the loglevel of the message
+     *
+     *  @var string $message - the target (where to log to)
+     *
+     */
 	public function debug($message,$loglevel){
 		$this->fsapi->ioLogger($message,$loglevel);
 	}
+
+
+    /**
+     *  Sets the current loglevel, only messages with lower or same loglevel will be logged
+     *
+     *  @var int $loglevel current loglevel (0=off, 0 < verbose)
+     *
+     */
 	public function setDebugLevel($loglevel){
-		$this->fsapi->setloglevel($loglevel);
-	}
-	public function setDebugTarget($logtarget){
-		$this->fsapi->setlogtarget($logtarget);
+		 array(true,$this->fsapi->setloglevel($loglevel));
 	}
 
+
+    /**
+     *  Sets the target for logging 
+     *
+     *  @var string $logtarget loglevel (ECHO, STDERR, STDOUT,)
+     *
+     */
+	public function setDebugTarget($logtarget){
+		return $this->fsapi->setlogtarget($logtarget);
+	}
+
+
+    /**
+     *  Scans for devices using SSDP
+	 *
+     *  @return array with discovered devices
+     *
+     */
 	public function devicescan(){
 		$ssdp = new ssdp;
 		$ssdp->setDeviceType('urn:schemas-frontier-silicon-com:fs_reference:fsapi:1');
 		$res = $ssdp->scan();
 		return $res;
 	}
-
-
-
-
 }
-
 ?>
