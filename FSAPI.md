@@ -1,6 +1,96 @@
 # FSAPI Documentation
 
-The device returns allways an XML set like this:
+
+The FSAPI is a simple HTTP-API.
+
+You send a HTTP GET request an in return you will get XML.
+
+
+## Nodes
+
+Nodes are the hierarchical path to Object you want to receive or modify.
+
+Example:
+
+If you want to toggle mute or check if the device is muted you can access the node:
+
+```netRemote.sys.audio.mute```
+
+
+## Operations
+
+Operations determine how you interact with the node.
+
+###SET
+
+Sets the value of an node.
+
+###GET
+
+Gets the value of an node.
+
+###LIST_GET_NEXT
+
+Get the next "page" of a list stored in the node.
+
+###CREATE_SESSION
+
+Login with pin an get a Session-ID in return.
+
+###DELETE_SESSION
+
+Logout and destroy the Session-ID.
+
+###GET_NOTIFIES
+
+This is a special Command: The device does not close the HTTP-Request.
+
+With this command you can use the connection like a normal socket, where the device sends you updates about changed nodes.
+
+This Command is only available if a Session-ID is used to authenticate.
+
+It gives you a FS_TIMEOUT error if nothing has changed.
+
+Examples:
+
+```
+GET:
+/fsapi/GET/netRemote.sys.audio.mute?pin=1337&sid=1932538906
+
+SET
+/fsapi/SET/netRemote.sys.audio.mute?pin=1337&sid=1932538906&value=1
+
+
+LIST_GET_NEXT
+/fsapi/LIST_GET_NEXT/netRemote.nav.presets/-1?pin=1337&maxItems=10
+
+
+```
+
+
+
+## Status Codes
+
+The first indicator for the success of your request is the HTTP-Statuscode, it should be 200 if everything is ok.
+
+### HTTP 200 OK
+
+You request is valid: 
+
+The path to the FSAPI is right and you provided the right PIN.
+
+### HTTP 404 Not Found
+
+You get an 404 Status Code if your Session-ID is invalid or you requested a non-existing path.
+
+### HTTP 403 Forbidden
+
+You get an 403 Statuscode if you sent an invalid PIN.
+
+
+## Return Values
+
+If your request is valid (HTTP Status 200 OK) the device returns allways an XML-set like this:
 
 ```
 <fsapiResponse>
@@ -9,10 +99,65 @@ VALUE
 </fsapiResponse>
 ```
 
-Where STATUS should be FS_OK if everything is fine with the request.
+Where VALUE is the requested value and STATUS should be FS_OK if everything is fine with the request.
 
-To keep it simple I will only mention the VALUE field.
+### FS_OK
 
+Everything went well: The command has been executed.
+
+The new value is valid and within the range of the validation rules.
+
+### FS_FAIL
+
+The command hasn't been executed, because your value does not match the validation rules.
+
+### FS_PACKET_BAD
+
+You tried to set the value of an read only node.
+
+
+### FS_NODE_BLOCKED
+
+You tried to SET a node of an operation Mode which is not active.
+
+
+### FS_NODE_DOES_NOT_EXIST
+
+You tried to access an not existing node.
+
+### FS_TIMEOUT
+
+Your Request took to long.
+
+
+### FS_LIST_END
+
+There is no list-entry left.
+
+
+
+
+## Session Handling
+
+The device does only support one session at a time. If you create a new session the old session will be purged.
+
+### Session-ID
+
+If you send only the Session-ID your new requests will fail, if a new session is created by another user.
+
+The Session-ID is not only valid for the current command and can be reused for new commands.
+
+
+## pin
+If you send the pin in every request you can have multiple users, which can cause conflicts between their commands.
+
+
+
+
+## Reference
+
+
+To keep it simple I will only mention the VALUE field of the response.
 
 
 ### netRemote.multiroom.device.listAll
@@ -77,6 +222,9 @@ FS_NODE_DOES_NOT_EXIST
 
 
 
+## nav 
+
+Every change of the system mode, will disable the nav state to reset the current menu-position. It has to be activated with nav.state
 
 
 ### netRemote.nav.action.dabPrune
@@ -103,6 +251,8 @@ Returns ???
 
 Selects the current menu entry (see netRemote.nav.list)
 
+This function works only with folders (type=0)
+
 Method: SET
 
 
@@ -115,7 +265,9 @@ Method: SET
 
 Selects an Menu Item (see netRemove.nav.list)
 
-Method: GET, SET
+This function works only on files (type > 0)
+
+Method: SET
 
 ```
 fsapi/SET/netRemote.nav.action.selectItem?pin=1337&value=7
@@ -157,7 +309,12 @@ TODO
 
 ### netRemote.nav.list
 
-get the menu for the current mode
+Get the menu for the current mode 
+
+To prevent overhead you could get the number of items by netRemote.nav.numItems
+
+The -1 Parameter is the Start-Value, you could provide 4 to get all items with an index greater 4.
+
 
 Method: LIST_GET_NEXT
 
@@ -191,7 +348,18 @@ fsapi/LIST_GET_NEXT/netRemote.nav.list/-1?pin=1337&maxItems=10
            
 ### netRemote.nav.numItems
 
-TODO
+Method: GET
+
+Get the amount of entries for the current navigation-set.
+
+
+```
+/fsapi/GET/netRemote.nav.numItems?pin=1337&sid=973104948
+
+
+<value><s32>21</s32></value>
+```
+
 
 ### netRemote.nav.presets
 
@@ -227,11 +395,14 @@ Search in the current navigation (see netRemote.nav.list)
 
 ### netRemote.nav.state
 
-enables the navigation in the menu (see nav.list)
+Enables the navigation in the menu (see nav.list)
+
+Every change of the system mode, will disable the nav state to reset the current menu-position.
+
 
 Method: GET, SET
 
-Sets / Returns ???
+Sets / Returns the status of the navigation. 
 
 
 ```
@@ -244,11 +415,13 @@ Sets / Returns ???
 
 ### netRemote.nav.status
 
-gets called until it returns 1 (after nav.action.navigate and before nav.list  )
+While the device prepares the menu this node is set to 0, if the menu is ready it is set to 1.
 
-Method: GET, SET
+Busy menus are caused by mode-change or nav.action.navigate
 
-Sets / Returns ???
+Method: GET
+
+Returns the navigation status
 
 ```
 /fsapi/GET/netRemote.nav.status?pin=1337
@@ -290,11 +463,14 @@ empty: <value><u32>0</u32></value>
 
 ### netRemote.play.control
 
-TODO
+Method: GET, SET
 
-ethod: GET, SET
+Scope: Mediaplayer / Radio
 
-Sets / Return ??? 
+Sets / Return the current play-controll mode
+
+1=Play; 2=Pause; 3=Next (song/station); 4=Previous (song/station)
+
 
 ```
 /fsapi/GET/netRemote.play.control?pin=1337&sid=1737628193
@@ -352,7 +528,7 @@ Returns  the name of the artist of the current song
 ```
 
 ### netRemote.play.info.duration
-Method: 
+Method: GET
 
 Returns the duration for the track in milliseconds
 
@@ -404,9 +580,11 @@ empty: <value><c8_array></c8_array></value>
 ```
 
 ### netRemote.play.position
-Method: GET
+Method: GET, SET
 
-Returns the current position in the track in milliseconds
+Sets / Returns the current position in the track in milliseconds
+
+Keep in mind to get the max position by netRemote.play.info.duration.
 
 
 ```
@@ -416,9 +594,11 @@ Returns the current position in the track in milliseconds
 ```
 
 ### netRemote.play.rate
-Method: GET
+Method: GET, SET
 
-Returns the audio-rate for the track
+Sets / Returns the current play-rate multiplier
+
+The value determines the speed of the playback. It can be in the range of -127 to 127 where the negative part plays the current track backwards.
 
 ```
 /fsapi/GET/netRemote.play.rate?pin=1337&sid=635775977
@@ -428,6 +608,8 @@ Returns the audio-rate for the track
 
 ### netRemote.play.repeat
 Method: GET, SET
+
+Scope: Music Player
 
 
 Sets / Returns  whether or not repeat is enabled or not
@@ -525,7 +707,9 @@ Returns ???
 ### netRemote.play.shuffle
 Method: GET, SET
 
-Sets / Returns  whether or not shuffle is enabled or not
+Scope: Music-Player
+
+Sets / Returns whether or not shuffle is enabled or not (1/0)
 
 ```
 /fsapi/GET/netRemote.play.shuffle?pin=1337&sid=1843354907
@@ -569,6 +753,8 @@ Method: GET
 
 Returns status of the player
 
+1=buffering/loading, 2=playing, 3=paused
+
 ```
 /fsapi/GET/netRemote.play.status?pin=1337&sid=973104948
 
@@ -586,7 +772,9 @@ TODO
 ### netRemote.sys.audio.eqCustom.param0
 Method: GET, SET
 
-Sets / Returns the first value for costum eq-settings
+Sets / Returns the first value for costum eq-settings (Bass)
+
+Range: -7 to 7
 
 ```
 /fsapi/GET/netRemote.sys.audio.eqCustom.param0?pin=1337&sid=1789657498
@@ -597,7 +785,10 @@ Sets / Returns the first value for costum eq-settings
 ### netRemote.sys.audio.eqCustom.param1
 Method: GET, SET
 
-Sets / Returns the second value for costum eq-settings
+Sets / Returns the second value for costum eq-settings (Treble)
+
+Range: -7 to 7
+
 
 ```
 /fsapi/GET/netRemote.sys.audio.eqCustom.param1?pin=1337&sid=1636927329
@@ -622,6 +813,8 @@ Method: GET, SET
 
 Sets / Returns whether or not loudness is activated
 
+This function is only available if costum eq is active
+
 ```
 /fsapi/GET/netRemote.sys.audio.eqLoudness?pin=1337&sid=1033306501
 
@@ -634,13 +827,16 @@ Method: GET, SET
 
 Sets / Returns the number of the selected eq-presets
 
+see: netRemote.sys.caps.eqPresets for valid presets.
+
+
 ```
 /fsapi/GET/netRemote.sys.audio.eqPreset?pin=1337&sid=643480027
 
 <value><u8>5</u8></value>
 ```
 
-see: netRemote.sys.caps.eqPresets for valid presets.
+
 
 
 ### netRemote.sys.audio.mute
@@ -657,7 +853,7 @@ Sets / Returns whether or not device is muted
 ### netRemote.sys.audio.volume
 Method: GET, SET
 
-Sets / Returns the volume of the device
+Sets / Returns the volume of the device (Range: 1-20)
 
 ```
 /fsapi/GET/netRemote.sys.audio.volume?pin=1337&sid=218069529
@@ -961,13 +1157,13 @@ Method: GET, SET
 
 Sets / Returns the current operation mode 
 
+see netRemote.sys.caps.validModes for valid operation modes
+
 ```
 /fsapi/GET/netRemote.sys.mode?pin=1337&sid=300029608
 
 <value><u32>4294967295</u32></value>
 ```
-
-see netRemote.sys.caps.validModes for valid operation modes
 
 ### netRemote.sys.net.commitChanges
 
@@ -1201,6 +1397,8 @@ TODO
 Method: GET, SET
 
 Sets / Returns the current power state
+
+If device returns from standby it will only auto-continue to play in radio-modes.
 
 ```
 /fsapi/GET/netRemote.sys.power?pin=1337&sid=150145723
