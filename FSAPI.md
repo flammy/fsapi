@@ -14,8 +14,9 @@ Example:
 
 If you want to toggle mute or check if the device is muted you can access the node:
 
-```netRemote.sys.audio.mute```
-
+```
+netRemote.sys.audio.mute
+```
 
 ## Operations
 
