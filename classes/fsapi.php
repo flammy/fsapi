@@ -11,6 +11,9 @@ class fsapi{
     protected  $validation = null;
     protected  $operation = null;
     protected  $loglevel = false;
+	protected  $unittest_active = false;
+	protected  $unittest_data = array();
+	
     
 
     /**
@@ -478,15 +481,26 @@ class fsapi{
         $this->ioLogger($url,3);
 
         
-        // Requesting...
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER,TRUE);
-        curl_setopt($ch,CURLOPT_TIMEOUT,5);
-        $response = curl_exec($ch);
-        $info = curl_getinfo($ch);
+        if($this->unittest_active == true && (count($this->unittest_data) > 0)){
+        	$this->ioLogger("Emulating CURL Request",3);
+        	$unittest_data = $this->unittest_data;
+        	$response = $unittest_data['response'];
+        	$info = $unittest_data['info'];
+        	$curl_error = $unittest_data['curl_error'];
+        }else{
+        	$this->ioLogger("Running CURL Request",3);
+	        $ch = curl_init();
+	        curl_setopt($ch, CURLOPT_URL, $url);
+	        curl_setopt($ch,CURLOPT_RETURNTRANSFER,TRUE);
+	        curl_setopt($ch,CURLOPT_TIMEOUT,5);
+	        $response = curl_exec($ch);
+	        $info = curl_getinfo($ch);
+	        $curl_error = curl_error($ch);
+	        curl_close($ch);
+        }
+
         if($response === false){
-            $return =  array(false, curl_error($ch));
+            $return =  array(false, $curl_error);
         }elseif($info['http_code'] == 403 ){
             return array(false,'Connection: Incorrect Pin '.$this->pin);
         }elseif($info['http_code'] != 200 ){
@@ -531,7 +545,7 @@ class fsapi{
                     return array(false,"Server: ".$xml->status);
             }
         }
-        curl_close($ch);
+        
         return $return;
     }
     
