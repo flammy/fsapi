@@ -679,7 +679,7 @@ Returns Extended Country Code (decimal notation) as defined in ETSI TS 101 756
 Note: commonly used in Hex notation.  Defined in ETSI TS 101 756, used in conjunction with the first character (in Hex notation) of the dabServiceId to identify the country.
 e.g. 
 dabServiceId 52951 (CED7); ecc 225 (E1); Global Country Code of CE1 = United Kingdom
-dabSerbiceId 57233 (DF91); ecc 224 (E0); gives a Global Country Code of DE0 = Germany
+dabServiceId 57233 (DF91); ecc 224 (E0); gives a Global Country Code of DE0 = Germany
 
 ```
 /fsapi/GET/netRemote.play.serviceIds.ecc?pin=1337
