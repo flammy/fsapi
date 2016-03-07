@@ -634,25 +634,23 @@ Returns  whether or not scrobble is enabled or not
 <value><u8>0</u8></value>
 ```
 ### netRemote.play.serviceIds.dabEnsembleId
-
-TODO
-
 Method: GET
 
-Returns ???
+Returns DAB Ensemble Identifier (decimal notation)
+Note: commonly used in Hex notation.  In this example that would be "C1CE" i.e. the UK's "SDL National" multiplex
 
 ```
 /fsapi/GET/netRemote.play.serviceIds.dabEnsembleId?pin=1337
 
-<value><u16>0</u16></value>
+<value><u16>49614</u16></value>
 
 ```
 
 ### netRemote.play.serviceIds.dabScids
-
-TODO
-
 Method: GET
+
+Returns the DAB Service Component Identifier (decimal notation)
+Note: Nearly always 0 for audio services - Secondary Component services will have a different value - e.g. when tuned to "<<BBC R5LiveSportX"
 
 ```
 /fsapi/GET/netRemote.play.serviceIds.dabScids?pin=1337
@@ -662,44 +660,45 @@ Method: GET
 ```
 
 ### netRemote.play.serviceIds.dabServiceId
-
-TODO
-
 Method: GET
+
+Returns DAB Service Identifier (decimal notation)
+Note: commonly used in Hex notation.  In this example that would be "CED7" i.e. the UK's "Magic Chilled" service
 
 ```
 /fsapi/GET/netRemote.play.serviceIds.dabServiceId?pin=1337
 
-<value><u32>0</u32></value>
+<value><u32>52951</u32></value>
 
 ```
 
 ### netRemote.play.serviceIds.ecc
-
-TODO
-
 Method: GET
-Returns ???
+
+Returns Extended Country Code (decimal notation) as defined in ETSI TS 101 756
+Note: commonly used in Hex notation.  Defined in ETSI TS 101 756, used in conjunction with the first character (in Hex notation) of the dabServiceId to identify the country.
+e.g. 
+dabServiceId 52951 (CED7); ecc 225 (E1); Global Country Code of CE1 = United Kingdom
+dabServiceId 57233 (DF91); ecc 224 (E0); gives a Global Country Code of DE0 = Germany
 
 ```
-/fsapi/GET/netRemote.play.serviceIds.ecc?pin=1337&sid=1194891835
+/fsapi/GET/netRemote.play.serviceIds.ecc?pin=1337
 
+<value><u8>225</u8></value>
 
-<value><u8>224</u8></value>
-
-224 for 1LIVE diGGi
 ```
 
 ### netRemote.play.serviceIds.fmRdsPi
 
-TODO
+TODO : Confirm if this works on other radios
 
 Method: GET
 
-Returns ???
+Returns RDS Programme Identification code (or rather should, the Roberts Stream 93i Returns 0 for all services)
 
 ```
-/fsapi/GET/netRemote.play.serviceIds.fmRdsPi?pin=1337&sid=561010477
+/fsapi/GET/netRemote.play.serviceIds.fmRdsPi?pin=1337
+
 
 <value><u16>0</u16></value>
 ```
