@@ -55,19 +55,3 @@ https://github.com/flammy/fsapi-remote
 Here you can find a documentation of the raw FSAPI reqests and responses:
 
 https://github.com/flammy/fsapi/blob/master/FSAPI.md
-
-
-## Todo:
-
-### 1 Tuning preset radio stations
-
-Solution: The guys from openhab found a problem while switching the presets. It is necessary to set navigation state to 1 before changing the station with: netRemote.nav.action.selectPreset. After that it should be set to 0.
-
-### 2 FS_NODE_BLOCKED 
-
-Some comands fails with  FS_NODE_BLOCKED, I think it is the same problem as above:
-* netRemote.nav.list
-
-### commands in standby
-
-Not all Commands are available if the device is in standby (maybe also in different modes). There should be a blacklist or whitelist to avoid unnecessary requests.
