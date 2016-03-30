@@ -1407,10 +1407,13 @@ If device returns from standby it will only auto-continue to play in radio-modes
 ```
 
 ### netRemote.sys.sleep
+Method: GET, SET
+
+Sets / Returns the Time till Sleep in seconds (0 = No Sleep) [works with Firmware V2.9.10 but not with V2.6.17]
 ```
 /fsapi/GET/netRemote.sys.sleep?pin=1337
 
-FS_NODE_DOES_NOT_EXIST
+<value><u32>97</u32></value>
 ```
 
 
