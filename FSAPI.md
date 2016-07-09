@@ -426,10 +426,23 @@ Method: GET
 Returns the navigation status
 
 ```
-/fsapi/GET/netRemote.nav.status?pin=1337
+/fsapi/GET/netRemote.nav.depth?pin=1337
 
 <value><u8>0</u8></value>
 ```
+
+### netRemote.nav.depth
+
+Method: GET
+
+Returns the current navigation menu depth
+
+```
+/fsapi/GET/netRemote.nav.depth?pin=1337
+
+<value><u8>0</u8></value>
+```
+
 
 
 ## Play
@@ -1059,7 +1072,7 @@ Is part of the new API Version.
 ```
 /fsapi/SET/netRemote.sys.cfg.irAutoPlayFlag?pin=1337&value=0
 
-FS_NODE_DOES_NOT_EXIST
+<value><u8>0</u8></value>
 
 ```
 
@@ -1105,6 +1118,20 @@ Returns Image-Version String
 
 <value><c8_array>ir-mmi-FS2026-0500-0036_V2.5.15.EX51267-4RC2</c8_array></value>
 ```
+
+
+### netRemote.sys.info.controllerName
+Method: GET, SET
+
+Get or Set the Name of the Device which is remote-controling the radio
+
+```
+/fsapi/GET/netRemote.sys.info.controllerName?pin=1337
+
+<value><c8_array>Nexus 7</c8_array></value>
+```
+
+
 
 ### netRemote.sys.isu.control
 
@@ -1426,6 +1453,9 @@ TODO
 
 is part of the new api version
 
+### netRemote.sys.ipod.dockStatus
+
+TODO
 
 
 
