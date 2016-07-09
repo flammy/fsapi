@@ -176,43 +176,44 @@ FS_NODE_DOES_NOT_EXIST
 ### netRemote.multiroom.group.name
 Method: GET
 
-Is part of the new api version
+Only Device with Mutiroom-Support, Get Mutiroom Group Name
 
 ```
 /fsapi/GET/netRemote.multiroom.group.name?pin=1337
 
-FS_NODE_DOES_NOT_EXIST
+<value><c8_array>1234</c8_array></value>
 
 ```
 
 ### netRemote.multiroom.group.id
 Method: GET
 
-Is part of the new api version
+Only Device with Mutiroom-Support, 
 
 ```
 /fsapi/GET/netRemote.multiroom.group.id?pin=1337
 
-FS_NODE_DOES_NOT_EXIST
+<value><c8_array>501867A4-42A7-11E6-XXXX-002261E7XXXX</c8_array></value>
 
 ```
 
 ### netRemote.multiroom.group.state
-Method: GET
+Method: GET, SET
 
-Is part of the new api version
+Only Device with Mutiroom-Support, 
+0 = No Group, (1 = Client), 2 = Server
 
 ```
 /fsapi/GET/netRemote.multiroom.group.state?pin=1337
 
-FS_NODE_DOES_NOT_EXIST
+<value><u8>2</u8></value>
 
 ```
 
 ### netRemote.multiroom.device.serverStatus
 Method: GET
 
-Is part of the new api version
+Only Device with Mutiroom-Support, 
 
 ```
 /fsapi/GET/netRemote.multiroom.device.serverStatus?pin=1337
