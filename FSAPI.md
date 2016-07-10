@@ -218,7 +218,7 @@ Only Device with Mutiroom-Support,
 ```
 /fsapi/GET/netRemote.multiroom.device.serverStatus?pin=1337
 
-FS_NODE_DOES_NOT_EXIST
+<value><u8>1</u8></value>
 
 ```
 
