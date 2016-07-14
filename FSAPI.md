@@ -236,7 +236,7 @@ Only Device with Mutiroom-Support,
 ### netRemote.multiroom.group.create
 Method: SET
 
-Only Device with Mutiroom-Support, 
+Only Device with Mutiroom-Support, create new group
 
 ```
 /fsapi/SET/netRemote.multiroom.group.create?pin=1337&value=GroupName
@@ -249,10 +249,22 @@ Only Device with Mutiroom-Support,
 ### netRemote.multiroom.group.addClient
 Method: SET
 
-Only Device with Mutiroom-Support, 
+Only Device with Mutiroom-Support, add device to group
 
 ```
 /fsapi/SET/netRemote.multiroom.group.group.addClient?pin=1337&value=[Device-udn]
+
+<status>FS_NODE_DOES_NOT_EXIST</status>
+
+```
+
+### netRemote.multiroom.group.destroy
+Method: SET
+
+Only Device with Mutiroom-Support, delete Multiroom group
+
+```
+/fsapi/SET/netRemote.multiroom.group.group.destroy?pin=1337&value=1
 
 <status>FS_NODE_DOES_NOT_EXIST</status>
 
@@ -293,6 +305,44 @@ Only Device with Mutiroom-Support,
 /fsapi/GET/netRemote.multiroom.group.state?pin=1337
 
 <value><u8>2</u8></value>
+
+```
+
+
+### netRemote.multiroom.client.volumeX
+Method: GET, SET
+
+Only Device with Mutiroom-Support, Set/Get Volume for device No X (0,1,2,...)
+
+```
+/fsapi/GET/netRemote.multiroom.client.volume0?pin=1337&value=12
+
+<value><u8>20</u8></value>
+
+```
+
+### netRemote.multiroom.client.muteX
+Method: GET, SET
+
+Only Device with Mutiroom-Support, Set/Get MuteState for device No X (0,1,2,...)
+
+```
+/fsapi/GET/netRemote.multiroom.client.mute?pin=1337&value=1
+
+<value><u8>0</u8></value>
+
+```
+
+
+### netRemote.multiroom.group.masterVolume
+Method: GET, SET
+
+Only Device with Mutiroom-Support, Set/Get Volume for all devices
+
+```
+/fsapi/GET/netRemote.multiroom.group.masterVolume?pin=1337&value=12
+
+<value><u8>12</u8></value>
 
 ```
 
