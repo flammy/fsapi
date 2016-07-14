@@ -164,63 +164,187 @@ To keep it simple I will only mention the VALUE field of the response.
 ### netRemote.multiroom.device.listAll
 Method: LIST_GET_NEXT
 
-Is part of the new api version
+Only Device with Mutiroom-Support, shows other Mutiroom devices in the Network
 
 ```
 /fsapi/LIST_GET_NEXT/netRemote.multiroom.device.listAll/-1?pin=1337&maxItems=10
 
-FS_NODE_DOES_NOT_EXIST
+<item key="0">
+<field name="udn"><c8_array>46C19E4A-472B-11E1-9F67-002261ED0770</c8_array></field>
+<field name="friendlyname"><c8_array>DeviceName</c8_array></field>
+<field name="ipaddress"><c8_array>192.168.xxx.xxx</c8_array></field>
+<field name="audiosyncversion"><c8_array>3</c8_array></field>
+<field name="groupid"><c8_array>0AD57A8A-49A8-11E6-XXXX-002261EDXXXX</c8_array></field>
+<field name="groupname"><c8_array>MultirooGroupName</c8_array></field>
+<field name="grouprole"><u8>2</u8></field>
+<field name="clientnumber"><u8>254</u8></field>
+</item>
 
-```
-
-### netRemote.multiroom.group.name
-Method: GET
-
-Is part of the new api version
-
-```
-/fsapi/GET/netRemote.multiroom.group.name?pin=1337
-
-FS_NODE_DOES_NOT_EXIST
-
-```
-
-### netRemote.multiroom.group.id
-Method: GET
-
-Is part of the new api version
-
-```
-/fsapi/GET/netRemote.multiroom.group.id?pin=1337
-
-FS_NODE_DOES_NOT_EXIST
-
-```
-
-### netRemote.multiroom.group.state
-Method: GET
-
-Is part of the new api version
-
-```
-/fsapi/GET/netRemote.multiroom.group.state?pin=1337
-
-FS_NODE_DOES_NOT_EXIST
+<listend/>
 
 ```
 
 ### netRemote.multiroom.device.serverStatus
 Method: GET
 
-Is part of the new api version
+Only Device with Mutiroom-Support, 
 
 ```
 /fsapi/GET/netRemote.multiroom.device.serverStatus?pin=1337
 
-FS_NODE_DOES_NOT_EXIST
+<value><u8>1</u8></value>
 
 ```
 
+### netRemote.multiroom.device.clientIndex
+Method: GET
+
+Only Device with Mutiroom-Support, 
+
+```
+/fsapi/GET/netRemote.multiroom.device.clientIndex?pin=1337
+
+<value><u8>0</u8></value>
+
+```
+
+
+### netRemote.multiroom.device.transportOptimisation
+Method: GET
+
+Only Device with Mutiroom-Support, 
+
+```
+/fsapi/GET/netRemote.multiroom.device.transportOptimisation?pin=1337
+
+<status>FS_NODE_DOES_NOT_EXIST</status>
+
+```
+
+### netRemote.multiroom.group.streamable
+Method: GET
+
+Only Device with Mutiroom-Support, 
+
+```
+/fsapi/GET/netRemote.multiroom.group.streamable?pin=1337
+
+<value><u8>1</u8></value>
+
+```
+
+### netRemote.multiroom.group.create
+Method: SET
+
+Only Device with Mutiroom-Support, create new group
+
+```
+/fsapi/SET/netRemote.multiroom.group.create?pin=1337&value=GroupName
+
+<status>FS_NODE_DOES_NOT_EXIST</status>
+
+```
+
+
+### netRemote.multiroom.group.addClient
+Method: SET
+
+Only Device with Mutiroom-Support, add device to group
+
+```
+/fsapi/SET/netRemote.multiroom.group.group.addClient?pin=1337&value=[Device-udn]
+
+<status>FS_NODE_DOES_NOT_EXIST</status>
+
+```
+
+### netRemote.multiroom.group.destroy
+Method: SET
+
+Only Device with Mutiroom-Support, delete Multiroom group
+
+```
+/fsapi/SET/netRemote.multiroom.group.group.destroy?pin=1337&value=1
+
+<status>FS_NODE_DOES_NOT_EXIST</status>
+
+```
+
+
+### netRemote.multiroom.group.name
+Method: GET
+
+Only Device with Mutiroom-Support, Get Mutiroom Group Name
+
+```
+/fsapi/GET/netRemote.multiroom.group.name?pin=1337
+
+<value><c8_array>1234</c8_array></value>
+
+```
+
+### netRemote.multiroom.group.id
+Method: GET
+
+Only Device with Mutiroom-Support, 
+
+```
+/fsapi/GET/netRemote.multiroom.group.id?pin=1337
+
+<value><c8_array>501867A4-42A7-11E6-XXXX-002261E7XXXX</c8_array></value>
+
+```
+
+### netRemote.multiroom.group.state
+Method: GET, SET
+
+Only Device with Mutiroom-Support, 
+0 = No Group, (1 = Client), 2 = Server
+
+```
+/fsapi/GET/netRemote.multiroom.group.state?pin=1337
+
+<value><u8>2</u8></value>
+
+```
+
+
+### netRemote.multiroom.client.volumeX
+Method: GET, SET
+
+Only Device with Mutiroom-Support, Set/Get Volume for device No X (0,1,2,...)
+
+```
+/fsapi/GET/netRemote.multiroom.client.volume0?pin=1337&value=12
+
+<value><u8>20</u8></value>
+
+```
+
+### netRemote.multiroom.client.muteX
+Method: GET, SET
+
+Only Device with Mutiroom-Support, Set/Get MuteState for device No X (0,1,2,...)
+
+```
+/fsapi/GET/netRemote.multiroom.client.mute?pin=1337&value=1
+
+<value><u8>0</u8></value>
+
+```
+
+
+### netRemote.multiroom.group.masterVolume
+Method: GET, SET
+
+Only Device with Mutiroom-Support, Set/Get Volume for all devices
+
+```
+/fsapi/GET/netRemote.multiroom.group.masterVolume?pin=1337&value=12
+
+<value><u8>12</u8></value>
+
+```
 
 
 ## nav 
@@ -429,6 +553,19 @@ Returns the navigation status
 
 <value><u8>0</u8></value>
 ```
+
+### netRemote.nav.depth
+
+Method: GET
+
+Returns the current navigation menu depth
+
+```
+/fsapi/GET/netRemote.nav.depth?pin=1337
+
+<value><u8>0</u8></value>
+```
+
 
 
 ## Play
@@ -1058,7 +1195,7 @@ Is part of the new API Version.
 ```
 /fsapi/SET/netRemote.sys.cfg.irAutoPlayFlag?pin=1337&value=0
 
-FS_NODE_DOES_NOT_EXIST
+<value><u8>0</u8></value>
 
 ```
 
@@ -1104,6 +1241,20 @@ Returns Image-Version String
 
 <value><c8_array>ir-mmi-FS2026-0500-0036_V2.5.15.EX51267-4RC2</c8_array></value>
 ```
+
+
+### netRemote.sys.info.controllerName
+Method: GET, SET
+
+Get or Set the Name of the Device which is remote-controling the radio
+
+```
+/fsapi/GET/netRemote.sys.info.controllerName?pin=1337
+
+<value><c8_array>Nexus 7</c8_array></value>
+```
+
+
 
 ### netRemote.sys.isu.control
 
@@ -1425,6 +1576,9 @@ TODO
 
 is part of the new api version
 
+### netRemote.sys.ipod.dockStatus
+
+TODO
 
 
 
