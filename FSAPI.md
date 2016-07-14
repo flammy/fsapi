@@ -252,7 +252,7 @@ Method: SET
 Only Device with Mutiroom-Support, 
 
 ```
-/fsapi/SET/netRemote.multiroom.group.group.addClient?pin=1337&value=[Device-ID]
+/fsapi/SET/netRemote.multiroom.group.group.addClient?pin=1337&value=[Device-udn]
 
 <status>FS_NODE_DOES_NOT_EXIST</status>
 
@@ -499,7 +499,7 @@ Method: GET
 Returns the navigation status
 
 ```
-/fsapi/GET/netRemote.nav.depth?pin=1337
+/fsapi/GET/netRemote.nav.status?pin=1337
 
 <value><u8>0</u8></value>
 ```
