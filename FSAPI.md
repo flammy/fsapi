@@ -164,12 +164,23 @@ To keep it simple I will only mention the VALUE field of the response.
 ### netRemote.multiroom.device.listAll
 Method: LIST_GET_NEXT
 
-Is part of the new api version
+Only Device with Mutiroom-Support, shows other Mutiroom devices in the Network
 
 ```
 /fsapi/LIST_GET_NEXT/netRemote.multiroom.device.listAll/-1?pin=1337&maxItems=10
 
-FS_NODE_DOES_NOT_EXIST
+<item key="0">
+<field name="udn"><c8_array>46C19E4A-472B-11E1-9F67-002261ED0770</c8_array></field>
+<field name="friendlyname"><c8_array>DeviceName</c8_array></field>
+<field name="ipaddress"><c8_array>192.168.xxx.xxx</c8_array></field>
+<field name="audiosyncversion"><c8_array>3</c8_array></field>
+<field name="groupid"><c8_array>0AD57A8A-49A8-11E6-XXXX-002261EDXXXX</c8_array></field>
+<field name="groupname"><c8_array>MultirooGroupName</c8_array></field>
+<field name="grouprole"><u8>2</u8></field>
+<field name="clientnumber"><u8>254</u8></field>
+</item>
+
+<listend/>
 
 ```
 
