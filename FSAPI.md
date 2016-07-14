@@ -184,6 +184,81 @@ Only Device with Mutiroom-Support, shows other Mutiroom devices in the Network
 
 ```
 
+### netRemote.multiroom.device.serverStatus
+Method: GET
+
+Only Device with Mutiroom-Support, 
+
+```
+/fsapi/GET/netRemote.multiroom.device.serverStatus?pin=1337
+
+<value><u8>1</u8></value>
+
+```
+
+### netRemote.multiroom.device.clientIndex
+Method: GET
+
+Only Device with Mutiroom-Support, 
+
+```
+/fsapi/GET/netRemote.multiroom.device.clientIndex?pin=1337
+
+<value><u8>0</u8></value>
+
+```
+
+
+### netRemote.multiroom.device.transportOptimisation
+Method: GET
+
+Only Device with Mutiroom-Support, 
+
+```
+/fsapi/GET/netRemote.multiroom.device.transportOptimisation?pin=1337
+
+<status>FS_NODE_DOES_NOT_EXIST</status>
+
+```
+
+### netRemote.multiroom.group.streamable
+Method: GET
+
+Only Device with Mutiroom-Support, 
+
+```
+/fsapi/GET/netRemote.multiroom.group.streamable?pin=1337
+
+<value><u8>1</u8></value>
+
+```
+
+### netRemote.multiroom.group.create
+Method: SET
+
+Only Device with Mutiroom-Support, 
+
+```
+/fsapi/SET/netRemote.multiroom.group.create?pin=1337&value=GroupName
+
+<status>FS_NODE_DOES_NOT_EXIST</status>
+
+```
+
+
+### netRemote.multiroom.group.addClient
+Method: SET
+
+Only Device with Mutiroom-Support, 
+
+```
+/fsapi/SET/netRemote.multiroom.group.group.addClient?pin=1337&value=[Device-ID]
+
+<status>FS_NODE_DOES_NOT_EXIST</status>
+
+```
+
+
 ### netRemote.multiroom.group.name
 Method: GET
 
@@ -220,19 +295,6 @@ Only Device with Mutiroom-Support,
 <value><u8>2</u8></value>
 
 ```
-
-### netRemote.multiroom.device.serverStatus
-Method: GET
-
-Only Device with Mutiroom-Support, 
-
-```
-/fsapi/GET/netRemote.multiroom.device.serverStatus?pin=1337
-
-<value><u8>1</u8></value>
-
-```
-
 
 
 ## nav 
