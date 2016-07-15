@@ -11,10 +11,8 @@ class fsapi{
     protected  $validation = null;
     protected  $operation = null;
     protected  $loglevel = false;
-	protected  $unittest_active = false;
-	protected  $unittest_data = array();
-	
-    
+    protected  $unittest_active = false;
+    protected  $unittest_data = array();
 
     /**
      *  returns the local and the protected pin variable
@@ -91,7 +89,7 @@ class fsapi{
     public function getloglevel(){
         return $this->loglevel;
     }
-    
+
 
     /**
      *  returns the local and the protected logtarget variable
@@ -102,6 +100,33 @@ class fsapi{
     public function getlogtarget(){
         return $this->logtarget;
     }
+
+
+
+
+    /**
+     *  returns the local and the protected unittest_active variable
+     *
+     *  @return bool $unittest_active 
+     *
+     */
+    public function getunittest_active(){
+        return $this->unittest_active;
+    }
+
+
+
+    /**
+     *  returns the local and the protected unittest_data variable
+     *
+     *  @return array $unittest_data 
+     *
+     */
+    public function getunittest_data(){
+        return $this->unittest_data;
+    }
+
+
 
 
     /**
@@ -135,7 +160,6 @@ class fsapi{
     public function setsid($sid){
         $this->sid = $sid;
     }
-
 
 
     /**
@@ -179,7 +203,7 @@ class fsapi{
     public function setloglevel($loglevel){
         $this->loglevel = $loglevel;
     }
-    
+
 
     /**
      *  sets the local and the protected logtarget variable
@@ -190,6 +214,30 @@ class fsapi{
     public function setlogtarget($logtarget){
         $this->logtarget = $logtarget;
     }
+
+
+     /**
+     *  sets the local and the protected unittest_active variable
+     *
+     *  @var bool $unittest_active 
+     *
+     */
+    public function setunittest_active($unittest_active){
+        $this->unittest_active = $unittest_active;
+    }
+
+
+
+    /**
+     *  sets the local and the protected unittest_data variable
+     *
+     *  @var array $unittest_data 
+     *
+     */
+    public function setunittest_data($unittest_data){
+        $this->unittest_data = $unittest_data;
+    }
+
 
 
     /**
@@ -398,7 +446,7 @@ class fsapi{
                 if(is_numeric ($attr) && ($attr >= $method[1][0] && (int) $attr <= $method[1][1])){
                     return array(true, (int) $attr);
                 }else{
-                    return array(false,"Value ".$attr." is not between ".$method[1][0]." and ".$method[1][1]." ");
+                    return array(false,"Value ".$attr." is not between ".$method[1][0]." and ".$method[1][1]);
                 }
             default:
                 return array(false,"No validation rule found");
