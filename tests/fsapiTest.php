@@ -2,6 +2,23 @@
 class fsapiTest extends PHPUnit_Framework_TestCase{
 
 
+       public function testGetSetUnittestActive(){
+               $fsapi = new fsapi();
+               $this->assertEquals(false, $fsapi->getunittest_active());
+               $fsapi->setunittest_active(true);
+               $this->assertEquals(true, $fsapi->getunittest_active());
+       }
+
+
+       public function testGetSetUnittestData(){
+               $fsapi = new fsapi();
+               $this->assertEquals(array(), $fsapi->getunittest_data());
+               $fsapi->setunittest_data(array('test'));
+               $this->assertEquals(array('test'), $fsapi->getunittest_data());
+       }
+
+
+
     public function testGetSetPin(){
 	$fsapi = new fsapi();
 	$input = rand(0,9999);
@@ -115,11 +132,17 @@ class fsapiTest extends PHPUnit_Framework_TestCase{
 	$result = $fsapi->validate(false, array( 0 => 'bool'));
 	$this->assertEquals($result[0], true);
 
+	$result = $fsapi->validate(0, array( 0 => 'bool'));
+	$this->assertEquals($result[0], true);
 
-	$result = $fsapi->validate('abc', array( 0 => 'notfound'));
+	$result = $fsapi->validate(1, array( 0 => 'bool'));
+	$this->assertEquals($result[0], true);
+
+	$result = $fsapi->validate('aaa', array( 0 => 'bool'));
 	$this->assertEquals($result[0], false);
 
     }
+
 
 
     public function testValidateBetween(){
@@ -136,11 +159,10 @@ class fsapiTest extends PHPUnit_Framework_TestCase{
     }
 
 
-    public function testValidateNoRule(){
+public function testValidateNoRule(){
 	$fsapi = new fsapi();
-	// test faild, should be fixed
-	//$result = $fsapi->validate('aaa', array( 0 => 'bool'));
-	//$this->assertEquals($result[0], false);
+	$result = $fsapi->validate('abc', array( 0 => 'notfound'));
+	$this->assertEquals($result[0], false);
 
     }
 
