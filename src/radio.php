@@ -982,6 +982,30 @@ class radio{
 	}
 
 
+
+    /**
+     *  Gets the current loglevel, only messages with lower or same loglevel will be logged
+     *
+     *  @return int current loglevel (0=off, 0 < verbose)
+     *
+     */
+	public function getDebugLevel(){
+		 return $this->fsapi->getloglevel();
+	}
+
+
+    /**
+     *  Sets the target for logging 
+     *
+     *  @return string loglevel (ECHO, STDERR, STDOUT,)
+     *
+     */
+	public function getDebugTarget(){
+		return $this->fsapi->getlogtarget();
+	}
+
+
+
     /**
      *  Scans for devices using SSDP
 	 *
