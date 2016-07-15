@@ -1,15 +1,6 @@
 <?php
 date_default_timezone_set('Europe/Paris');
 
-/**
- *	Autoload function, to load all classes in the classes folder
- *
- */
-function __autoload($class_name) {
-    include dirname(__file__).'/classes/'.$class_name . '.php';
-}
-
-
 
 class radio{
 	/** @var obj $fsapi       		FSAPI-Object */

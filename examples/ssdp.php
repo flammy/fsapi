@@ -1,11 +1,13 @@
 <?php
+
+
 /**
   * This file contains examples for the usage of the ssdp class.
   */
 
 // Autoload all classes from ./classes/
 function __autoload($class_name) {
-    include 'classes/'.$class_name . '.php';
+    include dirname(__file__).'/../src/'.$class_name . '.php';
 }
 
 // create new object from ssdp

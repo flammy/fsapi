@@ -1,6 +1,6 @@
 <?php
 function __autoload($class_name) {
-    include 'classes/'.$class_name . '.php';
+    include dirname(__file__).'/../src/'.$class_name . '.php';
 }
 
 	/**

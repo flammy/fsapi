@@ -1,6 +1,7 @@
 <?php
-include('radio.php');
-
+function __autoload($class_name) {
+    include dirname(__file__).'/../src/'.$class_name . '.php';
+}
 
 /**
  * Credentials
