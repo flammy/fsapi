@@ -102,6 +102,85 @@ class radio{
 		$this->debug($response,4);
     }
    
+
+
+
+    /**
+     *  sets the local and the protected unittest_active variable
+     *
+     *  @var bool $unittest_active 
+     *
+     */
+    public function setunittest_active($unittest_active){
+        $this->fsapi->setunittest_active($unittest_active);
+    }
+
+
+
+    /**
+     *  sets the local and the protected unittest_data variable
+     *
+     *  @var array $unittest_data 
+     *
+     */
+    public function setunittest_data($unittest_data){
+        $this->fsapi->setunittest_data($unittest_data);
+    }
+
+
+
+	/**
+	 *	gets the local and the protected ping@ variable
+	 *
+	 *	@return string 	the pin of the device
+	 *
+	 */
+
+    public function getpin(){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
+        $response = $this->fsapi->getpin();
+		$this->debug($response,4);
+		return $response;
+    }
+	
+	/**
+	 *	gets the local and the protected host variable
+	 *
+	 *	@return string 	the hostname of the device
+	 *
+	 */
+    public function gethost(){
+		$this->debug("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
+        $response = $this->fsapi->gethost();
+		$this->debug($response,4);
+		return $response;
+    }
+
+
+
+    /**
+     *  returns the local and the protected unittest_active variable
+     *
+     *  @return bool $unittest_active 
+     *
+     */
+    public function getunittest_active(){
+        return $this->fsapi->getunittest_active();
+    }
+
+
+
+    /**
+     *  returns the local and the protected unittest_data variable
+     *
+     *  @return array $unittest_data 
+     *
+     */
+    public function getunittest_data(){
+        return $this->fsapi->getunittest_data();
+    }
+
+
    
 	/**
 	 *	checks for login credentials and provides the session to the device
@@ -138,7 +217,7 @@ class radio{
 	      }
 	      $this->fsapi->setsid($response[1]);
       }
-      return array(true);
+      return array(true, 'SESSION_OK');
     }
    
    

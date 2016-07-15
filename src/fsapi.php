@@ -436,7 +436,7 @@ class fsapi{
         $this->ioLogger("Running ".__FUNCTION__." with: ".var_export(func_get_args(),true),3);
         switch($method[0]){
             case 'bool':
-                if($attr == 0 || $attr == 1){
+                if(($attr === 0 || $attr === 1) || is_bool($attr)){
                     return array(true, (bool) $attr);
                 }else{
                     return array(false,"Value ".$attr." is not boolean");
