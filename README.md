@@ -1,4 +1,4 @@
-# fsapi - Frontier Silicon API for PHP
+# fsapi - Frontier Silicon API for PHP [![Build Status](https://travis-ci.org/flammy/fsapi.svg?branch=master)](https://travis-ci.org/flammy/fsapi)
 
 **This code is work in progress! It is not finnished yet, feel free co contribute to it.**
 
@@ -41,7 +41,7 @@ $ssdp->scan();
 
 **More examples**
 
-You can find more detailed examples in the respective php file (sample_XXX.php).
+You can find more detailed examples in the example folder.
 
 
 **Example implementation:**
