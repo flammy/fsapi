@@ -138,6 +138,9 @@ class fsapiTest extends PHPUnit_Framework_TestCase{
 	$result = $fsapi->validate(1, array( 0 => 'bool'));
 	$this->assertEquals($result[0], true);
 
+        $result = $fsapi->validate(2, array( 0 => 'bool'));
+	$this->assertEquals($result[0], false);
+
 	$result = $fsapi->validate('aaa', array( 0 => 'bool'));
 	$this->assertEquals($result[0], false);
 
@@ -187,7 +190,41 @@ public function testValidateNoRule(){
 	$this->assertEquals($result[0], false);
     }
 
+    public function testIoDater(){
+	$fsapi = new fsapi();
+	$message = "teststring";
+	$ts = time();
+	$result = $fsapi->ioDater($message);
+	$preg_result = preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} '.$message.'$/', $result,$matches);
+	$this->assertEquals($preg_result, 1);
+	$this->assertGreaterThanOrEqual(strtotime($matches[0]),$ts);
 
+
+    }
+
+    public function testIoLogger(){
+    	$fsapi = new fsapi();
+    	$message = "teststring";
+    	$ts = time();
+    	$tempnam = tempnam("/tmp", "FSAPI");
+
+    	$fsapi->setloglevel(3);
+    	//$fsapi->ioLogger($message,3,'ECHO');
+    	//$fsapi->ioLogger($message,3,'STDERR');
+    	//$fsapi->ioLogger($message,3,'STDOUT');
+    	if($tempnam !== false){
+    		$fsapi->ioLogger($message,2,$tempnam);
+    		$file_contents = trim(file_get_contents($tempnam));
+    		$preg_result = preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} \''.$message.'\'$/', $file_contents,$matches);
+    		$this->assertEquals($preg_result, 1);
+    		$this->assertGreaterThanOrEqual(strtotime($matches[0]),$ts);
+    		unlink($tempnam);
+    	}
+    	ob_start();
+    	$fsapi->ioLogger($message,2,'ECHO');
+    	$ob_contents = ob_get_clean();
+		$preg_result = preg_match('/^\''.$message.'\'$/', $ob_contents,$matches);
+		$this->assertEquals($preg_result, 1);
+
+    }
 }
-
-
