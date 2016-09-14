@@ -22,27 +22,27 @@ netRemote.sys.audio.mute
 
 Operations determine how you interact with the node.
 
-###SET
+#### SET
 
 Sets the value of an node.
 
-###GET
+#### GET
 
 Gets the value of an node.
 
-###LIST_GET_NEXT
+#### LIST_GET_NEXT
 
 Get the next "page" of a list stored in the node.
 
-###CREATE_SESSION
+#### CREATE_SESSION
 
 Login with pin an get a Session-ID in return.
 
-###DELETE_SESSION
+#### DELETE_SESSION
 
 Logout and destroy the Session-ID.
 
-###GET_NOTIFIES
+#### GET_NOTIFIES
 
 This is a special Command: The device does not close the HTTP-Request.
 
@@ -74,17 +74,17 @@ LIST_GET_NEXT
 
 The first indicator for the success of your request is the HTTP-Statuscode, it should be 200 if everything is ok.
 
-### HTTP 200 OK
+#### HTTP 200 OK
 
 You request is valid: 
 
 The path to the FSAPI is right and you provided the right PIN.
 
-### HTTP 404 Not Found
+#### HTTP 404 Not Found
 
 You get an 404 Status Code if your Session-ID is invalid or you requested a non-existing path.
 
-### HTTP 403 Forbidden
+#### HTTP 403 Forbidden
 
 You get an 403 Statuscode if you sent an invalid PIN.
 
@@ -102,36 +102,36 @@ VALUE
 
 Where VALUE is the requested value and STATUS should be FS_OK if everything is fine with the request.
 
-### FS_OK
+#### FS_OK
 
 Everything went well: The command has been executed.
 
 The new value is valid and within the range of the validation rules.
 
-### FS_FAIL
+#### FS_FAIL
 
 The command hasn't been executed, because your value does not match the validation rules.
 
-### FS_PACKET_BAD
+#### FS_PACKET_BAD
 
 You tried to set the value of an read only node.
 
 
-### FS_NODE_BLOCKED
+#### FS_NODE_BLOCKED
 
 You tried to SET a node of an operation Mode which is not active.
 
 
-### FS_NODE_DOES_NOT_EXIST
+#### FS_NODE_DOES_NOT_EXIST
 
 You tried to access an not existing node.
 
-### FS_TIMEOUT
+#### FS_TIMEOUT
 
 Your Request took to long.
 
 
-### FS_LIST_END
+#### FS_LIST_END
 
 There is no list-entry left.
 
@@ -142,14 +142,14 @@ There is no list-entry left.
 
 The device does only support one session at a time. If you create a new session the old session will be purged.
 
-### Session-ID
+#### Session-ID
 
 If you send only the Session-ID your new requests will fail, if a new session is created by another user.
 
 The Session-ID is not only valid for the current command and can be reused for new commands.
 
 
-## pin
+#### Pin
 If you send the pin in every request you can have multiple users, which can cause conflicts between their commands.
 
 
@@ -160,11 +160,83 @@ If you send the pin in every request you can have multiple users, which can caus
 
 To keep it simple I will only mention the VALUE field of the response.
 
+- [Nav](#nav) - menu-navigation 
+- [Play](#play) - settings for current playback
+- [System](#system) - system settings
+- [Platform](#platform) - platform updates
+- [Misc](#misc) - debug and log settings
+- [Test](#test) - iperf console
+- [Spotify*](#spotify) - only for devices with spotify-support
+- [Airplay*](#airplay) - only for devices with airplay-support
+- [Multiroom*](#multiroom) - only for devices with multiroom-support
 
-### netRemote.multiroom.device.listAll
+All topics except the menu are sorted in alphabetical order.
+
+### Airplay
+
+:exclamation: The following comands work only on devices with airplay-support :exclamation:
+
+
+#### netRemote.airplay.clearPassword
+
+Method: ??
+
+Todo 
+
+```
+
+```
+
+#### netRemote.airplay.setPassword
+
+Method: ??
+
+Todo 
+
+```
+
+```
+
+### Multiroom
+
+:exclamation: The following comands work only on devices with mutiroom-support :exclamation:
+
+#### netRemote.multiroom.caps.maxClients
+
+Method: ??
+
+Todo 
+
+```
+
+```
+
+#### netRemote.multiroom.caps.protocolVersion
+
+Method: ??
+
+Todo 
+
+```
+
+```
+
+#### netRemote.multiroom.client.statusX
+
+Method: ??
+
+Todo 
+
+```
+
+```
+
+
+
+#### netRemote.multiroom.device.listAll
 Method: LIST_GET_NEXT
 
-Only Device with Mutiroom-Support, shows other Mutiroom devices in the Network
+Shows other Mutiroom devices in the Network
 
 ```
 /fsapi/LIST_GET_NEXT/netRemote.multiroom.device.listAll/-1?pin=1337&maxItems=10
@@ -184,10 +256,27 @@ Only Device with Mutiroom-Support, shows other Mutiroom devices in the Network
 
 ```
 
-### netRemote.multiroom.device.serverStatus
+#### netRemote.multiroom.device.listAllVersion
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+
+#### netRemote.multiroom.device.serverStatus
+
+TODO
+
 Method: GET
 
-Only Device with Mutiroom-Support, 
+???
+
 
 ```
 /fsapi/GET/netRemote.multiroom.device.serverStatus?pin=1337
@@ -196,10 +285,16 @@ Only Device with Mutiroom-Support,
 
 ```
 
-### netRemote.multiroom.device.clientIndex
+#### netRemote.multiroom.device.clientStatus
+
+
+#### netRemote.multiroom.device.clientIndex
+
+TODO
+
 Method: GET
 
-Only Device with Mutiroom-Support, 
+???
 
 ```
 /fsapi/GET/netRemote.multiroom.device.clientIndex?pin=1337
@@ -209,10 +304,13 @@ Only Device with Mutiroom-Support,
 ```
 
 
-### netRemote.multiroom.device.transportOptimisation
+#### netRemote.multiroom.device.transportOptimisation
+
+TODO
+
 Method: GET
 
-Only Device with Mutiroom-Support, 
+???
 
 ```
 /fsapi/GET/netRemote.multiroom.device.transportOptimisation?pin=1337
@@ -221,10 +319,37 @@ Only Device with Mutiroom-Support,
 
 ```
 
-### netRemote.multiroom.group.streamable
+
+#### netRemote.multiroom.group.becomeServer
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.multiroom.group.removeClient
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.multiroom.group.streamable
+TODO
+
 Method: GET
 
-Only Device with Mutiroom-Support, 
+???
 
 ```
 /fsapi/GET/netRemote.multiroom.group.streamable?pin=1337
@@ -233,10 +358,10 @@ Only Device with Mutiroom-Support,
 
 ```
 
-### netRemote.multiroom.group.create
+#### netRemote.multiroom.group.create
 Method: SET
 
-Only Device with Mutiroom-Support, create new group
+Create new group
 
 ```
 /fsapi/SET/netRemote.multiroom.group.create?pin=1337&value=GroupName
@@ -246,10 +371,10 @@ Only Device with Mutiroom-Support, create new group
 ```
 
 
-### netRemote.multiroom.group.addClient
+#### netRemote.multiroom.group.addClient
 Method: SET
 
-Only Device with Mutiroom-Support, add device to group
+Add device to group
 
 ```
 /fsapi/SET/netRemote.multiroom.group.group.addClient?pin=1337&value=[Device-udn]
@@ -258,10 +383,23 @@ Only Device with Mutiroom-Support, add device to group
 
 ```
 
-### netRemote.multiroom.group.destroy
+#### netRemote.multiroom.group.attachedClients
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+
+#### netRemote.multiroom.group.destroy
 Method: SET
 
-Only Device with Mutiroom-Support, delete Multiroom group
+Delete Multiroom group
 
 ```
 /fsapi/SET/netRemote.multiroom.group.group.destroy?pin=1337&value=1
@@ -271,10 +409,10 @@ Only Device with Mutiroom-Support, delete Multiroom group
 ```
 
 
-### netRemote.multiroom.group.name
+#### netRemote.multiroom.group.name
 Method: GET
 
-Only Device with Mutiroom-Support, Get Mutiroom Group Name
+Get Mutiroom Group Name
 
 ```
 /fsapi/GET/netRemote.multiroom.group.name?pin=1337
@@ -283,10 +421,12 @@ Only Device with Mutiroom-Support, Get Mutiroom Group Name
 
 ```
 
-### netRemote.multiroom.group.id
+#### netRemote.multiroom.group.id
+TODO
+
 Method: GET
 
-Only Device with Mutiroom-Support, 
+???
 
 ```
 /fsapi/GET/netRemote.multiroom.group.id?pin=1337
@@ -295,10 +435,9 @@ Only Device with Mutiroom-Support,
 
 ```
 
-### netRemote.multiroom.group.state
+#### netRemote.multiroom.group.state
 Method: GET, SET
 
-Only Device with Mutiroom-Support, 
 0 = No Group, (1 = Client), 2 = Server
 
 ```
@@ -309,10 +448,10 @@ Only Device with Mutiroom-Support,
 ```
 
 
-### netRemote.multiroom.client.volumeX
+#### netRemote.multiroom.client.volumeX
 Method: GET, SET
 
-Only Device with Mutiroom-Support, Set/Get Volume for device No X (0,1,2,...)
+Set/Get Volume for device No X (0,1,2,...)
 
 ```
 /fsapi/GET/netRemote.multiroom.client.volume0?pin=1337&value=12
@@ -321,10 +460,10 @@ Only Device with Mutiroom-Support, Set/Get Volume for device No X (0,1,2,...)
 
 ```
 
-### netRemote.multiroom.client.muteX
+#### netRemote.multiroom.client.muteX
 Method: GET, SET
 
-Only Device with Mutiroom-Support, Set/Get MuteState for device No X (0,1,2,...)
+Set/Get MuteState for device No X (0,1,2,...)
 
 ```
 /fsapi/GET/netRemote.multiroom.client.mute?pin=1337&value=1
@@ -334,10 +473,10 @@ Only Device with Mutiroom-Support, Set/Get MuteState for device No X (0,1,2,...)
 ```
 
 
-### netRemote.multiroom.group.masterVolume
+#### netRemote.multiroom.group.masterVolume
 Method: GET, SET
 
-Only Device with Mutiroom-Support, Set/Get Volume for all devices
+Set/Get Volume for all devices
 
 ```
 /fsapi/GET/netRemote.multiroom.group.masterVolume?pin=1337&value=12
@@ -346,17 +485,48 @@ Only Device with Mutiroom-Support, Set/Get Volume for all devices
 
 ```
 
+### Misc
 
-## nav 
+#### netRemote.misc.fsDebug.component
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+#### netRemote.misc.fsDebug.traceLevel
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+
+### Nav 
 
 Every change of the system mode, will disable the nav state to reset the current menu-position. It has to be activated with nav.state
 
 
-### netRemote.nav.action.dabPrune
+#### netRemote.nav.action.dabPrune
 
 TODO
 
-### netRemote.nav.action.dabScan
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.nav.action.dabScan
 
 TODO
 
@@ -372,7 +542,7 @@ Returns ???
 <value><u8>0</u8></value>
 ```
 
-### netRemote.nav.action.navigate
+#### netRemote.nav.action.navigate
 
 Selects the current menu entry (see netRemote.nav.list)
 
@@ -386,7 +556,7 @@ Method: SET
 
 ```
 
-### netRemote.nav.action.selectItem
+#### netRemote.nav.action.selectItem
 
 Selects an Menu Item (see netRemove.nav.list)
 
@@ -397,7 +567,7 @@ Method: SET
 ```
 fsapi/SET/netRemote.nav.action.selectItem?pin=1337&value=7
 ```
-### netRemote.nav.action.selectPreset
+#### netRemote.nav.action.selectPreset
 
 Selects a  favorite Radio Stations (see netRemote.nav.presets)
 
@@ -409,7 +579,7 @@ Method: GET/SET
 ```
 
 
-### netRemote.nav.caps
+#### netRemote.nav.caps
 
 TODO
 
@@ -423,16 +593,44 @@ Sets / Returns ???
 <value><u32>3</u32></value>
 
 ```
-
-### netRemote.nav.dabScanUpdate
-
-TODO
-
-### netRemote.nav.errorStr
+#### netRemote.nav.browseMode
 
 TODO
 
-### netRemote.nav.list
+Method: ??
+
+??? 
+
+```
+
+```
+
+
+#### netRemote.nav.dabScanUpdate
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.nav.errorStr
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.nav.list
 
 Get the menu for the current mode 
 
@@ -471,7 +669,7 @@ fsapi/LIST_GET_NEXT/netRemote.nav.list/-1?pin=1337&maxItems=10
         </item>
 ```
            
-### netRemote.nav.numItems
+#### netRemote.nav.numItems
 
 Method: GET
 
@@ -486,7 +684,7 @@ Get the amount of entries for the current navigation-set.
 ```
 
 
-### netRemote.nav.presets
+#### netRemote.nav.presets
 
 Method: LIST_GET_NEXT
 
@@ -506,7 +704,7 @@ Lists all favorite Radio Stations for the current mode
 
 ```
 
-### netRemote.nav.searchTerm
+#### netRemote.nav.searchTerm
 
 Search in the current navigation (see netRemote.nav.list)
 
@@ -518,7 +716,7 @@ Search in the current navigation (see netRemote.nav.list)
 
 
 
-### netRemote.nav.state
+#### netRemote.nav.state
 
 Enables the navigation in the menu (see nav.list)
 
@@ -538,7 +736,7 @@ Sets / Returns the status of the navigation.
 
 ```
 
-### netRemote.nav.status
+#### netRemote.nav.status
 
 While the device prepares the menu this node is set to 0, if the menu is ready it is set to 1.
 
@@ -554,7 +752,7 @@ Returns the navigation status
 <value><u8>0</u8></value>
 ```
 
-### netRemote.nav.depth
+#### netRemote.nav.depth
 
 Method: GET
 
@@ -567,10 +765,34 @@ Returns the current navigation menu depth
 ```
 
 
+### Platform
 
-## Play
+#### netRemote.platform.softApUpdate.updateModeStatus
 
-### netRemote.play.addPreset
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+#### netRemote.platform.softApUpdate.updateModeRequest
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+### Play
+
+#### netRemote.play.addPreset
 
 Method: SET
 
@@ -581,7 +803,21 @@ Add the current radio stations to the favorites menu
 /fsapi/SET/netRemote.play.addPreset?pin=1337&value=5
 ```
 
-### netRemote.play.caps
+
+#### netRemote.play.addPresetStatus
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+
+#### netRemote.play.caps
 
 TODO
 
@@ -599,7 +835,7 @@ empty: <value><u32>0</u32></value>
 
 ```
 
-### netRemote.play.control
+#### netRemote.play.control
 
 Method: GET, SET
 
@@ -616,7 +852,7 @@ Sets / Return the current play-controll mode
 <value><u8>0</u8></value>
 ```
 
-### netRemote.play.errorStr
+#### netRemote.play.errorStr
 
 Method: GET
 ```
@@ -625,11 +861,19 @@ Method: GET
 <value><c8_array></c8_array></value>
 ```
 
-### netRemote.play.feedback
+#### netRemote.play.feedback
 
 TODO
 
-### netRemote.play.frequency
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.play.frequency
 Method: GET, SET
 
 Sets / Returns the current frequency for fm (in herz)
@@ -642,7 +886,7 @@ Sets / Returns the current frequency for fm (in herz)
 96700 = 96,70 MHz
 ```
 
-### netRemote.play.info.album
+#### netRemote.play.info.album
 Method: GET
 
 Returns  the name of the album of the current song
@@ -654,7 +898,7 @@ Returns  the name of the album of the current song
 <value><c8_array></c8_array></value>
 ```
 
-### netRemote.play.info.artist
+#### netRemote.play.info.artist
 Method: GET
 
 Returns  the name of the artist of the current song
@@ -665,7 +909,7 @@ Returns  the name of the artist of the current song
 <value><c8_array></c8_array></value>
 ```
 
-### netRemote.play.info.duration
+#### netRemote.play.info.duration
 Method: GET
 
 Returns the duration for the track in milliseconds
@@ -678,7 +922,7 @@ Returns the duration for the track in milliseconds
 ```
 
 
-### netRemote.play.info.graphicUri
+#### netRemote.play.info.graphicUri
 Method: GET
 
 Returns  the uri of an image representing the current song / station
@@ -690,7 +934,7 @@ empty: <value><c8_array></c8_array></value>
 1LIVE Online: <value><c8_array>http://aldi.wifiradiofrontier.com/setupapp/setup1/logo/logo-531.png</c8_array></value>
 ```
 
-### netRemote.play.info.name
+#### netRemote.play.info.name
 Method: GET
 
 Returns  the first line of the display
@@ -703,7 +947,7 @@ empty: <value><c8_array></c8_array></value>
 1LIVE diGGi: <value><c8_array>1LIVE diGGi     </c8_array></value>
 ```
 
-### netRemote.play.info.text
+#### netRemote.play.info.text
 Method: GET
 
 Returns  the second line of the display
@@ -717,7 +961,7 @@ empty: <value><c8_array></c8_array></value>
 
 ```
 
-### netRemote.play.position
+#### netRemote.play.position
 Method: GET, SET
 
 Sets / Returns the current position in the track in milliseconds
@@ -731,7 +975,7 @@ Keep in mind to get the max position by netRemote.play.info.duration.
 <value><u32>0</u32></value>
 ```
 
-### netRemote.play.rate
+#### netRemote.play.rate
 Method: GET, SET
 
 Sets / Returns the current play-rate multiplier
@@ -744,7 +988,7 @@ The value determines the speed of the playback. It can be in the range of -127 t
 <value><s8>0</s8></value>
 ```
 
-### netRemote.play.repeat
+#### netRemote.play.repeat
 Method: GET, SET
 
 Scope: Music Player
@@ -759,7 +1003,7 @@ Sets / Returns  whether or not repeat is enabled or not
 <value><u8>0</u8></value>
 ```
 
-### netRemote.play.scrobble
+#### netRemote.play.scrobble
 Method: GET
 
 Returns  whether or not scrobble is enabled or not
@@ -770,7 +1014,7 @@ Returns  whether or not scrobble is enabled or not
 
 <value><u8>0</u8></value>
 ```
-### netRemote.play.serviceIds.dabEnsembleId
+#### netRemote.play.serviceIds.dabEnsembleId
 Method: GET
 
 Returns DAB Ensemble Identifier (decimal notation)
@@ -783,7 +1027,7 @@ Note: commonly used in Hex notation.  In this example that would be "C1CE" i.e. 
 
 ```
 
-### netRemote.play.serviceIds.dabScids
+#### netRemote.play.serviceIds.dabScids
 Method: GET
 
 Returns the DAB Service Component Identifier (decimal notation)
@@ -796,7 +1040,7 @@ Note: Nearly always 0 for audio services - Secondary Component services will hav
 
 ```
 
-### netRemote.play.serviceIds.dabServiceId
+#### netRemote.play.serviceIds.dabServiceId
 Method: GET
 
 Returns DAB Service Identifier (decimal notation)
@@ -809,7 +1053,7 @@ Note: commonly used in Hex notation.  In this example that would be "CED7" i.e. 
 
 ```
 
-### netRemote.play.serviceIds.ecc
+#### netRemote.play.serviceIds.ecc
 Method: GET
 
 Returns Extended Country Code (decimal notation) as defined in ETSI TS 101 756
@@ -825,7 +1069,7 @@ dabServiceId 57233 (DF91); ecc 224 (E0); gives a Global Country Code of DE0 = Ge
 
 ```
 
-### netRemote.play.serviceIds.fmRdsPi
+#### netRemote.play.serviceIds.fmRdsPi
 
 TODO : Confirm if this works on other radios
 
@@ -841,7 +1085,7 @@ Returns RDS Programme Identification code (or rather should, the Roberts Stream 
 ```
 
 
-### netRemote.play.shuffle
+#### netRemote.play.shuffle
 Method: GET, SET
 
 Scope: Music-Player
@@ -855,7 +1099,7 @@ Sets / Returns whether or not shuffle is enabled or not (1/0)
 
 ```
 
-### netRemote.play.shuffleStatus
+#### netRemote.play.shuffleStatus
 
 TODO
 
@@ -873,7 +1117,7 @@ FS_NODE_DOES_NOT_EXIST
 
 
 
-### netRemote.play.signalStrength
+#### netRemote.play.signalStrength
 Method: GET
 
 Returns the signal strenght of the current medium
@@ -885,7 +1129,7 @@ Returns the signal strenght of the current medium
 <value><u8>0</u8></value>
 ```
 
-### netRemote.play.status
+#### netRemote.play.status
 Method: GET
 
 Returns status of the player
@@ -899,14 +1143,154 @@ Returns status of the player
 <value><u8>0</u8></value>
 ```
 
+### Spotify
 
-## System
 
-### netRemote.sys.audio.eqCustom.param
+:exclamation: The following comands work only on devices with spotify-support :exclamation:
+
+#### netRemote.spotify.username
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+#### netRemote.spotify.lastError
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+#### netRemote.spotify.status
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+#### netRemote.spotify.bitRate
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+
+### System
+
+
+#### netRemote.sys.alarm.duration
 
 TODO
 
-### netRemote.sys.audio.eqCustom.param0
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.alarm.current
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.alarm.config
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.alarm.configChanged
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.alarm.status
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.alarm.snooze
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.alarm.snoozing
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+
+#### netRemote.sys.audio.eqCustom.param
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.audio.eqCustom.param0
 Method: GET, SET
 
 Sets / Returns the first value for costum eq-settings (Bass)
@@ -919,7 +1303,7 @@ Range: -7 to 7
 <value><s16>1</s16></value>
 ```
 
-### netRemote.sys.audio.eqCustom.param1
+#### netRemote.sys.audio.eqCustom.param1
 Method: GET, SET
 
 Sets / Returns the second value for costum eq-settings (Treble)
@@ -933,19 +1317,43 @@ Range: -7 to 7
 <value><s16>1</s16></value>
 ```
 
-### netRemote.sys.audio.eqCustom.param2
+#### netRemote.sys.audio.eqCustom.param2
 
 TODO
 
-### netRemote.sys.audio.eqCustom.param3
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.audio.eqCustom.param3
 
 TODO
 
-### netRemote.sys.audio.eqCustom.param4
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.audio.eqCustom.param4
 
 TODO
 
-### netRemote.sys.audio.eqLoudness
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.audio.eqLoudness
 Method: GET, SET
 
 Sets / Returns whether or not loudness is activated
@@ -959,7 +1367,7 @@ This function is only available if costum eq is active
 ```
 
 
-### netRemote.sys.audio.eqPreset
+#### netRemote.sys.audio.eqPreset
 Method: GET, SET
 
 Sets / Returns the number of the selected eq-presets
@@ -973,10 +1381,20 @@ see: netRemote.sys.caps.eqPresets for valid presets.
 <value><u8>5</u8></value>
 ```
 
+#### netRemote.sys.audio.extStaticDelay
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
 
 
-
-### netRemote.sys.audio.mute
+#### netRemote.sys.audio.mute
 Method: GET, SET
 
 Sets / Returns whether or not device is muted
@@ -987,7 +1405,7 @@ Sets / Returns whether or not device is muted
 <value><u8>0</u8></value>
 ```
 
-### netRemote.sys.audio.volume
+#### netRemote.sys.audio.volume
 Method: GET, SET
 
 Sets / Returns the volume of the device (Range: 1-20)
@@ -998,7 +1416,20 @@ Sets / Returns the volume of the device (Range: 1-20)
 <value><u8>4</u8></value>
 ```
 
-### netRemote.sys.caps.dabFreqList
+#### netRemote.sys.caps.clockSourceList
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+
+#### netRemote.sys.caps.dabFreqList
 
 TODO
 
@@ -1027,7 +1458,7 @@ Lists available dab-frequencies
         </item>
 ```
 
-### netRemote.sys.caps.eqBands
+#### netRemote.sys.caps.eqBands
 Method: LIST_GET_NEXT
 
 Lists setted modes for the eq
@@ -1052,7 +1483,7 @@ Lists setted modes for the eq
 
 ```
 
-### netRemote.sys.caps.eqPresets
+#### netRemote.sys.caps.eqPresets
 Method: LIST_GET_NEXT
 
 Lists available eq-presets
@@ -1072,7 +1503,20 @@ Lists available eq-presets
 
 ```
 
-### netRemote.sys.caps.fmFreqRange.lower
+#### netRemote.sys.caps.extStaticDelayMax
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+
+#### netRemote.sys.caps.fmFreqRange.lower
 Method: GET
 
 Returns the lowest available fm-frequency
@@ -1083,7 +1527,7 @@ Returns the lowest available fm-frequency
 <value><u32>87500</u32></value>
 ```
 
-### netRemote.sys.caps.fmFreqRange.stepSize
+#### netRemote.sys.caps.fmFreqRange.stepSize
 Method: GET
 
 Returns the size of the steps for increasing / decreasing the frequency
@@ -1094,7 +1538,7 @@ Returns the size of the steps for increasing / decreasing the frequency
 <value><u32>50</u32></value>
 ```
 
-### netRemote.sys.caps.fmFreqRange.upper
+#### netRemote.sys.caps.fmFreqRange.upper
 Method: GET
 
 Returns the highest available fm-frequency
@@ -1105,11 +1549,32 @@ Returns the highest available fm-frequency
 <value><u32>108000</u32></value>
 ```
 
-### netRemote.sys.caps.validLang
+#### netRemote.sys.caps.utcSettingsList
 
 TODO
 
-### netRemote.sys.caps.validModes
+Method: ??
+
+??? 
+
+```
+
+```
+
+
+#### netRemote.sys.caps.validLang
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.caps.validModes
 Method: LIST_GET_NEXT
 
 Lists valid operation modes
@@ -1133,7 +1598,7 @@ Lists valid operation modes
 ```
 
 
-### netRemote.sys.caps.volumeSteps
+#### netRemote.sys.caps.volumeSteps
 Method: GET
 
 Returns the max volume level
@@ -1144,11 +1609,32 @@ Returns the max volume level
 <value><u8>21</u8></value>
 ```
 
-### netRemote.sys.clock.dst
+
+#### netRemote.sys.clock.dateFormat
 
 TODO
 
-### netRemote.sys.clock.localDate
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.clock.dst
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.clock.localDate
 Method: GET
 
 Returns the local Date in XML-RPC date format ( 20150914 = 2015-09-14)
@@ -1160,7 +1646,7 @@ Returns the local Date in XML-RPC date format ( 20150914 = 2015-09-14)
 ```
 
 
-### netRemote.sys.clock.localTime
+#### netRemote.sys.clock.localTime
 Method: GET
 
 Returns the local time in XML-RPC date format ( 093327 = 09:33:27)
@@ -1171,20 +1657,44 @@ Returns the local time in XML-RPC date format ( 093327 = 09:33:27)
 <value><c8_array>093327</c8_array></value>
 ```
 
-### netRemote.sys.clock.mode
+#### netRemote.sys.clock.mode
 
 TODO
 
-### netRemote.sys.clock.source
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.clock.source
 
 TODO
 
-### netRemote.sys.clock.utcOffset
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.clock.utcOffset
 
 TODO
 
+Method: ??
 
-### netRemote.sys.cfg.irAutoPlayFlag
+??? 
+
+```
+
+```
+
+
+#### netRemote.sys.cfg.irAutoPlayFlag
 
 TODO
 
@@ -1199,7 +1709,45 @@ Is part of the new API Version.
 
 ```
 
-### netRemote.sys.info.friendlyName
+
+#### netRemote.sys.factoryReset
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+
+#### netRemote.sys.info.activeSession
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.info.dmruuid
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.info.friendlyName
 Method: GET, SET
 
 Sets/ Returns the Network-Name of the Device
@@ -1210,7 +1758,7 @@ Sets/ Returns the Network-Name of the Device
 <value><c8_array>Radio</c8_array></value>
 ```
 
-### netRemote.sys.info.radioId
+#### netRemote.sys.info.radioId
 Method: GET
 
 Returns uniquie? ID Radio-ID 
@@ -1221,7 +1769,7 @@ Returns uniquie? ID Radio-ID
 <value><c8_array>001122AABBCC</c8_array></value>
 
 ```
-### netRemote.sys.info.radioPin
+#### netRemote.sys.info.radioPin
 Method: GET, SET
 
 ```
@@ -1230,7 +1778,7 @@ fsapi/SET/netRemote.sys.info.radioPin?pin=1337&value=1337
 
 
 
-### netRemote.sys.info.version
+#### netRemote.sys.info.version
 Method: GET
 
 Returns Image-Version String
@@ -1243,7 +1791,7 @@ Returns Image-Version String
 ```
 
 
-### netRemote.sys.info.controllerName
+#### netRemote.sys.info.controllerName
 Method: GET, SET
 
 Get or Set the Name of the Device which is remote-controling the radio
@@ -1256,7 +1804,7 @@ Get or Set the Name of the Device which is remote-controling the radio
 
 
 
-### netRemote.sys.isu.control
+#### netRemote.sys.isu.control
 
 2 = search for updates
 
@@ -1267,7 +1815,32 @@ Method GET,SET
 /fsapi/SET/netRemote.sys.isu.control?pin=1337&value=2
 ```
 
-### netRemote.sys.isu.state
+#### netRemote.sys.isu.mandatory
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.isu.softwareUpdateProgress
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+
+#### netRemote.sys.isu.state
 
 Shows the update process, default 0
 
@@ -1285,11 +1858,32 @@ Method GET
 <value><u8>1</u8></value>
 ```
 
-### netRemote.sys.isu.version
+#### netRemote.sys.isu.summary
 
 TODO
 
-### netRemote.sys.lang
+Method: ??
+
+??? 
+
+```
+
+```
+
+
+#### netRemote.sys.isu.version
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.lang
 
 TODO
 
@@ -1303,7 +1897,7 @@ Returns ???
 <value><u32>0</u32></value>
 ```
 
-### netRemote.sys.mode
+#### netRemote.sys.mode
 Method: GET, SET
 
 Sets / Returns the current operation mode 
@@ -1316,11 +1910,19 @@ see netRemote.sys.caps.validModes for valid operation modes
 <value><u32>4294967295</u32></value>
 ```
 
-### netRemote.sys.net.commitChanges
+#### netRemote.sys.net.commitChanges
 
 TODO
 
-### netRemote.sys.net.ipConfig.address
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.net.ipConfig.address
 Method: GET
 
 Returns the IP address for the connected network
@@ -1332,7 +1934,7 @@ Returns the IP address for the connected network
 <value><u32>3232235576</u32></value>
 ```
 
-### netRemote.sys.net.ipConfig.dhcp
+#### netRemote.sys.net.ipConfig.dhcp
 Method: GET
 
 Returns if DHCP is enabled for the connected network
@@ -1343,7 +1945,7 @@ Returns if DHCP is enabled for the connected network
 <value><u8>1</u8></value>
 ```
 
-### netRemote.sys.net.ipConfig.dnsPrimary
+#### netRemote.sys.net.ipConfig.dnsPrimary
 Method: GET
 
 Returns the primary dns for the connected network
@@ -1354,7 +1956,7 @@ Returns the primary dns for the connected network
 <value><u32>3232235521</u32></value>
 ```
 
-### netRemote.sys.net.ipConfig.dnsSecondary
+#### netRemote.sys.net.ipConfig.dnsSecondary
 Method: GET
 
 Returns the secondary dns for the connected network
@@ -1365,7 +1967,7 @@ Returns the secondary dns for the connected network
 <value><u32>0</u32></value>
 ```
 
-### netRemote.sys.net.ipConfig.gateway
+#### netRemote.sys.net.ipConfig.gateway
 Method: GET
 
 Returns the default gateway for the connected network
@@ -1377,7 +1979,7 @@ Returns the default gateway for the connected network
 <value><u32>3232235521</u32></value>
 ```
 
-### netRemote.sys.net.ipConfig.subnetMask
+#### netRemote.sys.net.ipConfig.subnetMask
 Method: GET
 
 Returns the subnet mask for the connected network
@@ -1387,7 +1989,7 @@ Returns the subnet mask for the connected network
 
 <value><u32>4294967040</u32></value>
 ```
-### netRemote.sys.net.keepConnected
+#### netRemote.sys.net.keepConnected
 
 Method GET, SET
 
@@ -1399,7 +2001,7 @@ If set to 1 network connection is not disconnected in standby
 ```
 
 
-### netRemote.sys.net.wired.interfaceEnable
+#### netRemote.sys.net.wired.interfaceEnable
 Method: GET
 
 Returns the NIC Status of the Ethernet Device
@@ -1409,7 +2011,7 @@ Returns the NIC Status of the Ethernet Device
 <value><u8>1</u8></value>
 ```
 
-### netRemote.sys.net.wired.macAddress
+#### netRemote.sys.net.wired.macAddress
 Method: GET
 
 Returns the MAC Address of the Ethernet Device
@@ -1420,7 +2022,7 @@ Returns the MAC Address of the Ethernet Device
 <value><c8_array>00:11:22:33:44:FF</c8_array></value>
 ```
 
-### netRemote.sys.net.wlan.connectedSSID
+#### netRemote.sys.net.wlan.connectedSSID
 Method: GET
 
 Returns the SSID of the connected WIFI network
@@ -1431,7 +2033,7 @@ Returns the SSID of the connected WIFI network
 Example
 ```
 
-### netRemote.sys.net.wlan.interfaceEnable
+#### netRemote.sys.net.wlan.interfaceEnable
 Method: GET
 
 Returns the NIC Status of the WIFI Device
@@ -1442,7 +2044,7 @@ Returns the NIC Status of the WIFI Device
 <value><u8>0</u8></value>
 ```
 
-### netRemote.sys.net.wlan.macAddress
+#### netRemote.sys.net.wlan.macAddress
 Method: GET
 
 Returns the MAC Address of the WIFI Device
@@ -1453,19 +2055,56 @@ Returns the MAC Address of the WIFI Device
 <value><c8_array>00:11:22:33:44:FF</c8_array></value>
 ```
 
-### netRemote.sys.net.wlan.performFCC
+#### netRemote.sys.net.wlan.performFCC
 
 TODO
 
-### netRemote.sys.net.wlan.performWPS
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.net.wlan.performWPS
 
 TODO
 
-### netRemote.sys.net.wlan.region
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.net.wlan.region
 
 TODO
 
-### netRemote.sys.net.wlan.rssi
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.net.wlan.regionFcc
+
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+
+
+#### netRemote.sys.net.wlan.rssi
 Method: GET
 
 Returns the Signal Strenght of the connected WIFI network
@@ -1475,19 +2114,45 @@ Returns the Signal Strenght of the connected WIFI network
 <value><u8>100</u8></value>
 ```
 
-### netRemote.sys.net.wlan.scan
+#### netRemote.sys.net.wlan.scan
 
 TODO
 
-### netRemote.sys.net.wlan.scanList
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.net.wlan.scanList
 
 TODO
 
-### netRemote.sys.net.wlan.selectAP
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.net.wlan.selectAP
 
 TODO
 
-### netRemote.sys.net.wlan.setAuthType
+Method: ??
+
+??? 
+
+```
+
+```
+
+
+
+#### netRemote.sys.net.wlan.setAuthType
 
 TODO
 
@@ -1501,7 +2166,9 @@ Returns the ??? of the connected WIFI network
 Example...
 ```
 
-### netRemote.sys.net.wlan.setEncType
+
+
+#### netRemote.sys.net.wlan.setEncType
 Method: GET
 
 Returns the Encryption Type of the connected WIFI network
@@ -1512,39 +2179,107 @@ Returns the Encryption Type of the connected WIFI network
 Example...
 ```
 
-### netRemote.sys.net.wlan.setFccTestChanNum
+
+
+#### netRemote.sys.net.wlan.setFccTestChanNum
 
 TODO
 
-### netRemote.sys.net.wlan.setFccTestDataRate
+Method: ??
+
+??? 
+
+```
+
+```
+
+
+
+#### netRemote.sys.net.wlan.setFccTestDataRate
 
 TODO
 
-### netRemote.sys.net.wlan.setFccTestTxDataPattern
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.net.wlan.setFccTestTxDataPattern
 
 TODO
 
-### netRemote.sys.net.wlan.setFccTestTxPower
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.net.wlan.setFccTestTxPower
 
 TODO
 
-### netRemote.sys.net.wlan.setFccTxOff
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.net.wlan.setFccTxOff
 
 TODO
 
-### netRemote.sys.net.wlan.setPassphrase
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.net.wlan.setPassphrase
 
 TODO
 
-### netRemote.sys.net.wlan.setSSID
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.net.wlan.setSSID
 
 TODO
 
-### netRemote.sys.net.wlan.wpsPinRead
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.net.wlan.wpsPinRead
 
 TODO
 
-### netRemote.sys.power
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.power
 Method: GET, SET
 
 Sets / Returns the current power state
@@ -1557,7 +2292,7 @@ If device returns from standby it will only auto-continue to play in radio-modes
 <value><u8>0</u8></value>
 ```
 
-### netRemote.sys.sleep
+#### netRemote.sys.sleep
 Method: GET, SET
 
 Sets / Returns the Time till Sleep in seconds (0 = No Sleep) [works with Firmware V2.9.10 but not with V2.6.17]
@@ -1567,18 +2302,67 @@ Sets / Returns the Time till Sleep in seconds (0 = No Sleep) [works with Firmwar
 <value><u32>97</u32></value>
 ```
 
+#### netRemote.sys.state
 
-### netRemote.sys.rsa.publicKey
+
+#### netRemote.sys.rsa.publicKey
 
 TODO
 
-### netRemote.sys.rsa.status
+Method: ??
+
+??? 
+
+```
+
+```
+
+#### netRemote.sys.rsa.status
 
 is part of the new api version
 
-### netRemote.sys.ipod.dockStatus
+#### netRemote.sys.ipod.dockStatus
 
 TODO
 
+Method: ??
+
+??? 
+
+```
+
+```
 
 
+### Test
+
+#### netRemote.test.iperf.console
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+#### netRemote.test.iperf.commandLine
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
+#### netRemote.test.iperf.execute
+TODO
+
+Method: ??
+
+??? 
+
+```
+
+```
