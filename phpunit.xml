@@ -2,10 +2,9 @@
 <phpunit colors="true" bootstrap="tests/bootstrap.php">
     <testsuites>
         <testsuite name="fsapi Test Suite">
-            <directory>tests/</directory>
+            <directory suffix="Test.php">tests/</directory>
         </testsuite>
     </testsuites>
-
     <filter>
         <whitelist>
             <directory suffix=".php">src</directory>
