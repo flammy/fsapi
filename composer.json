@@ -1,9 +1,4 @@
 {
     "name": "flammy/fsapi",
-    "description": "Frontier Silicon API for PHP",
-    "require": {
-        "php": "^5.3.3 || ^7.0",
-        "php-xml": "^5.3.3 || ^7.0",
-        "php-curl": "^5.3.3 || ^7.0"
-    }
+    "description": "Frontier Silicon API for PHP"
 }
