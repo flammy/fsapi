@@ -1,6 +1,6 @@
 {
     "name": "flammy/fsapi",
-    "description": "Frontier Silicon API for PHP"
+    "description": "Frontier Silicon API for PHP",
     "autoload": {
         "files": ["src/autoload.php"]
     }
