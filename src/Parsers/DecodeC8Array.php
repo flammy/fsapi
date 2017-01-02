@@ -13,8 +13,8 @@ class DecodeC8Array implements Parsers
      *  @return mixed the encoded data
      *
      */
-    public function parseResult($result)
+    public function parseResult($response)
     {
-        return trim($result);
+        return $response;
     }
 }

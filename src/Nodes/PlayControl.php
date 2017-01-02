@@ -16,5 +16,6 @@ class PlayControl extends Node implements Nodes
         $this->validation_rules = array('min' => 0, 'max' => 4);
         $this->call_methods = array('SET','GET');    
         $this->notification = false;
+        $this->converter = new ConverterControl;
     }
 }

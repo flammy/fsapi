@@ -12,10 +12,18 @@ class Request implements Requests
      *                                  
      *
      */
-    public function __construct($host,$sid = false,$pin = false)
+    public function __construct($host,$sid = null,$pin = null)
     {
         $this->host = $host;
+        $this->sid = $sid;
+        $this->pin = $pin;
     }
+    
+    
+    public function setSID($sid){
+        $this->sid = $sid;
+    }
+    
     
     
     /**
@@ -61,18 +69,30 @@ class Request implements Requests
      */
     public function doRequest($method, $Node = null, $attributes = array(), $delimiter = "")
     {
-        $url =$this->host."/fsapi/".$method."/";
-        if ($Node != null) {
-            if ($delimiter != "") {
-                $delimiter = "/".$delimiter;
-            }
-            $attributes_string = "";
-            if (count($attributes) > 0) {
-                $attributes_string = http_build_query($attributes);
-            }
-            $url .= $Node->getPath().$delimiter.$attributes_string;
+
+
+
+
+        if($this->sid != null){
+            $attributes['sid'] = $this->sid;
         }
+        $attributes['pin'] = $this->pin;
         
+        
+        $url = $this->host."/fsapi/".$method."/";
+        if ($Node != null) {
+           $url .= $Node->getPath();
+
+        }
+        if ($delimiter != "") {
+            $delimiter = "/".$delimiter;
+        }
+        $attributes_string = "";
+        if (count($attributes) > 0) {
+            $attributes_string = "?".http_build_query($attributes);
+            $url .= $delimiter.$attributes_string;
+        }
+                
         if (!function_exists('curl_init')) {
             throw new RequestException(sprintf('CURL not found, please install php-curl.'));
         }
@@ -81,9 +101,19 @@ class Request implements Requests
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         $response = curl_exec($ch);
+        
+
+
         $info = curl_getinfo($ch);
         $info['curl_error'] = curl_error($ch);
         curl_close($ch);
-        return $this->checkRequest($response, $info);
+        $response = $this->checkRequest($response, $info);
+        
+        
+        if($method == 'SET'){
+            // get the current value if a new value was set
+            return $this->doRequest('GET', $Node, $attributes, $delimiter);
+        }
+        return $response;
     }
 }

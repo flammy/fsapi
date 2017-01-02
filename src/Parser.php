@@ -34,7 +34,10 @@ class Parser implements Parsers
             $Parser = new ParserFactory();
             return $Parser->parseResult($xml->sessionId);
         }
-        $Parser = new DecodeList();
-        return $Parser->parseResult($xml->item);
+        if (isset($xml->item)) {
+            $Parser = new DecodeList();
+            return $Parser->parseResult($xml);
+        }
+        return false;
     }
 }

@@ -13,8 +13,8 @@ class Node
     protected $validation_rules = null;
     protected $call_methods = null;
     protected $notification = null;
-    
-    
+    protected $setter = null;
+    protected $converter = null;
 
 
     /**
@@ -43,6 +43,21 @@ class Node
         }
         return $this->validation_method;
     }
+    
+    
+    /**
+     * returns the converter object
+     *
+     * @return string    converter object
+     */
+    public function getConverter()
+    {
+        if ($this->converter === null) {
+            return new Converter();
+        }
+        return $this->converter;
+    }
+    
 
     
     /**
@@ -74,6 +89,29 @@ class Node
     
     
     /**
+     * returns if the node has notifications
+     *
+     * @return bool    TRUE of the node uses notifications, FALSE if not.
+     */
+    public function getSetter($condition = null)
+    {
+        if ($this->setter === null) {
+            return self;
+        }
+        $setter = $this->setter;
+        $NodesFactory = new NodesFactory();
+        if(is_array($setter)){
+            $setter = $setter[0];
+            if($condition > 0){
+                $setter = $setter[1];
+            }
+        }
+        
+        return $NodesFactory->getNodeByName($setter);
+    }
+    
+    
+    /**
      * validates the input with the nodes validation method
      *
      * @var string $input   The Input to validate
@@ -86,6 +124,9 @@ class Node
         $validator = new Validator($this->getValidationMethod(), $this->validation_rules);
         return $validator->validateInput($input);
     }
+    
+    
+    
     
     public function checkCallMethods($method)
     {

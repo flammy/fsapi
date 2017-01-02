@@ -2,19 +2,12 @@
 
 require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'autoload.php');
 
-$SysInfoVersion = new SysInfoVersion;
-$Request = new RequestInterceptor("<fsapiResponse><status>FS_OK</status><value><c8_array>ir-mmi-FS2026-0500-0036_V2.5.15.EX51267-4RC2</c8_array></value></fsapiResponse>");
+$Scanner = new Scanner();
 
+//$Scanner = new ScannerInterceptor(array('bla'),array('blub'));
 
-$fsapi = new FSAPI($Request);
-try {
-    $result = $fsapi->doRequest("GET", $SysInfoVersion);
-} catch (ValidatorException $e) {
-    echo $e->getMessage();
-}
+$ssdp = new SSDP($Scanner);
 
-$parser = new Parser();
-$result = $parser->parseResult($result);
+$bla = $ssdp->doScan();
 
-$logger = new Logger(10,'Echo');
-$logger->critical("bla!");
+var_dump($bla);

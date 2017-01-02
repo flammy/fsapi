@@ -17,6 +17,10 @@ function autoloader($class)
     if (file_exists($path.$filename)) {
         include($path.$filename);
     }
+    $path = dirname(__FILE__).DIRECTORY_SEPARATOR."Converters".DIRECTORY_SEPARATOR;
+    if (file_exists($path.$filename)) {
+        include($path.$filename);
+    }
     $path = dirname(__FILE__).DIRECTORY_SEPARATOR."Parsers".DIRECTORY_SEPARATOR;
     if (file_exists($path.$filename)) {
         include($path.$filename);

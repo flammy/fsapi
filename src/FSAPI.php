@@ -36,24 +36,35 @@ class FSAPI implements Requests
     public function doRequest($method, $node = null, $attributes = array(), $delimiter = "")
     {
         if ($node !== null) {
+            if(!is_object($node)){
+                $NodesFactory = new NodesFactory();
+                $node = $NodesFactory->getNodeByName($node);
+            }
+            
             // whitelisted via node
             if ($node->checkCallMethods($method) == false) {
-                return false;
+                throw new FSAPIException(sprintf('Method %s is not whitelisted for %s.', $method,$node->getPath()));
             }
         } else {
             // whitelisted via global whitelist
-            if (!in_array($method, $call_method_whitelist)) {
-                return false;
+            if (!in_array($method, $this->call_method_whitelist)) {
+                throw new FSAPIException(sprintf('Method %s is not globaly whitelisted for %s.', $method,$node->getPath()));
             }
         }
         
         if (isset($attributes['value'])) {
             // input-validation if there is a new value
             if (!$node->validateInput($attributes['value'])) {
-                return false;
+                throw new FSAPIException(sprintf('Validation Failed.', $method));
             }
         }
-            
-        return $this->Request->doRequest($method, $node, $attributes, $delimiter);
+        return $this->convertResult($this->Request->doRequest($method, $node, $attributes, $delimiter));
     }
+
+
+
+    protected function convertResult($result){
+        $parser = new Parser;
+        return $parser->parseResult($result);
+    } 
 }

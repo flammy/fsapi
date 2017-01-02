@@ -16,5 +16,6 @@ class SysAudioMute extends Node implements Nodes
         $this->validation_rules = 'Bool';
         $this->call_methods = array('SET','GET');    
         $this->notification = true;
+        $this->converter = new ConverterBool;
     }
 }

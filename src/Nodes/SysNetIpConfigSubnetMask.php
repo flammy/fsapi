@@ -16,5 +16,6 @@ class SysNetIpConfigSubnetMask extends Node implements Nodes
         $this->validation_rules = false;
         $this->call_methods = array('SET','GET');    
         $this->notification = false;
+        $this->converter = new ConverterIP;
     }
 }

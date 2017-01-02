@@ -16,5 +16,6 @@ class PlayStatus extends Node implements Nodes
         $this->validation_rules = false;
         $this->call_methods = array('GET');    
         $this->notification = true;
+        $this->converter = new ConverterState;
     }
 }
