@@ -16,9 +16,10 @@ Please let me know if it does not work on your device.
 The radio class provides an easy to use set of human readable methods and parameters.
 
 ```
-$radio->mute(true);
-$radio->mute(false);
-$radio->mute('toggle');
+$Radio = new Radio($host,$pin);
+$response = $Radio->radioFrequency(106.4);
+$response = $Radio->mute(0);
+$response = $Radio->volume(5);
 ```
 
 **Class FSAPI**
@@ -26,22 +27,28 @@ $radio->mute('toggle');
 The fsapi class provides the abstracted basic communication with the device.
 
 ```
-$fsapi->call('SET','netRemote.sys.audio.mute',array('value' => true));
-$fsapi->call('SET','netRemote.sys.audio.mute',array('value' => false));
+$Request = new Request($host,$session_id,$pin);
+$FSAPI = new FSAPI($Request);
+$response = $FSAPI->doRequest('SET','netRemote.sys.audio.mute',array('value' => 0));
+$response = $FSAPI->doRequest('SET','netRemote.play.frequency'',array('value' => 106400));
+$response = $FSAPI->doRequest('SET','netRemote.sys.audio.volume',array('value' => 5));
 ```
 **Class SSDP (Simple Service Discovery Protocol)**
 
 The ssdp class provices the device discovery via UPNP. This is a verry rudimentary class which does only this one thing. 
 
 ```
-$ssdp->setDeviceType('urn:schemas-frontier-silicon-com:fs_reference:fsapi:1');
-$ssdp->scan();
+$Scanner = new Scanner();
+$SSDP = new SSDP($Scanner);
+$response = $SSDP->doScan('urn:schemas-frontier-silicon-com:fs_reference:fsapi:1');
 ```
 
 
 **More examples**
 
-You can find more detailed examples in the example folder.
+You can find a detailed documentation for the classes at:
+
+https://github.com/flammy/fsapi/blob/master/Documentation.md
 
 
 **Example implementation:**
@@ -52,6 +59,6 @@ https://github.com/flammy/fsapi-remote
 
 ## documentation:
 
-Here you can find a documentation of the raw FSAPI reqests and responses:
+You can find a documentation of the raw FSAPI reqests and responses at:
 
 https://github.com/flammy/fsapi/blob/master/FSAPI.md
