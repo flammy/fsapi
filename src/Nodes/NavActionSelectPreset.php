@@ -14,7 +14,7 @@ class NavActionSelectPreset extends Node implements Nodes
         $this->path = 'netRemote.nav.action.selectPreset';
         $this->validation_method = false;
         $this->validation_rules = false;
-        $this->call_methods = array('SET','GET');    
+        $this->call_methods = array('SET');    
         $this->notification = false;
     }
 }
