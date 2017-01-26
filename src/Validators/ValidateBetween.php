@@ -6,28 +6,27 @@
 class ValidateBetween extends Validator implements Validators
 {
     protected $validation_rules;
-    
+
     /**
      * create a new ValidateBetween Validator
      *
-     * @var array $validation_rules   The validation rules from the Node: array('min' => 1, 'max' => 2)
-     *                                  
+     * @param array|bool $validation_rules   The validation rules from the Node: array('min' => 1, 'max' => 2)
+     *
      *
      */
     public function __construct($validation_rules = false)
     {
         $this->validation_rules = $validation_rules;
     }
-    
+
     /**
      * Checks if the input is between the min and max of the validation-rules provides by constructor
      *
-     * @var string $input   The new value for the Node
+     *
+     * @param string $input input for validation
+     * @return bool if validation-rules are not set or not an (valid) array.
      *
      * @throws ValidatorException if validation-rules are not set or not an (valid) array.
-     *
-     * @return bool TRUE if the input matches the validation rule, FALSE if not
-     *
      */
     public function validateInput($input)
     {

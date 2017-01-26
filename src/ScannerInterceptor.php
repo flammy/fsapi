@@ -9,9 +9,9 @@ class ScannerInterceptor implements Scanners
     /**
      * create a new Scanner-Interceptor Object, which simulates the broadcast and curl Request
      *
-     * @var string $response    The expected response
+     * @param string $response    The expected response
      *
-     * @var string $details        The expected details array
+     * @param string $details        The expected details array
      *
      */
 	public function __construct($response,$details = null)
@@ -19,11 +19,12 @@ class ScannerInterceptor implements Scanners
         $this->response = $response;
 		$this->details = $details;
     }
-	
-	
+
+
     /**
      *  Interceptor for function which scans the local network for upnp devices
      *
+     * @param string $type type-string of the upnp device
      * @return array with discovered devices
      */
 	function doScan($type){
@@ -34,14 +35,14 @@ class ScannerInterceptor implements Scanners
 		return $response;
 		
 	}
-	
-	
+
+
     /**
      *  Interceptor for function which makes an http request to collect more data from an device provided url
      *
-     * @var string $url the url to collect more data from
-     *
-     * @return array, first value is the status true or false the second value is an array with the answer of the device
+     * @param string $url the url to collect more data from
+     * @return array , first value is the status true or false the second value is an array with the answer of the device
+     * @throws ScannerException
      */
 	function getDetails($url){
 		if($this->details === FALSE){
@@ -51,4 +52,3 @@ class ScannerInterceptor implements Scanners
 	}
 	
 }
-?>

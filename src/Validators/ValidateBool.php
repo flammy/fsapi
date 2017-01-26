@@ -10,7 +10,7 @@ class ValidateBool extends Validator implements Validators
     /**
      * create a new ValidateBool Validator
      *
-     * @var bool $validation_rules   The validation rules from the Node: false
+     * @param bool $validation_rules   The validation rules from the Node: false
      *                                  
      *
      */
@@ -22,7 +22,7 @@ class ValidateBool extends Validator implements Validators
     /**
      * Checks if the input is int-castable to 1 or 0
      *
-     * @var string $input   The new value for the Node
+     * @param string $input   The new value for the Node
      *
      * @throws ValidatorException if validation-rules are set.
      *

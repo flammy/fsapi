@@ -7,7 +7,7 @@ class FSAPI implements Requests
     /**
      * create a new FSAPI-Object 
      *
-     * @var object Request $Request   The Request Object which does the actual Request
+     * @param Request $Request The Request Object which does the actual Request
      *                                  
      *
      */
@@ -15,23 +15,19 @@ class FSAPI implements Requests
     {
         $this->Request = $Request;
     }
-    
-    
+
+
     /**
      * Do the request-call via the Request Object
      *
-     * @var string $method      The method (GET,SET,...)
+     * @param string $method  The method (GET,SET,...)
+     * @param null|string $node The name of the Node (netRemote.sys.info.version)
+     * @param array $attributes Additional attributes for the request (pin, session,...)
+     * @param string $delimiter Delimiter is necessary for some functions, it is added as a virtual folder to the url
      *
-     * @var string $node        The name of the Node (netRemote.sys.info.version)
+     * @return string if request fails
      *
-     * @var array $attributes   Additional attributes for the request (pin, session,...)
-     *                                  
-     * @var string $delimiter   Delimiter is necessary for some functions, it is added as a virtual folder to the url
-     *
-     * @throws RequestException if request fails
-     *
-     * @return string - plain request data on success false on error
-     * 
+     * @throws FSAPIException
      */
     public function doRequest($method, $node = null, $attributes = array(), $delimiter = "")
     {

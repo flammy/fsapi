@@ -3,13 +3,14 @@
 class Request implements Requests
 {
     protected $host = null;
-    
-    
+
+
     /**
-     * create a new Request-Object 
+     * create a new Request-Object
      *
-     * @var string $host    The host for the request
-     *                                  
+     * @param string $host The host for the request
+     * @param null $sid session id
+     * @param null $pin pin
      *
      */
     public function __construct($host,$sid = null,$pin = null)
@@ -29,9 +30,9 @@ class Request implements Requests
     /**
      * Check the result of the request 
      *
-     * @var mixed $response     The plain response from curl
+     * @param mixed $response     The plain response from curl
      *
-     * @var array $info        The info array from curl
+     * @param array $info        The info array from curl
      *
      * @throws RequestException if the request fails
      *
@@ -54,13 +55,13 @@ class Request implements Requests
     /**
      * Do the actual request via CURL
      *
-     * @var string $method      The method (GET,SET,...)
+     * @param string $method      The method (GET,SET,...)
      *
-     * @var string $node        The name of the Node (netRemote.sys.info.version)
+     * @param string $Node        The name of the Node (netRemote.sys.info.version)
      *
-     * @var array $attributes   Additional attributes for the request (pin, session,...)
+     * @param array $attributes   Additional attributes for the request (pin, session,...)
      *                                  
-     * @var string $delimiter   Delimiter is necessary for some functions, it is added as a virtual folder to the url
+     * @param string $delimiter   Delimiter is necessary for some functions, it is added as a virtual folder to the url
      *
      * @throws RequestException if the request fails or curl is not present
      *
@@ -87,10 +88,9 @@ class Request implements Requests
         if ($delimiter != "") {
             $delimiter = "/".$delimiter;
         }
-        $attributes_string = "";
+
         if (count($attributes) > 0) {
-            $attributes_string = "?".http_build_query($attributes);
-            $url .= $delimiter.$attributes_string;
+            $url .= $delimiter."?".http_build_query($attributes);
         }
                 
         if (!function_exists('curl_init')) {

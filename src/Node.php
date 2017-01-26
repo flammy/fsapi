@@ -20,8 +20,8 @@ class Node
 
     /**
      * returns the full path (name) of the node
-     *
-     * @return string    STRING full path / name of the node: netRemote.sys.info.version
+     * @return string STRING full path / name of the node: netRemote.sys.info.version
+     * @throws NodeException
      */
     public function getPath()
     {
@@ -34,8 +34,8 @@ class Node
 
     /**
      * returns the name of the input validation
-     *
-     * @return string    name of the validation method
+     * @return string name of the validation method
+     * @throws NodeException
      */
     public function getValidationMethod()
     {
@@ -58,13 +58,12 @@ class Node
         }
         return $this->converter;
     }
-    
 
-    
+
     /**
      * returns the valid methods for this node
-     *
-     * @return array    valid call methods: array('GET','SET'...).
+     * @return array valid call methods: array('GET','SET'...).
+     * @throws NodeException
      */
     public function getCallMethods()
     {
@@ -77,8 +76,8 @@ class Node
 
     /**
      * returns if the node has notifications
-     *
-     * @return bool    TRUE of the node uses notifications, FALSE if not.
+     * @return bool TRUE of the node uses notifications, FALSE if not.
+     * @throws NodeException
      */
     public function getNotification()
     {
@@ -87,12 +86,13 @@ class Node
         }
         return $this->notification;
     }
-    
-    
+
+
     /**
      * returns if the node has notifications
      *
-     * @return bool    TRUE of the node uses notifications, FALSE if not.
+     * @param int $condition
+     * @return bool TRUE of the node uses notifications, FALSE if not.
      */
     public function getSetter($condition = null)
     {
@@ -115,7 +115,7 @@ class Node
     /**
      * validates the input with the nodes validation method
      *
-     * @var string $input   The Input to validate
+     * @param string $input   The Input to validate
      *
      * @return mixed TRUE if the input matches the validation rule, FALSE if not
      *

@@ -18,7 +18,7 @@ class ParserIntegrationTest extends PHPUnit_Framework_TestCase
         $FSAPI = new FSAPI($Request);
         $SysInfoVersion = new SysInfoVersion;
         try {
-            $result = $FSAPI->doRequest("GET", $SysInfoVersion);
+            $FSAPI->doRequest("GET", $SysInfoVersion);
         }catch (Exception $e){
             $this->assertFalse(false);
         }
@@ -31,7 +31,7 @@ class ParserIntegrationTest extends PHPUnit_Framework_TestCase
         $FSAPI = new FSAPI($Request);
         $SysInfoVersion = new SysInfoVersion;
         try {
-            $result = $FSAPI->doRequest("GET", $SysInfoVersion);
+            $FSAPI->doRequest("GET", $SysInfoVersion);
         }catch(Exception $e){
             $this->assertFalse(false);
         }

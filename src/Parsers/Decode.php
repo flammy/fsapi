@@ -12,7 +12,7 @@ class Decode implements Parsers{
             throw new ParserException(sprintf('Unknown data type. Parser Decode%s not found.',$method));
         }
         $Parser = new $method;
-        return $Parser->parseResult($child);  
+        return $Parser->parseResult($child);
         }
     }
 }

@@ -10,14 +10,14 @@ class Validator
         $this->validation_method = $validation_method;
         $this->validation_rules = $validation_rules;
     }
-    
+
     /**
      * validates the input with the supplied method
      *
-     * @var string $input   The Input to validate
-     *
+     * @param string $input The Input to validate
      * @return bool TRUE if the input matches the validation rule, FALSE if not
      *
+     * @throws ValidatorException
      */
     public function validateInput($input)
     {

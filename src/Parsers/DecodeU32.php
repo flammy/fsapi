@@ -8,7 +8,7 @@ class DecodeU32 implements Parsers
     /**
      *  Converting an U32 coded field from the resultset to a reasonable value
      *
-     *  @var object SimpleXMLElement $result - The Result returned by the doRequest Method of the Request Class
+     *  @param SimpleXMLElement $result - The Result returned by the doRequest Method of the Request Class
      *  
      *  @return mixed the encoded data
      *

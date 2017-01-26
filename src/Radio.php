@@ -24,19 +24,18 @@ class Radio{
 		$this->Request->setSID($this->sid);
 		$this->api_level = 1;
     }
-	
-	
-	
-	/**
-	 *	gets / sets the value of the specified node
-	 *
-	 *	@var string $node 				name of the node
-	 *
-	 *	@var mixed $value 				new value for the node
-	 *
-	 *	@return mixed the new value set to the node
-	 *
-	 */
+
+
+    /**
+     * gets / sets the value of the specified node
+     *
+     * @param string $node name of the node
+     *
+     * @param mixed $value new value for the node
+     * @return mixed the new value set to the node
+     *
+     * @throws RadioException
+     */
 	public function getSet($node, $value = null){
 		$NodesFactory = new NodesFactory();
 		$Node = $NodesFactory->getNodeByName($node);
@@ -63,9 +62,9 @@ class Radio{
 	/**
 	 *	gets / sets the value of a list
 	 *
-	 *	@var string $node 				name of the node
+	 *	@param string $node 				name of the node
 	 *
-	 *	@var mixed $value 				new value for the node
+	 *	@param mixed $value 				new value for the node
 	 *
 	 *	@return mixed the new list 
 	 *
@@ -90,7 +89,7 @@ class Radio{
 			$Converter->setTranslationTable($modes[$node]);
 			
 			$value = $Converter->convertInput($value);
-			$result = $this->getSet($Setter, $value);
+			$this->getSet($Setter, $value);
 
 			$modes[$node] = $this->UpdateList($node);
 		}
@@ -101,7 +100,7 @@ class Radio{
 	/**
 	 *	update the values of a list
 	 *
-	 *	@var string $node 				name of the node
+	 *	@param string $node 				name of the node
 	 *
 	 *	@return mixed the new list 
 	 *
@@ -113,12 +112,13 @@ class Radio{
 		return $list[$node];
 	}
 
-	/**
-	 *	collect all GETtable node-values from the device
-	 *
-	 *	@return array with alle GETtable node-values
-	 *
-	 */
+    /**
+     *    collect all GETtable node-values from the device
+     *
+     * @param string $path
+     * @return array with alle GETtable node-values
+     *
+     */
 	public function systemStatus($path = NULL){
 		$basedir =  dirname(__FILE__)."/Nodes/";
 		$NodesFactory = new NodesFactory();
@@ -152,7 +152,7 @@ class Radio{
 	 *
 	 *	This Function reads the value from the device and sets the inverted value back to the device
 	 *
-	 *	@var string $node 				name of the node
+	 *	@param string $node 				name of the node
 	 *
 	 *	@return array first parameter: string result
 	 *
@@ -167,7 +167,7 @@ class Radio{
 	/**
 	 *	Sets the volume of the device
 	 *
-	 *	@var string $value 				new volume level (e.g.: 0-20) or comand as string (up / down)
+	 *	@param string $value 				new volume level (e.g.: 0-20) or comand as string (up / down)
 	 *
 	 *	@return array first parameter:  string result
 	 *
@@ -188,17 +188,16 @@ class Radio{
             return $this->getSet('netRemote.sys.audio.volume',$volume);
         }
     }
-	
-	
-	
-	/**
-	 *	Tunes to a FM-Frequency
-	 *
-	 *	@var int $value 				fm-frequency as mhz: 96.7 or hz: 96700
-	 *
-	 *	@return array first parameter: string result
-	 *
-	 */
+
+
+    /**
+     * Tunes to a FM-Frequency
+     *
+     * @param int $value fm-frequency as mhz: 96.7 or hz: 96700
+     * @return array first parameter: string result
+     *
+     * @throws RadioException
+     */
 	public function radioFrequency($value){
 		$fmFreqRangeLower = $this->getSet('netRemote.sys.caps.fmFreqRange.lower');
 		$fmFreqRangeUpper = $this->getSet('netRemote.sys.caps.fmFreqRange.upper');
@@ -230,7 +229,7 @@ class Radio{
 	/**
 	 *	selects an entry from the modes-list
 	 *
-	 *	@var $id index of the list-entry
+	 *	@param $id index of the list-entry
 	 *
 	 *	@return array with the updated list
 	 *
@@ -254,7 +253,7 @@ class Radio{
 	/**
 	 *	selects an entry from the  eq-presets-list
 	 *
-	 *	@var $id index of the list-entry
+	 *	@param $id index of the list-entry
 	 *
 	 *	@return array with the updated list
 	 *
@@ -276,7 +275,7 @@ class Radio{
 	/**
 	 *	selects an entry from the  favorites list
 	 *
-	 *	@var $id index of the list-entry
+	 *	@param $id index of the list-entry
 	 *
 	 *	@return array with the updated list
 	 *
@@ -298,7 +297,7 @@ class Radio{
 	/**
 	 *	selects an entry from the  navigation list
 	 *
-	 *	@var $id index of the list-entry
+	 *	@param $id index of the list-entry
 	 *
 	 *	@return array with the updated list
 	 *
@@ -310,7 +309,7 @@ class Radio{
 	/**
 	 *	enables / disables navigation 
 	 *
-	 *	@var $value the new value for the node
+	 *	@param $value the new value for the node
 	 *
 	 *	@return int with the navigation state
 	 *
@@ -359,7 +358,7 @@ class Radio{
 	/**
 	 *	Toggles the mute state
 	 *
-	 *	@var string $value 				string "toggle" to invert current state or bool 0/1
+	 *	@param string $value 				string "toggle" to invert current state or bool 0/1
 	 *
 	 *	@return mixed the current value of the node
 	 *
@@ -375,7 +374,7 @@ class Radio{
 	/**
 	 *	Toggles the power state
 	 *
-	 *	@var string $value 				string "toggle" to invert current state or bool 0/1
+	 *	@param string $value 				string "toggle" to invert current state or bool 0/1
 	 *
 	 *	@return array first parameter: bool success, second parameter: string (error message || result)
 	 *
@@ -393,7 +392,7 @@ class Radio{
 	/**
 	 *	Toggles the shuffle state
 	 *
-	 *	@var string $value 				string "toggle" to invert current state or bool 0/1
+	 *	@param string $value 				string "toggle" to invert current state or bool 0/1
 	 *
 	 *	@return mixed the current value of the node
 	 *
@@ -411,7 +410,7 @@ class Radio{
 	/**
 	 *	sets device play-state
 	 *
-	 *	@var int $value 				id or name of the play-state
+	 *	@param int $value 				id or name of the play-state
 	 *		 							0 => 'stop',
      *       							1 => 'play',
      *       							2 => 'pause',

@@ -5,7 +5,9 @@ class Scanner implements Scanners
     /**
      *  scans the local network for upnp devices
      *
+     * @param string $type device type
      * @return array with discovered devices
+     * @throws ScannerException
      */
 	function doScan($type){
 			$result = array();
@@ -38,7 +40,7 @@ class Scanner implements Scanners
     /**
      *  sorts the plaintext answer to an readable array
      *
-     * @var string $buffer the answer from the upnp device as plaintext
+     * @param string $buffer the answer from the upnp device as plaintext
      *
      * @return array with sorted answer from the device
      */
@@ -57,14 +59,14 @@ class Scanner implements Scanners
 		}
 		return $return;
 	}
-	
-	
+
+
     /**
-     *  makes an http request to collect more data from an device provided url
+     * makes an http request to collect more data from an device provided url
      *
-     * @var string $url the url to collect more data from
-     *
-     * @return array, first value is the status true or false the second value is an array with the answer of the device
+     * @param string $url the url to collect more data from
+     * @return array , first value is the status true or false the second value is an array with the answer of the device
+     * @throws ScannerException
      */
 	function getDetails($url){
 		$ch = curl_init();
@@ -87,4 +89,3 @@ class Scanner implements Scanners
 	}
 	
 }
-?>

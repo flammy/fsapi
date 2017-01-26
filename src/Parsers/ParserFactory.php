@@ -10,7 +10,7 @@ class ParserFactory implements Parsers
      *
      *  This method determines the decode-class by the name of the Node and runs the matching parseResult method.
      *
-     *  @var object SimpleXMLElement $result - The Result returned by the doRequest Method of the Request Class
+     *  @param SimpleXMLElement $result - The Result returned by the doRequest Method of the Request Class
      *
      *  @throws ParserException if no matching Decoder was found.
      *

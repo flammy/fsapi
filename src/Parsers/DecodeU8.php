@@ -8,7 +8,7 @@ class DecodeU8 implements Parsers
     /**
      *  Converting an U8 coded field from the resultset to a reasonable value
      *
-     *  @var object SimpleXMLElement $result - The Result returned by the doRequest Method of the Request Class
+     *  @var SimpleXMLElement $result - The Result returned by the doRequest Method of the Request Class
      *  
      *  @return mixed the encoded data
      *
