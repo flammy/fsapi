@@ -15,6 +15,7 @@ class Node
     protected $notification = null;
     protected $setter = null;
     protected $converter = null;
+    protected $api_level = null;
 
 
     /**
@@ -124,7 +125,14 @@ class Node
         $validator = new Validator($this->getValidationMethod(), $this->validation_rules);
         return $validator->validateInput($input);
     }
-    
+
+
+    /** Expose the api-level of an node
+     *  @return int api-level
+     */
+    public function getApiLevel(){
+        return $this->api_level;
+    }
     
     
     

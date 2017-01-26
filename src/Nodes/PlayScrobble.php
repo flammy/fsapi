@@ -17,5 +17,6 @@ class PlayScrobble extends Node implements Nodes
         $this->call_methods = array('SET','GET');    
         $this->notification = true;
         $this->converter = new ConverterBool;
+        $this->api_level = 1;
     }
 }

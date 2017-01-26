@@ -12,6 +12,7 @@ class Radio{
 	
 	protected $Request = null;
 	protected $fsapi = null;
+	protected $api_level = null;
 	
     public function __construct($host,$pin){
     	
@@ -21,6 +22,7 @@ class Radio{
 		$this->fsapi 	= new FSAPI($this->Request);
 		$this->sid 		= $this->fsapi->doRequest('CREATE_SESSION');
 		$this->Request->setSID($this->sid);
+		$this->api_level = 1;
     }
 	
 	
@@ -39,7 +41,10 @@ class Radio{
 		$NodesFactory = new NodesFactory();
 		$Node = $NodesFactory->getNodeByName($node);
 		$Converter = $Node->getConverter();
-		
+
+        if($Node->getApiLevel() > $this->api_level){
+            throw new RadioException(sprintf('Action is supported from API-Level %s, current API-Level is %s',$this->api_level,$Node->getApiLevel()));
+        }
 		
 		if($value !== null){
 			$value = $Converter->convertInput($value);
@@ -125,7 +130,11 @@ class Radio{
 			if(($path !== NULL) && (preg_match("/^$path/",$node->getPath()) !== 1)){
 				continue;
 			}
-			
+			if($node->getApiLevel !== $this->api_level){
+                continue;
+            }
+
+
 			if(method_exists($node,'getCallMethods')){
 				$call_methods = $node->getCallMethods();
 				if(array_search('GET',$call_methods) !== FALSE){
@@ -200,7 +209,7 @@ class Radio{
 		}
 	
 		if(($value < $fmFreqRangeLower) || ($value > $fmFreqRangeUpper)){
-			throw new ConfigException(sprintf('Frequency out of band'));
+            throw new RadioException(sprintf('Frequency out of band'));
 		}
 	
 		return $this->getSet('netRemote.play.frequency',$value);

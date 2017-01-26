@@ -16,5 +16,6 @@ class SysCapsEqBands extends Node implements Nodes
         $this->validation_rules = false;
         $this->call_methods = array('LIST_GET_NEXT');    
         $this->notification = false;
+        $this->api_level = 1;
     }
 }

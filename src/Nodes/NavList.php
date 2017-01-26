@@ -17,5 +17,6 @@ class NavList extends Node implements Nodes
         $this->call_methods = array('LIST_GET_NEXT');    
         $this->notification = false;
         $this->setter = array('netRemote.nav.action.navigate','netRemote.nav.action.selectItem');
+        $this->api_level = 1;
     }
 }

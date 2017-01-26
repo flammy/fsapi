@@ -16,5 +16,6 @@ class SysInfoFriendlyName extends Node implements Nodes
         $this->validation_rules = false;
         $this->call_methods = array('SET','GET');    
         $this->notification = true;
+        $this->api_level = 1;
     }
 }

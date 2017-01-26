@@ -16,5 +16,6 @@ class SysAudioVolume extends Node implements Nodes
         $this->validation_rules = array('min' => 0, 'max' => 20);
         $this->call_methods = array('SET','GET');    
         $this->notification = true;
+        $this->api_level = 1;
     }
 }

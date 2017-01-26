@@ -17,5 +17,6 @@ class NavPresets extends Node implements Nodes
         $this->call_methods = array('LIST_GET_NEXT');    
         $this->notification = false;
         $this->setter = 'netRemote.nav.action.selectPreset';
+        $this->api_level = 1;
     }
 }

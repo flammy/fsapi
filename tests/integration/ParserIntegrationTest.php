@@ -7,10 +7,9 @@ class ParserIntegrationTest extends PHPUnit_Framework_TestCase
         $FSAPI = new FSAPI($Request);
         $SysInfoVersion = new SysInfoVersion;
         $result = $FSAPI->doRequest("GET", $SysInfoVersion);
-        $parser = new Parser();
         // the result doesn't matter, it will be checked in a different test
 
-        $this->assertNotSame(null, $parser->parseResult($result));
+        $this->assertNotSame(null, $result);
     }
     
     public function testCallParserFailFsFail()
@@ -18,28 +17,24 @@ class ParserIntegrationTest extends PHPUnit_Framework_TestCase
         $Request = new RequestInterceptor("<fsapiResponse><status>FS_FAIL</status></fsapiResponse>");
         $FSAPI = new FSAPI($Request);
         $SysInfoVersion = new SysInfoVersion;
-        $result = $FSAPI->doRequest("GET", $SysInfoVersion);
-        $parser = new Parser();
-        // the result doesn't matter, it will be checked in a different test
         try {
-            $this->assertFalse($parser->parseResult($result));
-        } catch (Exception $e) {
+            $result = $FSAPI->doRequest("GET", $SysInfoVersion);
+        }catch (Exception $e){
             $this->assertFalse(false);
         }
+        // the result doesn't matter, it will be checked in a different test
     }
     
     public function testCallParserFailInvalidXML()
     {
-        $Request = new RequestInterceptor("<fsapiResponse><status>FS_FAIL</status>");
+        $Request = new RequestInterceptor("<fsapiResponse><status>FS_FAIL</status></fsapiResponse>");
         $FSAPI = new FSAPI($Request);
         $SysInfoVersion = new SysInfoVersion;
-        $result = $FSAPI->doRequest("GET", $SysInfoVersion);
-        $parser = new Parser();
-        // the result doesn't matter, it will be checked in a different test
         try {
-            $this->assertFalse($parser->parseResult($result));
-        } catch (Exception $e) {
+            $result = $FSAPI->doRequest("GET", $SysInfoVersion);
+        }catch(Exception $e){
             $this->assertFalse(false);
         }
+        // the result doesn't matter, it will be checked in a different test
     }
 }

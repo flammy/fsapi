@@ -17,5 +17,6 @@ class PlayControl extends Node implements Nodes
         $this->call_methods = array('SET','GET');    
         $this->notification = false;
         $this->converter = new ConverterControl;
+        $this->api_level = 1;
     }
 }

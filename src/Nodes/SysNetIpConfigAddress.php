@@ -17,5 +17,6 @@ class SysNetIpConfigAddress extends Node implements Nodes
         $this->call_methods = array('SET','GET');    
         $this->notification = false;
         $this->converter = new ConverterIP;
+        $this->api_level = 1;
     }
 }

@@ -16,5 +16,6 @@ class NavActionSelectItem extends Node implements Nodes
         $this->validation_rules = false;
         $this->call_methods = array('SET');    
         $this->notification = false;
+        $this->api_level = 1;
     }
 }

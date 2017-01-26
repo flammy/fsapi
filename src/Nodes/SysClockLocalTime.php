@@ -17,5 +17,6 @@ class SysClockLocalTime extends Node implements Nodes
         $this->call_methods = array('SET','GET');    
         $this->notification = true;
         $this->converter = new ConverterDateTime;
+        $this->api_level = 1;
     }
 }

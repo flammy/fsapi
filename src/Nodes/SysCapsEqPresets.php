@@ -17,5 +17,6 @@ class SysCapsEqPresets extends Node implements Nodes
         $this->call_methods = array('LIST_GET_NEXT');    
         $this->notification = false;
         $this->setter = 'netRemote.sys.audio.eqPreset';
+        $this->api_level = 1;
     }
 }
