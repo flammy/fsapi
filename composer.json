@@ -8,10 +8,12 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "*",
+        "jakub-onderka/php-parallel-lint": "^0.9.2"
     },
   "scripts": {
-    "phpunit-all": "vendor/bin/phpunit --testsuite all"
+    "phpunit": "vendor/bin/phpunit --testsuite all",
+    "lint": "vendor/bin/parallel-lint ./src/ ./tests/"
   }
 
   }

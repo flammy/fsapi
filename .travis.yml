@@ -18,4 +18,5 @@ before_script:
   - rm composer.lock
   - composer install
 script: 
-    - composer phpunit-all
+    - composer lint
+    - composer phpunit
