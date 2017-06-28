@@ -8,7 +8,7 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "6.*"
+        "phpunit/phpunit": "*"
     },
   "scripts": {
     "phpunit-all": "vendor/bin/phpunit --testsuite all"
