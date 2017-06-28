@@ -15,6 +15,7 @@ matrix:
     - php: "nightly"
 
 before_script:
-  - composer install --no-dev
+  - rm composer.lock
+  - composer install
 script: 
-    - phpunit --testsuite all
+    - composer phpunit-all
