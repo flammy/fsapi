@@ -3,7 +3,7 @@
 namespace FSAPI\Nodes;
 
 /**
- * Exception which is thrown by the Node Class
+ * Exception which is thrown by the NodesFactory Class
  *
  */
 class NodeException extends \Exception

@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\SSDP;
+
 /*
     This Class provides the upnp ssdp discovery service
 

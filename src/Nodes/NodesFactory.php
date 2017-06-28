@@ -25,19 +25,24 @@ class NodesFactory
 		$nodes = array_flip($nodes);
 		$key = array_search($name, $nodes);
 		if($key !== false){
-			return new $key;
+            $classname = '\\FSAPI\Nodes\\'.$key;
+			return new $classname;
 		}
 		throw new NodesFactoryException(sprintf('Node %s not found.', $name));
 	}
 	public function getAllNodes(){
 		$all_nodes = array();
-		$basedir =  dirname(__FILE__)."/Nodes/";
+		$basedir =  dirname(__FILE__);
 		$files = scandir($basedir);
 		
 		foreach($files as $file){
 			$pathinfo = pathinfo($file);
 			if(!is_dir($basedir.$file) && $pathinfo['extension'] == 'php'){
-				$node = new $pathinfo['filename'];
+                if(preg_match("/^Node.*/",$pathinfo['filename'])){
+                    continue;
+                }
+                $classname = '\\FSAPI\Nodes\\'.$pathinfo['filename'];
+			    $node = new  $classname;
 				$all_nodes[$node->getPath()] = $pathinfo['filename'];
 			}
 		}

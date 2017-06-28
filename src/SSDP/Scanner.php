@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\SSDP;
+
 class Scanner implements Scanners
 {
 

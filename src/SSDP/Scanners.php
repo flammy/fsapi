@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\SSDP;
+
 interface Scanners
 {
     /**

@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI;
+
 /**
  * Exception which is thrown by the Parser Class
  *
