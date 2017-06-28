@@ -19,7 +19,13 @@ class FSAPIIntegrationTest extends TestCase
     
     public function testCallFail()
     {
-        $this->expectException('FSAPI\Request\RequestException');
+	if(method_exists($this,'expectException')){
+	        $this->expectException('FSAPI\Request\RequestException');
+	}
+	if(method_exists($this,'setExpectedException')){
+	        $this->setExpectedException('FSAPI\Request\RequestException');
+	}
+	
 
         $Request = new RequestInterceptor(false, array('curl_error' => 'test error'));
         $FSAPI = new FSAPI($Request);
@@ -29,7 +35,12 @@ class FSAPIIntegrationTest extends TestCase
     
     public function testCallFailForbidden()
     {
-        $this->expectException('FSAPI\Request\RequestException');
+	if(method_exists($this,'expectException')){
+	        $this->expectException('FSAPI\Request\RequestException');
+	}
+	if(method_exists($this,'setExpectedException')){
+	        $this->setExpectedException('FSAPI\Request\RequestException');
+	}
 
         $Request = new RequestInterceptor('', array('http_code' => '403'));
         $FSAPI = new FSAPI($Request);
@@ -40,8 +51,12 @@ class FSAPIIntegrationTest extends TestCase
     
     public function testCallFailTeaPod()
     {
-
-        $this->expectException('FSAPI\Request\RequestException');
+	if(method_exists($this,'expectException')){
+	        $this->expectException('FSAPI\Request\RequestException');
+	}
+	if(method_exists($this,'setExpectedException')){
+	        $this->setExpectedException('FSAPI\Request\RequestException');
+	}
         $Request = new RequestInterceptor('', array('http_code' => '418'));
         $FSAPI = new FSAPI($Request);
         $SysInfoVersion = new SysInfoVersion;

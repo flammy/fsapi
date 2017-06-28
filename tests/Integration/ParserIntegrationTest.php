@@ -21,7 +21,12 @@ class ParserIntegrationTest extends TestCase
     
     public function testCallParserFailFsFail()
     {
-        $this->expectException('FSAPI\Parsers\ParserException');
+        if(method_exists($this,'expectException')){
+                $this->expectException('FSAPI\Parsers\ParserException');
+        }
+        if(method_exists($this,'setExpectedException')){
+                $this->setExpectedException('FSAPI\Parsers\ParserException');
+        }
 
         $Request = new RequestInterceptor("<fsapiResponse><status>FS_FAIL</status></fsapiResponse>");
         $FSAPI = new FSAPI($Request);
@@ -32,7 +37,12 @@ class ParserIntegrationTest extends TestCase
     
     public function testCallParserFailInvalidXML()
     {
-        $this->expectException('FSAPI\Parsers\ParserException');
+        if(method_exists($this,'expectException')){
+                $this->expectException('FSAPI\Parsers\ParserException');
+        }
+        if(method_exists($this,'setExpectedException')){
+                $this->setExpectedException('FSAPI\Parsers\ParserException');
+        }
 
         $Request = new RequestInterceptor("<fsapiResponse><status>FS_FAIL</status></fsapiResponse>");
         $FSAPI = new FSAPI($Request);

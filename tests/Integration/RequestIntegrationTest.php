@@ -14,24 +14,36 @@ class RequestIntegrationTest extends TestCase
     
     public function testRequestInterceptorFail()
     {
-        $this->expectException('FSAPI\Request\RequestException');
-
+        if(method_exists($this,'expectException')){
+                $this->expectException('FSAPI\Request\RequestException');
+        }
+        if(method_exists($this,'setExpectedException')){
+                $this->setExpectedException('FSAPI\Request\RequestException');
+        }
         $Request = new RequestInterceptor(false);
         $this->assertFalse($Request->doRequest('method', 'node', 'attributes', 'delimiter'));
     }
     
     public function testRequestInterceptorFailForbidden()
     {
-        $this->expectException('FSAPI\Request\RequestException');
-
+        if(method_exists($this,'expectException')){
+                $this->expectException('FSAPI\Request\RequestException');
+        }
+        if(method_exists($this,'setExpectedException')){
+                $this->setExpectedException('FSAPI\Request\RequestException');
+        }
         $Request = new RequestInterceptor('', array('http_code' => 403));
         $this->assertFalse($Request->doRequest('method', 'node', 'attributes', 'delimiter'));
     }
     
     public function testRequestInterceptorFailTeaPod()
     {
-        $this->expectException('FSAPI\Request\RequestException');
-
+        if(method_exists($this,'expectException')){
+                $this->expectException('FSAPI\Request\RequestException');
+        }
+        if(method_exists($this,'setExpectedException')){
+                $this->setExpectedException('FSAPI\Request\RequestException');
+        }
         $Request = new RequestInterceptor('', array('http_code' => 418));
         $this->assertFalse($Request->doRequest('method', 'node', 'attributes', 'delimiter'));
     }

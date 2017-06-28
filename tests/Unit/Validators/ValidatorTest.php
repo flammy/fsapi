@@ -18,14 +18,25 @@ class ValidatorTest extends TestCase
     
     public function testValidateInputBoolFailEmptyConstructor()
     {
-        $this->expectException('FSAPI\Validators\ValidatorException');
+
+        if(method_exists($this,'expectException')){
+                $this->expectException('FSAPI\Validators\ValidatorException');
+        }
+        if(method_exists($this,'setExpectedException')){
+                $this->setExpectedException('FSAPI\Validators\ValidatorException');
+        }
         $Validator = new Validator('');
         $this->assertFalse($Validator->validateInput('abc'));
     }
     
     public function testValidateInputBetweenFailMissingConstructorParams()
     {
-        $this->expectException('FSAPI\Validators\ValidatorException');
+        if(method_exists($this,'expectException')){
+                $this->expectException('FSAPI\Validators\ValidatorException');
+        }
+        if(method_exists($this,'setExpectedException')){
+                $this->setExpectedException('FSAPI\Validators\ValidatorException');
+        }
         $Validator = new Validator("between");
         $this->assertFalse($Validator->validateInput('abc'));
     }
@@ -33,21 +44,36 @@ class ValidatorTest extends TestCase
     
     public function testValidateInputBetweenFailMissingConstructorParamA()
     {
-        $this->expectException('FSAPI\Validators\ValidatorException');
+        if(method_exists($this,'expectException')){
+                $this->expectException('FSAPI\Validators\ValidatorException');
+        }
+        if(method_exists($this,'setExpectedException')){
+                $this->setExpectedException('FSAPI\Validators\ValidatorException');
+        }
         $Validator = new Validator("between", array('max' => 1));
         $this->assertFalse($Validator->validateInput('abc'));
     }
     
     public function testValidateInputBetweenFailMissingConstructorParamB()
     {
-        $this->expectException('FSAPI\Validators\ValidatorException');
+        if(method_exists($this,'expectException')){
+                $this->expectException('FSAPI\Validators\ValidatorException');
+        }
+        if(method_exists($this,'setExpectedException')){
+                $this->setExpectedException('FSAPI\Validators\ValidatorException');
+        }
         $Validator = new Validator("between", array('min' => 1));
         $this->assertFalse($Validator->validateInput('abc'));
     }
     
     public function testValidateInputBoolFailToManyConstructorParams()
     {
-        $this->expectException('FSAPI\Validators\ValidatorException');
+        if(method_exists($this,'expectException')){
+                $this->expectException('FSAPI\Validators\ValidatorException');
+        }
+        if(method_exists($this,'setExpectedException')){
+                $this->setExpectedException('FSAPI\Validators\ValidatorException');
+        }
         $Validator = new Validator("bool", array('a', 'b'));
         $this->assertFalse($Validator->validateInput('abc'));
     }
