@@ -11,7 +11,7 @@
         "phpunit/phpunit": "6.*"
     },
   "scripts": {
-    "phpunit": "vendor/bin/phpunit --testsuite all"
+    "phpunit-all": "vendor/bin/phpunit --testsuite all"
   }
 
   }
