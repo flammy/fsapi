@@ -17,4 +17,4 @@ matrix:
 before_script:
   - composer install
 script: 
-    - composer phpunit-all
+    - phpunit --testsuite all
