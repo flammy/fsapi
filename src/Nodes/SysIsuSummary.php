@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Nodes;
+
 /**
 * SysIsuSummary is a class type Node
 *

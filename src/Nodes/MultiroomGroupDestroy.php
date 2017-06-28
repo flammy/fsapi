@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Nodes;
+
 /**
 * MultiroomGroupDestroy is a class type Node
 *

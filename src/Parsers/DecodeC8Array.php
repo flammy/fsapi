@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Parsers;
+
 /**
 * DecodeC8Array is decode-product for the Parser factory class
 *

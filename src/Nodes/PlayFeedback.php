@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Nodes;
+
 /**
 * PlayFeedback is a class type Node
 *

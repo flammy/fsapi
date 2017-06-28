@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Nodes;
+
 /**
 * PlaySignalStrength is a class type Node
 *

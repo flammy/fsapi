@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Nodes;
+
 /**
 * PlayServiceIdsFmRdsPi is a class type Node
 *

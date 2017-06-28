@@ -1,4 +1,9 @@
 <?php
+
+namespace FSAPI\Nodes;
+
+use FSAPI\Converters\ConverterState;
+
 /**
 * PlayStatus is a class type Node
 *
@@ -16,7 +21,7 @@ class PlayStatus extends Node implements Nodes
         $this->validation_rules = false;
         $this->call_methods = array('GET');    
         $this->notification = true;
-        $this->converter = new ConverterState;
+        $this->converter = new ConverterState();
         $this->api_level = 1;
     }
 }

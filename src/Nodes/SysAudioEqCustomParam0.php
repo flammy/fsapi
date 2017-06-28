@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Nodes;
+
 /**
 * SysAudioEqCustomParam0 is a class type Node
 *

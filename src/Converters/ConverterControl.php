@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Converters;
+
 /**
 * ConverterControl is converter method used by the converter class
 *

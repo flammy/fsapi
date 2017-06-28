@@ -1,4 +1,6 @@
 <?php
+namespace FSAPI\Validators;
+
 /**
 * ValidateBool is validation method used by the validator class
 *

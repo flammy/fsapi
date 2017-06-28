@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Parsers;
+
 /**
 * DecodeU32 is decode-product for the Parser factory class
 *

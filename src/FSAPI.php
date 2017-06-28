@@ -1,4 +1,14 @@
 <?php
+
+namespace FSAPI;
+
+use FSAPI\Nodes\Nodes;
+use FSAPI\Parsers\Parser;
+use FSAPI\Request\Requests;
+use FSAPI\Request\Request;
+use FSAPI\Nodes\NodesFactory;
+
+
 class FSAPI implements Requests
 {
     protected $call_method_whitelist = array('CREATE_SESSION','DELETE_SESSION','GET_NOTIFIES');
@@ -21,7 +31,7 @@ class FSAPI implements Requests
      * Do the request-call via the Request Object
      *
      * @param string $method  The method (GET,SET,...)
-     * @param null|string $node The name of the Node (netRemote.sys.info.version)
+     * @param null|Nodes $node The name of the Node (netRemote.sys.info.version)
      * @param array $attributes Additional attributes for the request (pin, session,...)
      * @param string $delimiter Delimiter is necessary for some functions, it is added as a virtual folder to the url
      *
@@ -60,7 +70,7 @@ class FSAPI implements Requests
 
 
     protected function convertResult($result){
-        $parser = new Parser;
+        $parser = new Parser();
         return $parser->parseResult($result);
     } 
 }

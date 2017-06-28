@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Nodes;
+
 /**
 * MultiroomCapsProtocolVersion is a class type Node
 *

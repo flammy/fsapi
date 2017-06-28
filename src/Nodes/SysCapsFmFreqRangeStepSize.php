@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Nodes;
+
 /**
 * SysCapsFmFreqRangeStepSize is a class type Node
 *

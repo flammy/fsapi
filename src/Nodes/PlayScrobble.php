@@ -1,4 +1,9 @@
 <?php
+
+namespace FSAPI\Nodes;
+
+use FSAPI\Converters\ConverterBool;
+
 /**
 * PlayScrobble is a class type Node
 *
@@ -16,7 +21,7 @@ class PlayScrobble extends Node implements Nodes
         $this->validation_rules = false;
         $this->call_methods = array('SET','GET');    
         $this->notification = true;
-        $this->converter = new ConverterBool;
+        $this->converter = new ConverterBool();
         $this->api_level = 1;
     }
 }

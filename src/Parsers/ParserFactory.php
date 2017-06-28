@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Parsers;
+
 /**
 * ParserFactory is a factory class which produces decoders for the parser
 *
@@ -28,7 +31,7 @@ class ParserFactory implements Parsers
                     $method[$k] = ucfirst($v);
                 }
     	    }
-            $method = 'Decode'.implode('', $method);
+            $method = '\FSAPI\Parsers\Decode'.implode('', $method);
             if (!class_exists($method)) {
                 throw new ParserException(sprintf('Unknown data type. Parser Decode%s not found.', $method));
             }

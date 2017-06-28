@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Parsers;
+
 class Decode implements Parsers{
     public function parseResult($result){
         //return $result->getname();

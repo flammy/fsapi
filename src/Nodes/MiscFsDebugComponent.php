@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Nodes;
+
 /**
 * MiscFsDebugComponent is a class type Node
 *

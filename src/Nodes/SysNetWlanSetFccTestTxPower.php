@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Nodes;
+
 /**
 * SysNetWlanSetFccTestTxPower is a class type Node
 *

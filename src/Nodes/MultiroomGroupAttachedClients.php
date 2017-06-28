@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Nodes;
+
 /**
 * MultiroomGroupAttachedClients is a class type Node
 *

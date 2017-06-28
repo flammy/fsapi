@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Nodes;
+
 /**
 * MultiroomDeviceListAll is a class type Node
 *

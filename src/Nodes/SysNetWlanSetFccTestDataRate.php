@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Nodes;
+
 /**
 * SysNetWlanSetFccTestDataRate is a class type Node
 *

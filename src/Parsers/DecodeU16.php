@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Parsers;
+
 /**
 * DecodeU16 is decode-product for the Parser factory class
 *

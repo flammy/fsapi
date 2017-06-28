@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Parsers;
+
 /**
 * DecodeArray is decode-product for the Parser factory class
 *

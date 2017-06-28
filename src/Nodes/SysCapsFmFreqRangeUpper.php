@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Nodes;
+
 /**
 * SysCapsFmFreqRangeUpper is a class type Node
 *

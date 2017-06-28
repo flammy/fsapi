@@ -1,4 +1,9 @@
 <?php
+
+namespace FSAPI\Nodes;
+
+use FSAPI\Converters\ConverterList;
+
 /**
 * SysMode is a class type Node
 *
@@ -16,7 +21,7 @@ class SysMode extends Node implements Nodes
         $this->validation_rules = false;
         $this->call_methods = array('SET','GET');    
         $this->notification = true;
-        $this->converter = new ConverterList;
+        $this->converter = new ConverterList();
         $this->api_level = 1;
     }
 }

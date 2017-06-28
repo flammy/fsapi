@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Nodes;
+
 /**
 * SysIsuSoftwareUpdateProgress is a class type Node
 *

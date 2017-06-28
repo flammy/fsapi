@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Converters;
+
 /**
 * ConverterList is converter method used by the converter class
 *

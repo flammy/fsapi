@@ -1,4 +1,9 @@
 <?php
+
+namespace FSAPI\Nodes;
+
+use FSAPI\Converters\ConverterList;
+
 /**
 * SysAudioEqPreset is a class type Node
 *
@@ -16,7 +21,7 @@ class SysAudioEqPreset extends Node implements Nodes
         $this->validation_rules = array('min' => 0, 'max' => 5);
         $this->call_methods = array('SET','GET');    
         $this->notification = true;
-        $this->converter = new ConverterList;
+        $this->converter = new ConverterList();
         $this->api_level = 1;
     }
 }

@@ -1,4 +1,9 @@
 <?php
+
+namespace FSAPI\Nodes;
+
+use FSAPI\Converters\ConverterControl;
+
 /**
 * PlayControl is a class type Node
 *

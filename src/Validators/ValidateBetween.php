@@ -1,4 +1,6 @@
 <?php
+namespace FSAPI\Validators;
+
 /**
 * ValidateBetween is validation method used by the validator class
 *
@@ -31,8 +33,8 @@ class ValidateBetween extends Validator implements Validators
     public function validateInput($input)
     {
         $validation_rules = $this->validation_rules;
-        if (!is_array($validation_rules) && (count($validation_rules) != 2) &&(!isset($validation_rules['min']) || !isset($validation_rules['max']))) {
-            throw new ValidatorException('Validation rules have to be set for validation method ValidateBetween.');
+        if (!is_array($validation_rules) || (!isset($validation_rules['min']) || !isset($validation_rules['max']))) {
+            throw new ValidatorException('Validation rules have to be set for validation method '.var_export($validation_rules,true).' ValidateBetween.');
         }
         if (($validation_rules['min'] <= $input) && ($input <= $validation_rules['max'])) {
             return true;

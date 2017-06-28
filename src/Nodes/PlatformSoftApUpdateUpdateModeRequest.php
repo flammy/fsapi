@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Nodes;
+
 /**
 * PlatformSoftApUpdateUpdateModeRequest is a class type Node
 *

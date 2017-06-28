@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Nodes;
+
 /**
 * SysCfgIrAutoPlayFlag is a class type Node
 *

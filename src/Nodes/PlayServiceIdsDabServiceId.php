@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Nodes;
+
 /**
 * PlayServiceIdsDabServiceId is a class type Node
 *

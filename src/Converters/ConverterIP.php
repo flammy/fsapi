@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Converters;
+
 /**
 * ConverterIP is converter method used by the converter class
 *

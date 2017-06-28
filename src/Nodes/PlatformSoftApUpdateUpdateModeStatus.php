@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Nodes;
+
 /**
 * PlatformSoftApUpdateUpdateModeStatus is a class type Node
 *

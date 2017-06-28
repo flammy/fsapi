@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Nodes;
+
 /**
 * MiscFsDebugTraceLevel is a class type Node
 *

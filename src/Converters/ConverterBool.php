@@ -1,4 +1,7 @@
 <?php
+
+namespace FSAPI\Converters;
+
 /**
 * ConverterBool is converter method used by the converter class
 *
