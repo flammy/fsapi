@@ -7,12 +7,18 @@ use FSAPI\Parsers\Parser;
 use FSAPI\Request\Requests;
 use FSAPI\Request\Request;
 use FSAPI\Nodes\NodesFactory;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 
 class FSAPI implements Requests
 {
     protected $call_method_whitelist = array('CREATE_SESSION','DELETE_SESSION','GET_NOTIFIES');
     protected $Request = null;
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
     
     /**
      * create a new FSAPI-Object 
@@ -24,8 +30,20 @@ class FSAPI implements Requests
     public function __construct(Request $Request)
     {
         $this->Request = $Request;
+        $this->logger = new NullLogger();
     }
 
+
+    /**
+     * Set a PSR-3 Logger
+     * @param LoggerInterface $logger
+     */
+    public function setLogger($logger){
+        if(method_exists($logger,'withName')){
+            $logger = $logger->withName('FSAPI');
+        }
+        $this->logger = $logger;
+    }
 
     /**
      * Do the request-call via the Request Object
