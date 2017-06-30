@@ -5,6 +5,8 @@ namespace FSAPI;
 use FSAPI\Request\Request;
 
 use FSAPI\Nodes\NodesFactory;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 
 class Radio{
@@ -12,6 +14,10 @@ class Radio{
 	protected $host = null;
 	protected $pin = null;
 	protected $sid = null;
+    /**
+     * @var LoggerInterface
+     */
+	private $logger = null;
 	
 	protected $lists = array();
 	
@@ -23,7 +29,6 @@ class Radio{
 	protected $api_level = null;
 	
     public function __construct($host,$pin){
-    	
         $this->host		= $host;
 		$this->pin		= $pin;
 		$this->Request 	= new Request($this->host,null,$this->pin);
@@ -31,6 +36,20 @@ class Radio{
 		$this->sid 		= $this->fsapi->doRequest('CREATE_SESSION');
 		$this->Request->setSID($this->sid);
 		$this->api_level = 1;
+		$this->logger = new NullLogger();
+    }
+
+
+    /**
+     * Set a PSR-3 Logger
+     * @param LoggerInterface $logger
+     */
+    public function setLogger($logger){
+        if(method_exists($logger,'withName')){
+            $logger = $logger->withName('Radio');
+        }
+        $this->logger = $logger;
+        $this->fsapi->setLogger($logger);
     }
 
 

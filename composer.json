@@ -9,11 +9,13 @@
     },
   "require": {
     "php": ">=5.3.0",
-    "ext-curl": "*"
+    "ext-curl": "*",
+    "psr/log": "*"
   },
     "require-dev": {
         "phpunit/phpunit": "*",
-        "jakub-onderka/php-parallel-lint": "^0.9.2"
+        "jakub-onderka/php-parallel-lint": "^0.9.2",
+         "monolog/monolog": "*"
     },
   "scripts": {
     "phpunit": "vendor/bin/phpunit --testsuite all",
