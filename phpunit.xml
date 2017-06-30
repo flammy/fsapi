@@ -20,9 +20,6 @@
             <directory suffix="Test.php">tests/Integration/</directory>
             <directory suffix="Test.php">tests/Unit/</directory>
         </testsuite>
-        <testsuite name="end-to-end">
-            <directory suffix="Test.php">tests/End2End/</directory>
-        </testsuite>
     </testsuites>
     <filter>
         <whitelist>
