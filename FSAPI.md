@@ -86,7 +86,7 @@ You get an 404 Status Code if your Session-ID is invalid or you requested a non-
 
 #### HTTP 403 Forbidden
 
-You get an 403 Statuscode if you sent an invalid PIN.
+You get an 403 Statuscode if you send an invalid PIN.
 
 
 ## Return Values
@@ -150,6 +150,7 @@ The Session-ID is not only valid for the current command and can be reused for n
 
 
 #### Pin
+
 If you send the pin in every request you can have multiple users, which can cause conflicts between their commands.
 
 
@@ -546,7 +547,11 @@ Returns ???
 
 Selects the current menu entry (see netRemote.nav.list)
 
-This function works only with folders (type=0)
+For returning to the upper menu level just set it to -1.
+
+This function works only with folders (type=0), see netRemote.nav.list.
+
+
 
 Method: SET
 
@@ -560,7 +565,7 @@ Method: SET
 
 Selects an Menu Item (see netRemove.nav.list)
 
-This function works only on files (type > 0)
+This function works only on files (type > 0), see netRemote.nav.list.
 
 Method: SET
 
@@ -638,6 +643,12 @@ To prevent overhead you could get the number of items by netRemote.nav.numItems
 
 The -1 Parameter is the Start-Value, you could provide 4 to get all items with an index greater 4.
 
+
+The following field types are known:
+
+ 1. folder
+ 2. mp3
+ 3. mp4
 
 Method: LIST_GET_NEXT
 
