@@ -1,8 +1,6 @@
 language: php
 sudo: false
 php:
-  - '5.2'
-  - '5.3'
   - '5.4'
   - '5.5'
   - '5.6'
@@ -11,8 +9,6 @@ php:
   - nightly
 matrix:
   include:
-    - php: 5.2
-      dist: precise
     - php: 5.3
       dist: precise
   allow_failures:
