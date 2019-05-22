@@ -2421,20 +2421,32 @@ Sets / Returns the Time till Sleep in seconds (0 = No Sleep) [works with Firmwar
 
 
 #### netRemote.sys.rsa.publicKey
+Method: GET
 
-TODO
-
-Method: ??
-
-??? 
+Fetch the public RSA key that is used to encrypt the Wifi password before
+sending it to the radio.
 
 ```
-
+<fsapiResponse>
+  <status>FS_OK</status>
+  <value><c8_array>010001:CACDC44CC87DA7999B52C15F947E51DF393DD74F08FD91E054B65CADB354673209E4D340E9613AECE1870B8CC69423B75F7F66EAAB351F1992C599007928817F676052EAD3DF2C3A8E9916F7595581E317C103E5B4460EA1F955D6309ED9C4A404E67C1BF7FF38475E3EE8CBBBD90FBB2FAAFD068ABE25D156B7AE3529A748C7</c8_array></value>
+</fsapiResponse>
 ```
 
 #### netRemote.sys.rsa.status
+Method: GET
 
-is part of the new api version
+Check the status of the RSA key generation.
+
+- 0: Generating
+- 1: Ready
+
+```
+<fsapiResponse>
+  <status>FS_OK</status>
+  <value><u8>1</u8></value>
+</fsapiResponse>
+```
 
 #### netRemote.sys.ipod.dockStatus
 
