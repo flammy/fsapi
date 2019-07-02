@@ -377,7 +377,7 @@ Method: SET
 Add device to group
 
 ```
-/fsapi/SET/netRemote.multiroom.group.group.addClient?pin=1337&value=[Device-udn]
+/fsapi/SET/netRemote.multiroom.group.addClient?pin=1337&value=[Device-udn]
 
 <status>FS_NODE_DOES_NOT_EXIST</status>
 
@@ -402,7 +402,7 @@ Method: SET
 Delete Multiroom group
 
 ```
-/fsapi/SET/netRemote.multiroom.group.group.destroy?pin=1337&value=1
+/fsapi/SET/netRemote.multiroom.group.destroy?pin=1337&value=1
 
 <status>FS_NODE_DOES_NOT_EXIST</status>
 
