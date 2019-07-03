@@ -1,4 +1,4 @@
-# fsapi - Frontier Silicon API for PHP [![Build Status](https://travis-ci.org/flammy/fsapi.svg?branch=master)](https://travis-ci.org/flammy/fsapi)
+# fsapi - Frontier Silicon API for PHP [![Build Status](https://travis-ci.org/flammy/fsapi.svg?branch=master)](https://travis-ci.org/flammy/fsapi) [![Maintainability](https://codeclimate.com/github/flammy/fsapi.png)](https://codeclimate.com/github/flammy/fsapi/maintainability)
 
 **This code is work in progress! It is not finnished yet, feel free co contribute to it.**
 
