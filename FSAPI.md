@@ -1417,15 +1417,29 @@ Sets / Returns the volume of the device (Range: 1-20)
 ```
 
 #### netRemote.sys.caps.clockSourceList
+Method: GET
 
-TODO
-
-Method: ??
-
-??? 
+Fetch the list of available time sources
 
 ```
+/fsapi/LIST_GET_NEXT/netRemote.sys.caps.clockSourceList/-1?pin=1234&maxItems=65536
 
+<fsapiResponse>
+  <status>FS_OK</status>
+  <item key="0">
+    <field name="source"><c8_array>DAB</c8_array></field>
+  </item>
+  <item key="1">
+    <field name="source"><c8_array>FM</c8_array></field>
+  </item>
+  <item key="2">
+    <field name="source"><c8_array>NETWORK</c8_array></field>
+  </item>
+  <item key="3">
+    <field name="source"><c8_array>NO_UPDATE</c8_array></field>
+  </item>
+  <listend/>
+</fsapiResponse>
 ```
 
 
@@ -1553,12 +1567,36 @@ Returns the highest available fm-frequency
 
 TODO
 
-Method: ??
+Method: GET
 
 ??? 
 
 ```
+/fsapi/LIST_GET_NEXT/netRemote.sys.caps.utcSettingsList/-1?pin=1234&maxItems=30
 
+<fsapiResponse>
+  <status>FS_OK</status>
+  <item key="0">
+    <field name="time"><s32>-43200</s32></field>
+    <field name="region"><c8_array>Intern. Datumsgrenze West</c8_array></field>
+  </item>
+  <item key="1">
+    <field name="time"><s32>-41400</s32></field>
+    <field name="region"><c8_array/></field>
+  </item>
+  <item key="2">
+    <field name="time"><s32>-39600</s32></field>
+    <field name="region"><c8_array>Midway Insel, Samoa</c8_array></field>
+  </item>
+  <item key="3">
+    <field name="time"><s32>-37800</s32></field>
+    <field name="region"><c8_array/></field>
+  </item>
+  <item key="4">
+    <field name="time"><s32>-36000</s32></field>
+    <field name="region"><c8_array>Hawaii</c8_array></field>
+  </item>
+...
 ```
 
 
@@ -1579,22 +1617,83 @@ Method: LIST_GET_NEXT
 
 Lists valid operation modes
 
-
 ```
 /fsapi/LIST_GET_NEXT/netRemote.sys.caps.validModes/-1?pin=1337&sid=300029608&maxItems=100
 
-<item key="0">
-<field name="id"><c8_array>IR</c8_array></field>
-<field name="selectable"><u8>1</u8></field>
-<field name="label"><c8_array>Internet Radio</c8_array></field>
-
-</item>
-<item key="1">
-<field name="id"><c8_array>MP</c8_array></field>
-<field name="selectable"><u8>1</u8></field>
-<field name="label"><c8_array>Musik Archiv </c8_array></field>
-[...]
-<listend/>
+<fsapiResponse>
+  <status>FS_OK</status>
+  <item key="0">
+    <field name="id"><c8_array>IR</c8_array></field>
+    <field name="selectable"><u8>1</u8></field>
+    <field name="label"><c8_array>Internet Radio</c8_array></field>
+    <field name="streamable"><u8>1</u8></field>
+    <field name="modetype"><u8>0</u8></field>
+  </item>
+  <item key="1">
+    <field name="id"><c8_array>Spotify</c8_array></field>
+    <field name="selectable"><u8>1</u8></field>
+    <field name="label"><c8_array>Spotify Connect</c8_array></field>
+    <field name="streamable"><u8>1</u8></field>
+    <field name="modetype"><u8>0</u8></field>
+  </item>
+  <item key="2">
+    <field name="id"><c8_array>DMR</c8_array></field>
+    <field name="selectable"><u8>0</u8></field>
+    <field name="label"><c8_array>DMR</c8_array></field>
+    <field name="streamable"><u8>1</u8></field>
+    <field name="modetype"><u8>0</u8></field>
+  </item>
+  <item key="3">
+    <field name="id"><c8_array>MP</c8_array></field>
+    <field name="selectable"><u8>1</u8></field>
+    <field name="label"><c8_array>Musik abspielen</c8_array></field>
+    <field name="streamable"><u8>1</u8></field>
+    <field name="modetype"><u8>1</u8></field>
+  </item>
+  <item key="4">
+    <field name="id"><c8_array>DAB</c8_array></field>
+    <field name="selectable"><u8>1</u8></field>
+    <field name="label"><c8_array>DAB</c8_array></field>
+    <field name="streamable"><u8>1</u8></field>
+    <field name="modetype"><u8>0</u8></field>
+  </item>
+  <item key="5">
+    <field name="id"><c8_array>FM</c8_array></field>
+    <field name="selectable"><u8>1</u8></field>
+    <field name="label"><c8_array>FM</c8_array></field>
+    <field name="streamable"><u8>1</u8></field>
+    <field name="modetype"><u8>0</u8></field>
+  </item>
+  <item key="6">
+    <field name="id"><c8_array>AUXIN</c8_array></field>
+    <field name="selectable"><u8>1</u8></field>
+    <field name="label"><c8_array>AUX Eingang</c8_array></field>
+    <field name="streamable"><u8>1</u8></field>
+    <field name="modetype"><u8>1</u8></field>
+  </item>
+  <item key="7">
+    <field name="id"><c8_array>CD</c8_array></field>
+    <field name="selectable"><u8>1</u8></field>
+    <field name="label"><c8_array>CD</c8_array></field>
+    <field name="streamable"><u8>1</u8></field>
+    <field name="modetype"><u8>1</u8></field>
+  </item>
+  <item key="8">
+    <field name="id"><c8_array>BLUETOOTH</c8_array></field>
+    <field name="selectable"><u8>1</u8></field>
+    <field name="label"><c8_array>Bluetooth</c8_array></field>
+    <field name="streamable"><u8>1</u8></field>
+    <field name="modetype"><u8>1</u8></field>
+  </item>
+  <item key="9">
+    <field name="id"><c8_array>NETWORK</c8_array></field>
+    <field name="selectable"><u8>0</u8></field>
+    <field name="label"><c8_array/></field>
+    <field name="streamable"><u8>0</u8></field>
+    <field name="modetype"><u8>0</u8></field>
+  </item>
+  <listend/>
+</fsapiResponse>
 ```
 
 
@@ -1623,15 +1722,17 @@ Method: ??
 ```
 
 #### netRemote.sys.clock.dst
+Method: GET, SET
 
-TODO
-
-Method: ??
-
-??? 
+Fetch/set daylight saving setting
 
 ```
+/fsapi/GET/netRemote.sys.clock.dst?pin=1234
 
+<fsapiResponse>
+ <status>FS_OK</status>
+ <value><u8>0</u8></value>
+</fsapiResponse>
 ```
 
 #### netRemote.sys.clock.localDate
@@ -1658,39 +1759,54 @@ Returns the local time in XML-RPC date format ( 093327 = 09:33:27)
 ```
 
 #### netRemote.sys.clock.mode
+Method: GET, SET
 
-TODO
+Set the clock to 12h or 24 hour mode
 
-Method: ??
+Values:
 
-??? 
+- 0: 12h
+- 1: 24h
 
 ```
+GET /fsapi/GET/netRemote.sys.clock.mode?pin=1234
 
+<fsapiResponse>
+ <status>FS_OK</status>
+ <value><u8>1</u8></value>
+</fsapiResponse>
 ```
 
 #### netRemote.sys.clock.source
+Method: GET, SET
 
-TODO
+Fetch/set the time source (DAB, FM, Internet, manual).
 
-Method: ??
-
-??? 
+Valid values can be fetched with `netRemote.sys.caps.clockSourceList`.
 
 ```
+/fsapi/GET/netRemote.sys.clock.source?pin=1234
 
+<fsapiResponse>
+ <status>FS_OK</status>
+ <value><u8>1</u8></value>
+</fsapiResponse>
 ```
 
 #### netRemote.sys.clock.utcOffset
+Method: GET, SET
 
-TODO
+Get/set the offset of the local time compared to UTC.
 
-Method: ??
-
-??? 
+Valid values can be fetched with `netRemote.sys.caps.utcSettingsList`.
 
 ```
+/fsapi/GET/netRemote.sys.clock.utcOffset?pin=1234
 
+<fsapiResponse>
+ <status>FS_OK</status>
+ <value><s32>0</s32></value>
+</fsapiResponse>
 ```
 
 
@@ -1761,7 +1877,7 @@ Sets/ Returns the Network-Name of the Device
 #### netRemote.sys.info.radioId
 Method: GET
 
-Returns uniquie? ID Radio-ID 
+Returns unique? ID Radio-ID
 
 ```
 /fsapi/GET/netRemote.sys.info.radioId?pin=1337&sid=1720678490
@@ -1770,7 +1886,9 @@ Returns uniquie? ID Radio-ID
 
 ```
 #### netRemote.sys.info.radioPin
-Method: GET, SET
+Method: SET
+
+Change the PIN used to access the radio API.
 
 ```
 fsapi/SET/netRemote.sys.info.radioPin?pin=1337&value=1337
@@ -1884,12 +2002,9 @@ Method: ??
 ```
 
 #### netRemote.sys.lang
+Method: GET, SET
 
-TODO
-
-Method: GET
-
-Returns ???
+Retrieve/set the radio user interface language
 
 ```
 /fsapi/GET/netRemote.sys.lang?pin=1337&sid=539517630
@@ -2306,20 +2421,32 @@ Sets / Returns the Time till Sleep in seconds (0 = No Sleep) [works with Firmwar
 
 
 #### netRemote.sys.rsa.publicKey
+Method: GET
 
-TODO
-
-Method: ??
-
-??? 
+Fetch the public RSA key that is used to encrypt the Wifi password before
+sending it to the radio.
 
 ```
-
+<fsapiResponse>
+  <status>FS_OK</status>
+  <value><c8_array>010001:CACDC44CC87DA7999B52C15F947E51DF393DD74F08FD91E054B65CADB354673209E4D340E9613AECE1870B8CC69423B75F7F66EAAB351F1992C599007928817F676052EAD3DF2C3A8E9916F7595581E317C103E5B4460EA1F955D6309ED9C4A404E67C1BF7FF38475E3EE8CBBBD90FBB2FAAFD068ABE25D156B7AE3529A748C7</c8_array></value>
+</fsapiResponse>
 ```
 
 #### netRemote.sys.rsa.status
+Method: GET
 
-is part of the new api version
+Check the status of the RSA key generation.
+
+- 0: Generating
+- 1: Ready
+
+```
+<fsapiResponse>
+  <status>FS_OK</status>
+  <value><u8>1</u8></value>
+</fsapiResponse>
+```
 
 #### netRemote.sys.ipod.dockStatus
 
