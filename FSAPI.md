@@ -337,9 +337,9 @@ Method: ??
 
 TODO
 
-Method: ??
+Method: SET
 
-??? 
+Send the udn of the client as value that you get with netRemote.multiroom.device.listAll
 
 ```
 
