@@ -150,28 +150,26 @@ class Radio{
 		$basedir =  dirname(__FILE__)."/Nodes/";
 		$NodesFactory = new NodesFactory();
 		$all_nodes = $NodesFactory->getAllNodes();
+		$result = [];
 		foreach($all_nodes as $file){
 			$pathinfo = pathinfo($file);
 			include_once($basedir.$file.'.php');
-			$node = new $pathinfo['filename'];
+			$className = "FSAPI\\Nodes\\".$pathinfo['filename'];
+			$node = new $className();
 			if(($path !== NULL) && (preg_match("/^$path/",$node->getPath()) !== 1)){
 				continue;
 			}
-			if($node->getApiLevel !== $this->api_level){
-                continue;
-            }
-
-
+			if($node->getApiLevel() !== $this->api_level){
+				continue;
+			}
 			if(method_exists($node,'getCallMethods')){
 				$call_methods = $node->getCallMethods();
 				if(array_search('GET',$call_methods) !== FALSE){
 					$result[$node->getPath()] = $this->getSet($node);
-					
 				}
 			}
 		}
 		return $result;
-	
 	}
 	
 	/**

@@ -81,8 +81,12 @@ class FSAPI implements Requests
             if (!$node->validateInput($attributes['value'])) {
                 throw new FSAPIException(sprintf('Validation Failed.', $method));
             }
-        }
-        return $this->convertResult($this->Request->doRequest($method, $node, $attributes, $delimiter));
+	}
+	try {
+            return $this->convertResult($this->Request->doRequest($method, $node, $attributes, $delimiter));
+	} catch(\Exception $e) {
+		error_log(sprintf("Exception for %s->%s: %s",$node->getPath(),$method,$e->getMessage()));
+	}
     }
 
 
