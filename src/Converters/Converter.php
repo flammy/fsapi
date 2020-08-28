@@ -20,7 +20,7 @@ class Converter implements Converters
 	
     public function convertInput($input)
     {
-		$translation_table = $this->translation_table;
+		$translation_table = $this->translation_table?:[];
 		$key = array_search(trim($input),$translation_table);
 		if($key !== false){
 			return $translation_table[$key];
