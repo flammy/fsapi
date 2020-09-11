@@ -1,10 +1,10 @@
 # fsapi - Frontier Silicon API for PHP [![Build Status](https://travis-ci.org/flammy/fsapi.svg?branch=master)](https://travis-ci.org/flammy/fsapi) [![Maintainability](https://codeclimate.com/github/flammy/fsapi.png)](https://codeclimate.com/github/flammy/fsapi/maintainability)
 
-**This code is work in progress! It is not finnished yet, feel free co contribute to it.**
+**This code is work in progress! It is not finished yet, feel free co contribute to it.**
 
 This code is developed for Frontier Silicon Ltd. Venice 6.2 chipset and tested with TERRIS® Stereo Internetradio.
 
-In This case there is no spotify mode and there are not so many equalizers. 
+In this case there is no spotify mode and there are not so many equalizers. 
 
 Please let me know if it does not work on your device.
 
@@ -35,7 +35,7 @@ $response = $FSAPI->doRequest('SET','netRemote.sys.audio.volume',array('value' =
 ```
 **Class SSDP (Simple Service Discovery Protocol)**
 
-The ssdp class provices the device discovery via UPNP. This is a verry rudimentary class which does only this one thing. 
+The ssdp class provices the device discovery via UPNP. This is a very rudimentary class which does only this one thing. 
 
 ```
 $Scanner = new Scanner();
