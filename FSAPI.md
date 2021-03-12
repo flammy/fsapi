@@ -1615,12 +1615,37 @@ Method: GET
 
 TODO
 
-Method: ??
+Method: LIST_GET_NEXT
 
-??? 
+Lists valid languages 
 
 ```
+/fsapi/LIST_GET_NEXT/netRemote.sys.caps.validLang/-1?pin=1337&maxItems=100
 
+<fsapiResponse>
+ <status>FS_OK</status>
+  <item key="0">
+   <field name="langlabel">
+    <c8_array>English</c8_array>
+   </field>
+  </item>
+  <item key="1">
+   <field name="langlabel">
+    <c8_array>French</c8_array>
+   </field>
+  </item>
+  <item key="2">
+   <field name="langlabel">
+    <c8_array>German</c8_array>
+   </field>
+  </item>
+  <item key="3">
+   <field name="langlabel">
+    <c8_array>Italian</c8_array>
+   </field>
+  </item>
+<listend/>
+</fsapiResponse>
 ```
 
 #### netRemote.sys.caps.validModes
