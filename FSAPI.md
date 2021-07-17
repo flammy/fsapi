@@ -68,7 +68,47 @@ LIST_GET_NEXT
 
 ```
 
+#### GET_MULTIPLE
 
+Get values for multiply nodes using single HTTP call. 
+
+Example: 
+```
+GET:
+/fsapi/GET_MULTIPLE?pin=1234&node=netRemote.sys.net.wlan.connectedSSID&node=netRemote.sys.net.wlan.rssi&node=netRemote.sys.net.wlan.macAddress&node=netRemote.sys.net.wired.interfaceEnable&node=netRemote.sys.net.wired.macAddress&
+```
+
+Sample response:
+
+```xml
+	<fsapiGetMultipleResponse>
+	<fsapiResponse>
+	<node>netRemote.sys.net.wlan.connectedSSID</node>
+	<status>FS_OK</status>
+	<value><array></array></value>
+	</fsapiResponse>
+	<fsapiResponse>
+	<node>netRemote.sys.net.wlan.rssi</node>
+	<status>FS_OK</status>
+	<value><u8>0</u8></value>
+	</fsapiResponse>
+	<fsapiResponse>
+	<node>netRemote.sys.net.wlan.macAddress</node>
+	<status>FS_OK</status>
+	<value><c8_array>30:58:90:a4:12:34</c8_array></value>
+	</fsapiResponse>
+	<fsapiResponse>
+	<node>netRemote.sys.net.wired.interfaceEnable</node>
+	<status>FS_OK</status>
+	<value><u8>1</u8></value>
+	</fsapiResponse>
+	<fsapiResponse>
+	<node>netRemote.sys.net.wired.macAddress</node>
+	<status>FS_OK</status>
+	<value><c8_array>30:58:90:a4:12:35</c8_array></value>
+	</fsapiResponse>
+	</fsapiGetMultipleResponse>
+```
 
 ## Status Codes
 
