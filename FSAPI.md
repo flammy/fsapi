@@ -70,9 +70,9 @@ LIST_GET_NEXT
 
 #### GET_MULTIPLE
 
-Get values for multiply nodes using single HTTP call. 
+Get values for multiply nodes using single HTTP call.
 
-Example: 
+Example:
 ```
 GET:
 /fsapi/GET_MULTIPLE?pin=1234&node=netRemote.sys.net.wlan.connectedSSID&node=netRemote.sys.net.wlan.rssi&node=netRemote.sys.net.wlan.macAddress&node=netRemote.sys.net.wired.interfaceEnable&node=netRemote.sys.net.wired.macAddress&
@@ -116,7 +116,7 @@ The first indicator for the success of your request is the HTTP-Statuscode, it s
 
 #### HTTP 200 OK
 
-You request is valid: 
+You request is valid:
 
 The path to the FSAPI is right and you provided the right PIN.
 
@@ -201,7 +201,7 @@ If you send the pin in every request you can have multiple users, which can caus
 
 To keep it simple I will only mention the VALUE field of the response.
 
-- [Nav](#nav) - menu-navigation 
+- [Nav](#nav) - menu-navigation
 - [Play](#play) - settings for current playback
 - [System](#system) - system settings
 - [Platform](#platform) - platform updates
@@ -222,7 +222,7 @@ All topics except the menu are sorted in alphabetical order.
 
 Method: ??
 
-Todo 
+Todo
 
 ```
 
@@ -232,7 +232,7 @@ Todo
 
 Method: ??
 
-Todo 
+Todo
 
 ```
 
@@ -246,7 +246,7 @@ Todo
 
 Method: ??
 
-Todo 
+Todo
 
 ```
 
@@ -256,7 +256,7 @@ Todo
 
 Method: ??
 
-Todo 
+Todo
 
 ```
 
@@ -266,7 +266,7 @@ Todo
 
 Method: ??
 
-Todo 
+Todo
 
 ```
 
@@ -303,7 +303,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -367,7 +367,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -430,7 +430,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -550,7 +550,7 @@ Method: ??
 ```
 
 
-### Nav 
+### Nav
 
 Every change of the system mode, will disable the nav state to reset the current menu-position. It has to be activated with nav.state
 
@@ -561,7 +561,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -575,7 +575,7 @@ Starts Scan for DAB Channels
 
 Method: GET
 
-Returns ??? 
+Returns ???
 
 ```
 /fsapi/GET/netRemote.nav.action.dabScan?pin=1337&sid=1983995656
@@ -644,7 +644,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -657,7 +657,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -669,7 +669,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -677,7 +677,7 @@ Method: ??
 
 #### netRemote.nav.list
 
-Get the menu for the current mode 
+Get the menu for the current mode
 
 To prevent overhead you could get the number of items by netRemote.nav.numItems
 
@@ -719,7 +719,7 @@ fsapi/LIST_GET_NEXT/netRemote.nav.list/-1?pin=1337&maxItems=10
             </field>
         </item>
 ```
-           
+
 #### netRemote.nav.numItems
 
 Method: GET
@@ -776,7 +776,7 @@ Every change of the system mode, will disable the nav state to reset the current
 
 Method: GET, SET
 
-Sets / Returns the status of the navigation. 
+Sets / Returns the status of the navigation.
 
 
 ```
@@ -824,7 +824,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -835,7 +835,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -861,7 +861,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -918,7 +918,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1109,7 +1109,7 @@ Method: GET
 
 Returns Extended Country Code (decimal notation) as defined in ETSI TS 101 756
 Note: commonly used in Hex notation.  Defined in ETSI TS 101 756, used in conjunction with the first character (in Hex notation) of the dabServiceId to identify the country.
-e.g. 
+e.g.
 dabServiceId 52951 (CED7); ecc 225 (E1); Global Country Code of CE1 = United Kingdom
 dabServiceId 57233 (DF91); ecc 224 (E0); gives a Global Country Code of DE0 = Germany
 
@@ -1204,7 +1204,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1214,7 +1214,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1224,7 +1224,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1234,7 +1234,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1250,7 +1250,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1262,7 +1262,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1274,7 +1274,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1286,7 +1286,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1298,7 +1298,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1310,7 +1310,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1322,7 +1322,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1335,7 +1335,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1374,7 +1374,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1386,7 +1386,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1398,7 +1398,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1438,7 +1438,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1500,7 +1500,7 @@ TODO
 
 Method: LIST_GET_NEXT
 
-Lists available dab-frequencies  
+Lists available dab-frequencies
 
 ```
     /fsapi/LIST_GET_NEXT/netRemote.sys.caps.dabFreqList/-1?pin=1337&maxItems=65536
@@ -1574,7 +1574,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1620,7 +1620,7 @@ TODO
 
 Method: GET
 
-??? 
+???
 
 ```
 /fsapi/LIST_GET_NEXT/netRemote.sys.caps.utcSettingsList/-1?pin=1234&maxItems=30
@@ -1657,7 +1657,7 @@ TODO
 
 Method: LIST_GET_NEXT
 
-Lists valid languages 
+Lists valid languages
 
 ```
 /fsapi/LIST_GET_NEXT/netRemote.sys.caps.validLang/-1?pin=1337&maxItems=100
@@ -1791,7 +1791,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1908,7 +1908,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1921,7 +1921,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1933,7 +1933,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2015,7 +2015,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2027,7 +2027,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2058,7 +2058,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2071,7 +2071,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2091,7 +2091,7 @@ Retrieve/set the radio user interface language
 #### netRemote.sys.mode
 Method: GET, SET
 
-Sets / Returns the current operation mode 
+Sets / Returns the current operation mode
 
 see netRemote.sys.caps.validModes for valid operation modes
 
@@ -2107,7 +2107,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2252,7 +2252,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2264,7 +2264,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2276,7 +2276,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2288,7 +2288,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2311,7 +2311,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2323,7 +2323,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2335,7 +2335,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2378,7 +2378,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2392,7 +2392,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2404,7 +2404,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2416,7 +2416,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2428,7 +2428,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2440,7 +2440,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2452,7 +2452,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2464,7 +2464,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2530,7 +2530,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2544,7 +2544,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2554,7 +2554,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2564,7 +2564,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
