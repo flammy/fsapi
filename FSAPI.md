@@ -18,6 +18,33 @@ If you want to toggle mute or check if the device is muted you can access the no
 netRemote.sys.audio.mute
 ```
 
+
+## Authentication
+### PIN
+To use the API, a PIN is required.
+The default PIN is `1234`.
+
+Use the `?pin=...` GET parameter for it.
+
+If you send the pin in every request you can have multiple users,
+which can cause conflicts between their commands.
+
+
+### Session ID
+Some API endpoints support authentication via session ID, which can be obtained
+with the `CREATE_SESSION` operation.
+Once obtained, use the `?sid=...` GET parameter to pass it to the API.
+
+The device does only support one session at a time.
+If you create a new session the old session will be purged.
+
+If you send only the Session-ID your new requests will fail,
+if a new session is created by another user.
+
+The Session-ID is not only valid for the current command
+and can be reused for new commands.
+
+
 ## Operations
 
 Operations determine how you interact with the node.
@@ -36,7 +63,17 @@ Get the next "page" of a list stored in the node.
 
 #### CREATE_SESSION
 
-Login with pin an get a Session-ID in return.
+Login with PIN an get a Session-ID in return.
+
+Creating a session is not necessary if you pass the `pin` parameter to the API
+requests.
+Some API endpoints require a session and cannot be used with a PIN.
+
+```
+/fsapi/CREATE_SESSION?pin=1234
+
+<sessionId>471867388</sessionId>
+```
 
 #### DELETE_SESSION
 
@@ -174,24 +211,6 @@ Your Request took to long.
 #### FS_LIST_END
 
 There is no list-entry left.
-
-
-
-
-## Session Handling
-
-The device does only support one session at a time. If you create a new session the old session will be purged.
-
-#### Session-ID
-
-If you send only the Session-ID your new requests will fail, if a new session is created by another user.
-
-The Session-ID is not only valid for the current command and can be reused for new commands.
-
-
-#### Pin
-
-If you send the pin in every request you can have multiple users, which can cause conflicts between their commands.
 
 
 
