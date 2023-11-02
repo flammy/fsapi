@@ -529,25 +529,60 @@ Set/Get Volume for all devices
 ### Misc
 
 #### netRemote.misc.fsDebug.component
-TODO
+Method: GET, SET
 
-Method: ??
+Set the software component that shall be configured with
+`netRemote.misc.fsDebug.traceLevel`.
 
-??? 
+```
+/fsapi/GET/netRemote.misc.fsDebug.component?pin=1337
 
+<value><u8>14</u8></value>
 ```
 
 ```
+/fsapi/SET/netRemote.misc.fsDebug.component?pin=1337&value=14
+```
+
+Radio `FS2026-0500-0286` (Technisat DigitRadio 580) allows setting
+component IDs between `0` and `71`. All others return a `FS_FAIL`.
+
+Known components:
+- 14: UPnP browsing ("AVB")
+- 29: UPnP media renderer ("DMR")
+- 51: "AUDIO"
+- 56: HTTP API ("WFSAPI")
+- 62: "RTPCTL"
+
+
 #### netRemote.misc.fsDebug.traceLevel
-TODO
+Method: GET, SET
 
-Method: ??
+Read or set the log level for the software component that has been set with
+`netRemote.misc.fsDebug.component`.
 
-??? 
+Valid log levels are numbers 2-5, with 5 being the highest. 2 is default.
+Only two components at a time may have a log level higher than 2.
 
+Radio `FS2026-0500-0286` (Technisat DigitRadio 580) does not allow setting the trace
+level of components 0, 2 , 6, 12, 21, 27, 53, 55.
+
+The debug log can be accessed with `telnet` on port `514`.
+
+```
+/fsapi/GET/netRemote.misc.fsDebug.traceLevel?pin=1337
+
+<value><u8>2</u8></value>
 ```
 
 ```
+/fsapi/SET/netRemote.misc.fsDebug.traceLevel?pin=1337&value=5
+```
+
+Two steps are necessary to read or set the log level for component 14:
+
+1. Set the component with `netRemote.misc.fsDebug.component`
+2. Get/set the trace level with `netRemote.misc.fsDebug.traceLevel`
 
 
 ### Nav
