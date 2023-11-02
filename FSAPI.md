@@ -18,6 +18,33 @@ If you want to toggle mute or check if the device is muted you can access the no
 netRemote.sys.audio.mute
 ```
 
+
+## Authentication
+### PIN
+To use the API, a PIN is required.
+The default PIN is `1234`.
+
+Use the `?pin=...` GET parameter for it.
+
+If you send the pin in every request you can have multiple users,
+which can cause conflicts between their commands.
+
+
+### Session ID
+Some API endpoints support authentication via session ID, which can be obtained
+with the `CREATE_SESSION` operation.
+Once obtained, use the `?sid=...` GET parameter to pass it to the API.
+
+The device does only support one session at a time.
+If you create a new session the old session will be purged.
+
+If you send only the Session-ID your new requests will fail,
+if a new session is created by another user.
+
+The Session-ID is not only valid for the current command
+and can be reused for new commands.
+
+
 ## Operations
 
 Operations determine how you interact with the node.
@@ -36,7 +63,17 @@ Get the next "page" of a list stored in the node.
 
 #### CREATE_SESSION
 
-Login with pin an get a Session-ID in return.
+Login with PIN an get a Session-ID in return.
+
+Creating a session is not necessary if you pass the `pin` parameter to the API
+requests.
+Some API endpoints require a session and cannot be used with a PIN.
+
+```
+/fsapi/CREATE_SESSION?pin=1234
+
+<sessionId>471867388</sessionId>
+```
 
 #### DELETE_SESSION
 
@@ -70,9 +107,9 @@ LIST_GET_NEXT
 
 #### GET_MULTIPLE
 
-Get values for multiply nodes using single HTTP call. 
+Get values for multiply nodes using single HTTP call.
 
-Example: 
+Example:
 ```
 GET:
 /fsapi/GET_MULTIPLE?pin=1234&node=netRemote.sys.net.wlan.connectedSSID&node=netRemote.sys.net.wlan.rssi&node=netRemote.sys.net.wlan.macAddress&node=netRemote.sys.net.wired.interfaceEnable&node=netRemote.sys.net.wired.macAddress&
@@ -116,7 +153,7 @@ The first indicator for the success of your request is the HTTP-Statuscode, it s
 
 #### HTTP 200 OK
 
-You request is valid: 
+You request is valid:
 
 The path to the FSAPI is right and you provided the right PIN.
 
@@ -178,30 +215,12 @@ There is no list-entry left.
 
 
 
-## Session Handling
-
-The device does only support one session at a time. If you create a new session the old session will be purged.
-
-#### Session-ID
-
-If you send only the Session-ID your new requests will fail, if a new session is created by another user.
-
-The Session-ID is not only valid for the current command and can be reused for new commands.
-
-
-#### Pin
-
-If you send the pin in every request you can have multiple users, which can cause conflicts between their commands.
-
-
-
-
 ## Reference
 
 
 To keep it simple I will only mention the VALUE field of the response.
 
-- [Nav](#nav) - menu-navigation 
+- [Nav](#nav) - menu-navigation
 - [Play](#play) - settings for current playback
 - [System](#system) - system settings
 - [Platform](#platform) - platform updates
@@ -222,7 +241,7 @@ All topics except the menu are sorted in alphabetical order.
 
 Method: ??
 
-Todo 
+Todo
 
 ```
 
@@ -232,7 +251,7 @@ Todo
 
 Method: ??
 
-Todo 
+Todo
 
 ```
 
@@ -246,7 +265,7 @@ Todo
 
 Method: ??
 
-Todo 
+Todo
 
 ```
 
@@ -256,7 +275,7 @@ Todo
 
 Method: ??
 
-Todo 
+Todo
 
 ```
 
@@ -266,7 +285,7 @@ Todo
 
 Method: ??
 
-Todo 
+Todo
 
 ```
 
@@ -303,7 +322,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -367,7 +386,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -430,7 +449,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -529,28 +548,63 @@ Set/Get Volume for all devices
 ### Misc
 
 #### netRemote.misc.fsDebug.component
-TODO
+Method: GET, SET
 
-Method: ??
+Set the software component that shall be configured with
+`netRemote.misc.fsDebug.traceLevel`.
 
-??? 
+```
+/fsapi/GET/netRemote.misc.fsDebug.component?pin=1337
 
+<value><u8>14</u8></value>
 ```
 
 ```
+/fsapi/SET/netRemote.misc.fsDebug.component?pin=1337&value=14
+```
+
+Radio `FS2026-0500-0286` (Technisat DigitRadio 580) allows setting
+component IDs between `0` and `71`. All others return a `FS_FAIL`.
+
+Known components:
+- 14: UPnP browsing ("AVB")
+- 29: UPnP media renderer ("DMR")
+- 51: "AUDIO"
+- 56: HTTP API ("WFSAPI")
+- 62: "RTPCTL"
+
+
 #### netRemote.misc.fsDebug.traceLevel
-TODO
+Method: GET, SET
 
-Method: ??
+Read or set the log level for the software component that has been set with
+`netRemote.misc.fsDebug.component`.
 
-??? 
+Valid log levels are numbers 2-5, with 5 being the highest. 2 is default.
+Only two components at a time may have a log level higher than 2.
 
+Radio `FS2026-0500-0286` (Technisat DigitRadio 580) does not allow setting the trace
+level of components 0, 2 , 6, 12, 21, 27, 53, 55.
+
+The debug log can be accessed with `telnet` on port `514`.
+
+```
+/fsapi/GET/netRemote.misc.fsDebug.traceLevel?pin=1337
+
+<value><u8>2</u8></value>
 ```
 
 ```
+/fsapi/SET/netRemote.misc.fsDebug.traceLevel?pin=1337&value=5
+```
+
+Two steps are necessary to read or set the log level for component 14:
+
+1. Set the component with `netRemote.misc.fsDebug.component`
+2. Get/set the trace level with `netRemote.misc.fsDebug.traceLevel`
 
 
-### Nav 
+### Nav
 
 Every change of the system mode, will disable the nav state to reset the current menu-position. It has to be activated with nav.state
 
@@ -561,7 +615,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -575,7 +629,7 @@ Starts Scan for DAB Channels
 
 Method: GET
 
-Returns ??? 
+Returns ???
 
 ```
 /fsapi/GET/netRemote.nav.action.dabScan?pin=1337&sid=1983995656
@@ -644,7 +698,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -657,7 +711,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -669,7 +723,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -677,7 +731,7 @@ Method: ??
 
 #### netRemote.nav.list
 
-Get the menu for the current mode 
+Get the menu for the current mode
 
 To prevent overhead you could get the number of items by netRemote.nav.numItems
 
@@ -719,7 +773,7 @@ fsapi/LIST_GET_NEXT/netRemote.nav.list/-1?pin=1337&maxItems=10
             </field>
         </item>
 ```
-           
+
 #### netRemote.nav.numItems
 
 Method: GET
@@ -776,7 +830,7 @@ Every change of the system mode, will disable the nav state to reset the current
 
 Method: GET, SET
 
-Sets / Returns the status of the navigation. 
+Sets / Returns the status of the navigation.
 
 
 ```
@@ -824,7 +878,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -835,7 +889,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -861,7 +915,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -918,7 +972,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1109,7 +1163,7 @@ Method: GET
 
 Returns Extended Country Code (decimal notation) as defined in ETSI TS 101 756
 Note: commonly used in Hex notation.  Defined in ETSI TS 101 756, used in conjunction with the first character (in Hex notation) of the dabServiceId to identify the country.
-e.g. 
+e.g.
 dabServiceId 52951 (CED7); ecc 225 (E1); Global Country Code of CE1 = United Kingdom
 dabServiceId 57233 (DF91); ecc 224 (E0); gives a Global Country Code of DE0 = Germany
 
@@ -1204,7 +1258,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1214,7 +1268,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1224,7 +1278,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1234,7 +1288,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1250,7 +1304,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1262,7 +1316,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1274,7 +1328,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1286,7 +1340,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1298,7 +1352,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1310,7 +1364,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1322,7 +1376,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1335,7 +1389,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1374,7 +1428,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1386,7 +1440,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1398,7 +1452,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1438,7 +1492,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1500,7 +1554,7 @@ TODO
 
 Method: LIST_GET_NEXT
 
-Lists available dab-frequencies  
+Lists available dab-frequencies
 
 ```
     /fsapi/LIST_GET_NEXT/netRemote.sys.caps.dabFreqList/-1?pin=1337&maxItems=65536
@@ -1574,7 +1628,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1620,7 +1674,7 @@ TODO
 
 Method: GET
 
-??? 
+???
 
 ```
 /fsapi/LIST_GET_NEXT/netRemote.sys.caps.utcSettingsList/-1?pin=1234&maxItems=30
@@ -1657,7 +1711,7 @@ TODO
 
 Method: LIST_GET_NEXT
 
-Lists valid languages 
+Lists valid languages
 
 ```
 /fsapi/LIST_GET_NEXT/netRemote.sys.caps.validLang/-1?pin=1337&maxItems=100
@@ -1791,7 +1845,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1908,7 +1962,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1921,7 +1975,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -1933,7 +1987,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2015,7 +2069,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2027,7 +2081,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2058,7 +2112,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2071,7 +2125,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2091,7 +2145,7 @@ Retrieve/set the radio user interface language
 #### netRemote.sys.mode
 Method: GET, SET
 
-Sets / Returns the current operation mode 
+Sets / Returns the current operation mode
 
 see netRemote.sys.caps.validModes for valid operation modes
 
@@ -2107,7 +2161,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2252,7 +2306,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2264,7 +2318,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2276,7 +2330,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2288,7 +2342,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2311,7 +2365,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2323,7 +2377,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2335,7 +2389,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2378,7 +2432,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2392,7 +2446,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2404,7 +2458,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2416,7 +2470,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2428,7 +2482,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2440,7 +2494,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2452,7 +2506,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2464,7 +2518,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2530,7 +2584,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2544,7 +2598,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2554,7 +2608,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
@@ -2564,7 +2618,7 @@ TODO
 
 Method: ??
 
-??? 
+???
 
 ```
 
